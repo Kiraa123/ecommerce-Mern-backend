@@ -1,0 +1,85 @@
+{{!-- <form action="/users/allproducts" method="get"></form> --}}
+
+<style>
+    /* Adjustments for the product boxes */
+.product_section .box {
+    border: 1px solid #ddd; /* Border for each product box */
+    padding: 15px;
+    margin-bottom: 20px; /* Adjust as needed */
+    text-align: center;
+}
+
+.product_section .img-box img {
+    max-width: 100%; /* Make sure the image doesn't exceed its container */
+    height: auto;
+}
+
+.product_section .detail-box h5 {
+    margin-top: 10px;
+}
+
+.product_section .detail-box h6 {
+    color: #007bff; /* Adjust the color as needed */
+}
+
+/* Styling for the "Add to Cart" button */
+.product_section .options {
+    margin-top: 10px;
+}
+
+.product_section .option1 {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.product_section .option1:hover {
+    background-color: #0056b3;
+}
+
+/* Optional: Add styling for other buttons (e.g., Buy Now) if needed */
+</style>
+
+{{> userheader}}
+<section class="product_section layout_padding">
+    <div class="container" id="product">
+        <div class="heading_container heading_center">
+            <h2>
+                Our <span>products</span>
+            </h2>
+        </div>
+        {{#each data}}
+        <div class="row">
+            <div class="col-sm-6 col-md-4 col-lg-4">
+                <div class="box">
+                    <div class="option_container">
+                        <div class="options">
+                            <a href="/users/addcart/{{this._id}}" class="option1">
+                                Add To Cart
+                            </a>
+                            {{!-- <a href="" class="option2">
+                                Buy Now
+                            </a> --}}
+                        </div>
+                    </div>
+                    <div class="img-box">
+                        <img src="../uploads/{{this.image}}" alt="" style="width: fit-content">
+                    </div>
+                    <div class="detail-box">
+                        <h5>
+                            {{this.productname}}
+                        </h5>
+                        <h6>
+                            ${{this.price}}
+                        </h6>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        {{/each}}
+    </div>
+</section>

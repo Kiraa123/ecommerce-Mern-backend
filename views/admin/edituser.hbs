@@ -1,0 +1,92 @@
+<link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet"
+    href="https://unpkg.com/bs-brain@2.0.3/components/registrations/registration-5/assets/css/registration-5.css">
+{{> adminheader}}
+<!-- Registration 5 - Bootstrap Brain Component -->
+<section class="p-3 p-md-4 p-xl-5">
+    <div class="container">
+        <div class="card border-light-subtle shadow-sm">
+            <div class="row g-0">
+                <div class="col-12 col-md-6 text-bg-primary">
+                    <div class="d-flex align-items-center justify-content-center h-100">
+                        <div class="col-10 col-xl-8 py-3">
+                            {{!-- <img class="img-fluid rounded mb-4" loading="lazy"
+                                src="./assets/img/bsb-logo-light.svg" width="245" height="80" alt="BootstrapBrain Logo">
+                            --}}
+                            <hr class="border-primary-subtle mb-4">
+                            <h2 class="h1 mb-4">We make digital products that drive you to stand out.</h2>
+                            <p class="lead m-0">We write words, take photos, make videos, and interact with
+                                artificial intelligence.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="card-body p-3 p-md-4 p-xl-5">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-5">
+                                    <h2 class="h3">Edit User</h2>
+                                    <h3 class="fs-6 fw-normal text-secondary m-0">Change user details if any
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <form action="/admin/updateuser/{{data._id}}" method="post">
+                            <div class="row gy-3 gy-md-4 overflow-hidden">
+                                <div class="col-12">
+                                    <label for="firstName" class="form-label">Name <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="name" id="name" value="{{data.name}}"
+                                        placeholder="Name" required>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="email" class="form-label">Email <span
+                                            class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" name="email" id="email"
+                                        value="{{data.email}}" placeholder="name@example.com"  readonly>
+                                </div>
+                                <div class="col-12">
+                                    <label for="password" class="form-label">Password <span
+                                            class="text-danger">*</span></label>
+                                    <input type="password" class="form-control" name="password" id="password" value="{{data.password}}"
+                                        readonly placeholder="********">
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="lastName" class="form-label">Address <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="address" id="address"
+                                        value="{{data.address}}" placeholder="Address" required>
+                                </div>
+                                <div class="col-12">
+                                    <label for="lastName" class="form-label">Phone No <span
+                                            class="text-danger">*</span></label>
+                                    <input type="tel" class="form-control" name="phone" maxlength="10"
+                                        value="{{data.phone}}" placeholder="phoneNo" required>
+                                </div>
+                                <div class="col-12">
+                                    <label for="lastName" class="form-label">City <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="city" id="city" value="{{data.city}}"
+                                        placeholder="City" required>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="d-grid">
+                                        <button type="submit" class="btn btn-primary me-2">Update User</button>
+                                <button type="reset" class="btn btn-outline-secondary">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+</form>
