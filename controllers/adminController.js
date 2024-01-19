@@ -138,6 +138,16 @@ module.exports = {
         await product.editproduct(datas, productid)
         res.redirect('/admin/products')
       },
+      searchuser: async (req, res) => {
+        const query  = req.query;
+        const data = await user.searchuser(query)
+        res.render('admin/search', { data: data });
+      },
+      adminlogout:(req,res)=>{
+        req.session.destroy()
+        res.redirect('/')
+
+      }
     
 }
 

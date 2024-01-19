@@ -4,6 +4,7 @@ const deleteuser = require('../models/deleteUser')
 const cart = require('../models/cartSchema')
 const Product = require('../models/productSchema')
 const order = require('../models/orderSchema')
+const address=require('../models/addressSchema')
 
 module.exports = ({
     edituser: async (data,productid) => {
@@ -38,7 +39,7 @@ module.exports = ({
         return result;
     },
     searchuser: async (data) => {
-        const result = await user.find({ name: { $regex: `^${word}`, $optionss: 'i' } })
+        const result = await user.find({ name: { $regex: `^${data}`, $optionss: 'i' } })
         return result;
     },
     findexistuser: async (data) => {
@@ -192,6 +193,14 @@ module.exports = ({
         if (result.items.length == 0) {
             await cart.findOneAndDelete({ user: userid });
         }
+    },
+    address: async (data) => {
+        await address.insertMany(data)
+        //add
+    },
+    addresstake: async (id) => {
+        const result = await address.find({ userid: id }).lean()
+        return result
     },
 
 })

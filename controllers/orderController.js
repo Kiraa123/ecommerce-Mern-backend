@@ -4,6 +4,7 @@ const user = require('../helpers/userhelper')
 const Product = require('../models/productSchema')
 const User = require('../models/userSchema')
 const cart = require('../models/cartSchema')
+const razorpay=require('../config/razorpay')
 
 module.exports = {
 
@@ -32,16 +33,19 @@ module.exports = {
         return res.status(400).json({ msg: "order removed" })
     },
     checkout: async (req, res) => {
-        const orderId = req.query.orderId;
         const currentuser = req.session.user.name;
         const userid = req.session.user._id;
-        const data = await user.getitemscart(userid)
         const count = await user.count(userid)
         if (count) {
-            total = data.totalPrice + 50
-            res.render('users/checkout', { total, data })
+            const data = await user.getitemscart(userid);
+            const address1 = await user.addresstake(userid)
+            if (address1 != '') {
+                var address = address1[0].addresses
+            }
+            total = data.totalPrice + 40
+            res.render('users/checkout', { data, total, count, address })
         } else {
-            res.redirect('/users/product')
+            res.redirect('/users/home')
         }
     },
 
@@ -108,8 +112,9 @@ module.exports = {
                 // res.json(count + 1);
             }
         } else {
-            var count = false
-            res.json(count);
+            // var count = false
+            // res.json(count);
+            return 1
         }
     },
 
@@ -141,46 +146,90 @@ module.exports = {
     },
     qtyadd: async (req, res) => {
         const productid = req.params.id;
-        console.log(productid,'iiiiii');
         const currentuser = req.session.user.name;
         const userid = req.session.user._id;
         const quantity = await user.quantity(userid, productid)
         console.log(quantity);
         const productexist = await user.productexist(productid, userid)
         if (productexist) {
-          var foundItem = productexist.items.find(item => item.product.toString() === productid);
-          var cartqty = foundItem.quantity
+            var foundItem = productexist.items.find(item => item.product.toString() === productid);
+            var cartqty = foundItem.quantity
         }
         const productqty = await product.finddata(productid)
         if (productqty.quantity > cartqty) {
-          const cart = await user.qtyadd(userid, productid)
-          const response = {
-            quantity: quantity,
-            totalPrice: cart.totalPrice
-          };
-        //   res.json(response)
+            const cart = await user.qtyadd(userid, productid)
+            const response = {
+                quantity: quantity,
+                totalPrice: cart.totalPrice
+            };
+            //   res.json(response)
         } else {
-          const response = false;
-          res.json(response)
+            const response = false;
+            res.json(response)
         }
-      },
-      qtyminus: async (req, res) => {
+    },
+    qtyminus: async (req, res) => {
         const productid = req.params.id;
         const currentuser = req.session.user.name;
         const userid = req.session.user._id;
         const quantity = await user.quantity(userid, productid)
         if (quantity > 0) {
-          const cart = await user.qtyminus(userid, productid)
-          const response = {
-            quantity: quantity,
-            totalPrice: cart.totalPrice
-          };
-          res.json(response)
+            const cart = await user.qtyminus(userid, productid)
+            const response = {
+                quantity: quantity,
+                totalPrice: cart.totalPrice
+            };
+            res.json(response)
         }
-      },
+    },
     orders: async (req, res) => {
         const orders = await order.orders()
         res.render('admin/order', { orders })
+    },
+    placeorder: async (req, res) => {
+        const userid = req.session.user._id
+        const result = await user.getitemscart(userid)
+        const timestamp = Date.now();
+        const randomNum = Math.floor(Math.random() * 1000);
+        orderID = `ORD-${timestamp}-${randomNum}`;
+        if (result) {
+            const orders = {
+                orderID: orderID,
+                orderdate: new Date(),
+                // username: userid.username,
+                name: req.body.name,
+                address: req.body.address,
+                city: req.body.city,
+                state: req.body.state,
+                pincode: req.body.pincode,
+                phoneno: req.body.phoneno,
+                items: result.items,
+                total: result.totalPrice,
+                totalamount: result.totalPrice + 50,
+                status: "Pending",
+                paymentId: "null",
+            }
+            if (req.body.paymentMethod === "razorpay") {
+                var order = await razorpay.payment(orderID, orders.totalamount);
+            }
+            await user.orders(orders);
+            const newAddress = {
+                userID: userid,
+                addresses: {
+                    name: req.body.name,
+                    address: req.body.address,
+                    city: req.body.city,
+                    state: req.body.state,
+                    pincode: req.body.pincode,
+                    phoneno: req.body.phoneno,
+                }
+            };
+            const existingAddress = await user.existaddress(newAddress)
+            if (!existingAddress) {
+                await user.address(newAddress)
+            }
+            res.json(order);
+        }
     },
     deletecart: async (req, res) => {
         const productid = req.params.id
@@ -188,7 +237,7 @@ module.exports = {
         const userid = req.session.user._id;
         await user.deletecart(userid, productid);
         res.redirect('/users/cart')
-      },
+    },
     confirm: async (req, res) => {
         const id = req.params.id
         const result = await order.confirm(id)

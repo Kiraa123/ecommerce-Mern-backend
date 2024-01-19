@@ -84,13 +84,14 @@ module.exports = {
         const result=await Product.aggregate([{
             $group:{
                 _id:null,
-                totalqty:{$sum:'$qty'}
+                totalqty:{$sum:'$quantity'}
             }
 
         }])
         // return result[0].totalqty;
         return result;
     },
+    
     
        
 

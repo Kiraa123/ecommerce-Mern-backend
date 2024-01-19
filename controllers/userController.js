@@ -116,55 +116,13 @@ module.exports = {
       success: true,
       user
     })
-  },
+  }, 
 
-  //registerController
-
-  registerController: async (req, res) => {
-    try {
-      const { name, email, password, address, city } = req.body
-
-      if (!name) {
-        return res.send({ error: "Name is Required" });
-      }
-      if (!email) {
-        return res.send({ error: "Email is Required" });
-      }
-      if (!password) {
-        return res.send({ error: "Password is Required" });
-      }
-      if (!address) {
-        return res.send({ error: "Address is Required" });
-      }
-      if (!city) {
-        return res.send({ error: "City is Required" });
-      }
-
-
-
-      const exisitingUser = await User.findOne({ email });
-      //exisiting user
-      if (exisitingUser) {
-        return res.status(200).send({
-          success: true,
-          message: "Already Register please login",
-        });
-      }
-
-    }
-    catch {
-      return res.send({ error: "Failed in registraction" });
-
-
-    }
-  },
-  // checkout:(req,res)=>{
-  //     res.render('users/checkout')
-  // },
   logout: async (req, res) => {
     req.session.destroy();
     res.redirect('/');
-  }, dashboard: (req, res) => {
+  },
+   dashboard: (req, res) => {
     res.render('admin/charts')
 
   }

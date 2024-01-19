@@ -4,7 +4,7 @@ var isAuth=require('../middleware/isAuth')
 var back=require('../middleware/back')
 var mut=require('../middleware/multer')
 const{login,signup,products,logout,dashboard,verify,addproduct,register,alldata,show}=require('../controllers/userController')
-const{cart,deletecart,cartadding,checkout,qtyadd,qtyminus}=require('../controllers/orderController')
+const{cart,deletecart,cartadding,checkout,qtyadd,qtyminus,placeorder}=require('../controllers/orderController')
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
@@ -30,6 +30,8 @@ router.get('/checkout',isAuth,checkout)
 router.get('/cart/qtyadd/:id',isAuth,qtyadd)
 router.get('/cart/qtyminus/:id',isAuth,qtyminus)
 router.get('/cart/delete/:id',isAuth,deletecart)
+router.get('/checkout',isAuth,checkout)
+router.post('/placeorder',isAuth,placeorder)
 
 
 router.get('/products',products)
