@@ -2,6 +2,7 @@ const user = require('../models/userSchema')
 const product = require('../helpers/producthelper')
 const isAuth = require('../middleware/isAuth')
 const bcrypt = require('bcrypt')
+const User=require('../helpers/userhelper')
 
 module.exports = {
   // updatePassword: async (req, res) => {
@@ -46,10 +47,16 @@ module.exports = {
     const isUser = req.session.loggedIn
     res.render('users/allproducts', { data, isUser })
   },
+  orders: async (req, res) => {
+    const username = req.session.user.name
+    const orders = await User.ordersfind(username);
+    console.log(orders);
+    res.render('users/orders', { data: orders })
+  },
 
 
   verify: async function (req, res) {
-    try {
+    try { 
       console.log(req.body);
       const email = req.body.email;
       const password = req.body.password;

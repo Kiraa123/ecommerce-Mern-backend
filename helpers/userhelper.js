@@ -21,9 +21,8 @@ module.exports = ({
         });
         return result;
     },
-    deletecartorder: async (userid) => {
+    deletecartoredered: async (userid) => {
         await cart.findOneAndDelete({ user: userid });
-
     },
     orders: async (data) => {
         const result = await order.insertMany(data)
@@ -33,6 +32,10 @@ module.exports = ({
     finduser: async (data) => {
         var result = await user.find({}).lean()
         return result;
+    },
+    ordersfind: async (data) => {
+        const result = await order.find({ username: data }).sort({ orderdate: -1 }).populate('items.product').lean();
+        return result
     },
     finduserid: async (data) => {
         var result = await user.findOne({ _id: data }).lean()
@@ -95,7 +98,6 @@ module.exports = ({
             { user: userid, 'items.product': data },
             { items: { $elemMatch: { product: data } } }
         );
-        // console.log('result:', result);
         // console.log('result:', currentCartItem);
 
         const quantity = currentCartItem.items[0].quantity - 1;
@@ -197,6 +199,15 @@ module.exports = ({
     address: async (data) => {
         await address.insertMany(data)
         //add
+    },
+    existaddress: async (data) => {
+        const existingAddress = await address.findOne({
+            userID: data.userID,
+            'addresses.name': data.addresses.name,
+            'addresses.city': data.addresses.city,
+            'addresses.pincode': data.addresses.pincode,
+        });
+        return existingAddress
     },
     addresstake: async (id) => {
         const result = await address.find({ userid: id }).lean()

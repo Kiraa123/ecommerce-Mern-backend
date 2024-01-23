@@ -1,101 +1,74 @@
-const mongoose = require('mongoose')
-const orderSchema = new mongoose.Schema({
-    shippingInfo: {
-        address: {
-            type: String,
-            required: true
-        },
-        city: {
-            type: String,
-            required: true
-        },
-        state: {
-            type: String,
-            required: true
-        },
-        country: {
-            type: String,
-            required: true
-        },
-        pincode: {
-            type: Number,
-            required: true
-        },
-        phoneNumber: {
-            type: Number,
-            required: true
-        },
-    },
+const mongoose = require('mongoose');
 
-    orderItems: [
-        {
-            name: {
-                type: String,
-                required: true,
-            },
-            price: {
-                type: Number,
-                required: true,
-            },
-            quantity: {
-                type: Number,
-                required: true,
-            },
-            image: {
-                type: String,
-                required: true,
-            },
-            product: {
-                type: mongoose.Schema.ObjectId,
-                ref: "products",
-                required: true,
-            },
-        },
-    ],
-    user: {
-        type: mongoose.Schema.ObjectId,
-        ref: "user",
-        required: true,
-    },
-    paymentInfo: {
-        id: {
-            type: String,
-            required: true,
-        },
-        status: {
-            type: String,
-            required: true,
-        },
-    },
-    paidAt: {
-        type: Date,
-        required: true,
-    },
-    itemsPrice: {
-        type: Number,
-        required: true,
-        default: 0,
-    },
-    shippingPrice: {
-        type: Number,
-        required: true,
-        default: 0,
-    },
-    totalPrice: {
-        type: Number,
-        required: true,
-        default: 0,
-    },
-    orderStatus: {
+const orderSchema = new mongoose.Schema({
+    orderID: {
         type: String,
-        required: true,
-        default: "Processing",
+        required:true
     },
-    deliveredAt: Date,
-    createdAt: {
+    orderdate: {
         type: Date,
-        default:()=>new Date(),
+        default:() => new Date().toLocaleString('en-US', { timeZone: 'UTC' })
     },
+    // username: {
+    //     type: String,
+    //     required: true
+    // },
+    name: {
+        type: String,
+        required: true
+    },
+    address: {
+        type: String,
+        required: true
+    },
+    city: {
+        type: String,
+        required: true
+    },
+    state: {
+        type: String,
+        required: true
+    },
+    pincode: {
+        type: String,
+        required: true
+    },
+    phoneno: {
+        type: String,
+    },
+    items: [
+        {
+          product: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'products', // Reference to the Product model
+            required: true,
+          },
+          quantity: {
+            type: Number,
+          },
+          size: {
+            type: String,
+          },
+        },
+      ],
+    total: {
+        type: Number,
+        required: true
+    },
+    totalamount: {
+        type: Number,
+        required: true
+    },
+    status: {
+        type: String,
+        default: 'Pending'
+    },
+    paymentID: {
+        type: String,
+        default: 'null'
+    }
 });
 
-module.export = mongoose.model('order', orderSchema)
+const order = mongoose.model('orders', orderSchema);
+
+module.exports = order;

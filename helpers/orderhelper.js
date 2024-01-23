@@ -91,6 +91,25 @@ module.exports = {
         // return result[0].totalqty;
         return result;
     },
+    updatequantity: async (orderid) => {
+        const details = await order.findOne({ orderID: orderid }).populate('items.product').lean();
+        const orderItems = details.items; // Assuming 'items' is an array of { product: productId, quantity }
+        for (const orderItem of orderItems) {
+            const productId = orderItem.product._id;
+            const orderedQuantity = orderItem.quantity;
+            await Product.findOneAndUpdate(
+                { _id: productId },
+                {
+                    $inc: { qty: -orderedQuantity }
+                },
+                { new: true }
+            );
+        }
+    },
+    invoice: async (orderid) => {
+        const details = await order.findOne({ orderID: orderid }).populate('items.product').lean();
+        return details
+    },
     
     
        

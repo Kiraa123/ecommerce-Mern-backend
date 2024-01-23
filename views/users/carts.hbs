@@ -9,7 +9,13 @@ background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 11
 /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
 }</style> --}}
-
+<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+      <!-- font awesome style -->
+      <link href="css/font-awesome.min.css" rel="stylesheet" />
+      <!-- Custom styles for this template -->
+      <link href="css/style.css" rel="stylesheet" />
+      <!-- responsive style -->
+      <link href="css/responsive.css" rel="stylesheet" />
 <section class="h-100 gradient-custom">
   <div class="container py-5">
     <div class="row d-flex justify-content-center my-4">
@@ -38,14 +44,14 @@ background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 
                 <p><strong>Blue denim shirt</strong></p>
                 <p>Color: blue</p>
                 <p>Size: M</p>
-                <button type="button" class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
-                  title="Remove item">
-                  <i class="fas fa-trash"></i>
-                </button>
-                <button type="button" class="btn btn-danger btn-sm mb-2" data-mdb-toggle="tooltip"
-                  title="Move to the wish list">
-                  <i class="fas fa-heart"></i>
-                </button>
+                 <div class="d-flex">
+      <button type="button" class="btn btn-primary btn-sm me-1" data-mdb-toggle="tooltip" title="Remove item">
+        <i class="fas fa-trash"></i>
+      </button>
+      <button type="button" class="btn btn-danger btn-sm" data-mdb-toggle="tooltip" title="Move to wish list">
+        <i class="fas fa-heart"></i>
+      </button>
+    </div>
                 <!-- Data -->
               </div>
 
@@ -202,3 +208,4 @@ background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 
     </div>
   </div>
 </section>
+ 

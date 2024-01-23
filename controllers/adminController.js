@@ -62,7 +62,7 @@ module.exports = {
     edituser: async (req, res) => {
         const productid = req.params.id
         const data = await user.findedituserbyid(productid)
-        console.log('huhuhuh:',data);
+        console.log(data);
         
         res.render('admin/edituser', { data:data})
       },

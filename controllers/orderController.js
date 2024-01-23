@@ -42,8 +42,8 @@ module.exports = {
             if (address1 != '') {
                 var address = address1[0].addresses
             }
-            total = data.totalPrice + 40
-            res.render('users/checkout', { data, total, count, address })
+            total = data.totalPrice + 50
+            res.render('users/checkout', { data, total, count, address})
         } else {
             res.redirect('/users/home')
         }
@@ -98,12 +98,12 @@ module.exports = {
             if (cart) {
                 if (productexist) {
                     await user.updatecart(userId, cartItem)
-                    //   res.json(count + 1);
+                      res.json(count + 1);
                 }
                 else {
                     await user.pushitems(userId, cartItem)
 
-                    //   res.json(count + 1);
+                      res.json(count + 1);
                 }
             }
             else {
@@ -162,7 +162,7 @@ module.exports = {
                 quantity: quantity,
                 totalPrice: cart.totalPrice
             };
-            //   res.json(response)
+              res.json(response)
         } else {
             const response = false;
             res.json(response)
@@ -170,6 +170,7 @@ module.exports = {
     },
     qtyminus: async (req, res) => {
         const productid = req.params.id;
+        
         const currentuser = req.session.user.name;
         const userid = req.session.user._id;
         const quantity = await user.quantity(userid, productid)
@@ -184,7 +185,7 @@ module.exports = {
     },
     orders: async (req, res) => {
         const orders = await order.orders()
-        res.render('admin/order', { orders })
+        res.render('admin/orders', { orders })
     },
     placeorder: async (req, res) => {
         const userid = req.session.user._id
@@ -228,7 +229,7 @@ module.exports = {
             if (!existingAddress) {
                 await user.address(newAddress)
             }
-            res.json(order);
+            res.json(orders);
         }
     },
     deletecart: async (req, res) => {
@@ -244,7 +245,7 @@ module.exports = {
         res.redirect('/admin/order')
     },
     shipped: async (req, res) => {
-        const resslt = await order.shipped(id)
+        const result = await order.shipped(id)
         res.render('admin/order')
     },
     cancelled: async (req, res) => {

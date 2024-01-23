@@ -39,6 +39,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/users', express.static(path.join(__dirname, 'public/admin')));
 app.use('/users', express.static(path.join(__dirname, 'public/users')));
 app.use('/admin', express.static(path.join(__dirname, 'public')));
+app.use('/users', express.static(path.join(__dirname, 'public')));
+
 // app.use('/admin/alluser', express.static(path.join(__dirname, 'public/admin')));
 // app.use('/partials', express.static(path.join(__dirname, 'public')));
 
@@ -61,6 +63,11 @@ app.use('/admin', adminRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  // Handle the error or log it as needed
+});
+
 
 // error handler
 app.use(function(err, req, res, next) {

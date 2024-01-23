@@ -13,8 +13,8 @@ const userSchema=new mongoose.Schema({
     password:{
         type:String,
         required:true,
-        minLength:[3,'password should greater than 3 character'],
-        maxLength:[8,'password must be less than 8 character']
+        minLength:[3],
+        maxLength:[8]
     },
     address:{
         type:String,
