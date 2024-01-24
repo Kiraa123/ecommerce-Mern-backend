@@ -11,7 +11,7 @@ const addressSchema = new mongoose.Schema({
                 type: String,
             },
             address: {
-                type: String,
+                type: Array,
             },
             city: {
                 type: String,

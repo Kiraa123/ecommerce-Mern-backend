@@ -45,7 +45,7 @@ module.exports = {
             total = data.totalPrice + 50
             res.render('users/checkout', { data, total, count, address})
         } else {
-            res.redirect('/users/home')
+            res.redirect('/')
         }
     },
 
@@ -56,12 +56,13 @@ module.exports = {
             const data = await user.getitemscart(userId);
             const count = await user.count(userId);
             console.log(count);
+            const isUser=req.session.loggedIn;
 
             if (data) {
                 total = data.totalPrice + 50
-                res.render('users/cart', { data, total, count })
+                res.render('users/cart', { data, total, count ,isUser})
             } else {
-                res.render('users/cart')
+                res.render('users/cart',{isUser})
             }
         } catch (error) {
             console.error(error);
@@ -74,7 +75,6 @@ module.exports = {
     cartadding: async (req, res) => {
         var cartqty = 0
         const productid = req.params.id;
-        const currentuser = req.session.user.name;
         const userId = req.session.user._id;
         const cart = await user.cartexist(userId)
         const productexist = await user.productexist(productid, userId)
@@ -135,7 +135,7 @@ module.exports = {
         res.render('users/order', { data: orders })
     },
     shop: async (req, res) => {
-        if (req.sessiom.loggedIn) {
+        if (req.session.loggedIn) {
             const currentuser = req.session.user;
             const loggedInUser = await user.findexistuser(currentuser.username)
             const count = await user.countitems(loggedInUser._id)
@@ -234,7 +234,6 @@ module.exports = {
     },
     deletecart: async (req, res) => {
         const productid = req.params.id
-        const currentuser = req.session.user.name;
         const userid = req.session.user._id;
         await user.deletecart(userid, productid);
         res.redirect('/users/cart')
@@ -245,8 +244,9 @@ module.exports = {
         res.redirect('/admin/order')
     },
     shipped: async (req, res) => {
+        const id = req.params.id
         const result = await order.shipped(id)
-        res.render('admin/order')
+        res.redirect('/admin/order')
     },
     cancelled: async (req, res) => {
         const id = req.params.id

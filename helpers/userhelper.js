@@ -13,7 +13,6 @@ module.exports = ({
             {
                 name: data.name,
                 email: data.email,
-                password: data.password,
                 address: data.address,
                 phone: data.phone,
                 city: data.city
@@ -34,19 +33,19 @@ module.exports = ({
         return result;
     },
     ordersfind: async (data) => {
-        const result = await order.find({ username: data }).sort({ orderdate: -1 }).populate('items.product').lean();
+        const result = await order.find({name: data }).populate('items.product').lean();
         return result
     },
     finduserid: async (data) => {
         var result = await user.findOne({ _id: data }).lean()
         return result;
-    },
+    }, 
     searchuser: async (data) => {
         const result = await user.find({ name: { $regex: `^${data}`, $optionss: 'i' } })
         return result;
     },
     findexistuser: async (data) => {
-        const result = await user.findOne({ email: data }).lean()
+        const result = await user.findOne({ name: data }).lean()
         console.log(result);
         return result;
     },
@@ -138,6 +137,7 @@ module.exports = ({
             },
             { new: true }
         );
+        res.redirect('/users/cart')
 
     },
     insertcart: async (userid, proid, cartItem) => {
@@ -195,6 +195,11 @@ module.exports = ({
         if (result.items.length == 0) {
             await cart.findOneAndDelete({ user: userid });
         }
+    },
+    updatepassword: async (user1, data) => {
+        await user.findOneAndUpdate({ name: user1 }, {
+            $set: { password: data }
+        })
     },
     address: async (data) => {
         await address.insertMany(data)

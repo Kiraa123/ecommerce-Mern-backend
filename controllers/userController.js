@@ -41,12 +41,46 @@ module.exports = {
     res.render('admin/addproduct')
 
   },
+  edituser: async (req, res) => {
+    const existuser = req.session.user
+    const data = await User.findexistuser(existuser.name)
+    // if (data.gender == 'male') {
+    //   flag = true
+    // }
+    // else {
+    //   flag = false
+    // }
+    res.render('users/profile', { data: data, name: existuser.name })
+  },
+  edituserpost: async (req, res) => {
+    let productid = req.params.id;
+    const result = await User.edituser(req.body, productid)
+    res.redirect('/')
+  },
   alldata: async (req, res) => {
     const data = await product.allproducts()
     // return data
     const isUser = req.session.loggedIn
     res.render('users/allproducts', { data, isUser })
   },
+  changepassword: async (req, res) => {
+    res.render('users/changepassword')
+  },
+  password: async (req, res) => {
+    const username = req.session.user.name
+    
+
+    if (req.body.password == req.body.confirmpassword) {
+      // const saltRounds = 10;
+      // const hashpassword = await bcrypt.hash(req.body.password, saltRounds)
+      const pswd=await req.body.password;
+      await User.updatepassword(username,pswd)
+      res.render('users/changepassword', { message: "Password updated successfully" })
+    } else {
+      res.render('users/changepassword', { message: "Password is Not Match" })
+    }
+  },
+
   orders: async (req, res) => {
     const username = req.session.user.name
     const orders = await User.ordersfind(username);
@@ -124,6 +158,12 @@ module.exports = {
       user
     })
   }, 
+  moredetails: async (req, res) => {
+    const productid = req.params.id;
+    var data = await product.finddata(productid);
+    const otherdata = await product.allproducts(req)
+    res.render('users/moredetails', { data, otherdata })
+  },
 
   logout: async (req, res) => {
     req.session.destroy();

@@ -4,7 +4,7 @@ const product=require('../helpers/producthelper')
 
 module.exports = {
     orders: async (req, res) => {
-        const result = await order.find({ name: { $ne: null } }).sort({ createdAt: -1 })
+        const result = await order.find({ name: { $ne: null } }).sort({ createdAt: -1 }).lean()
         return result;
     },
     findorderid: async (data) => {

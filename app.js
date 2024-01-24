@@ -39,6 +39,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/users', express.static(path.join(__dirname, 'public/admin')));
 app.use('/users', express.static(path.join(__dirname, 'public/users')));
 app.use('/admin', express.static(path.join(__dirname, 'public')));
+app.use('/admin', express.static(path.join(__dirname, 'public/admin')));
+
 app.use('/users', express.static(path.join(__dirname, 'public')));
 
 // app.use('/admin/alluser', express.static(path.join(__dirname, 'public/admin')));

@@ -1,6 +1,7 @@
 const user = require('../helpers/userhelper')
 const razorpay = require('../config/razorpay')
 const order=require('../helpers/orderhelper')
+const crypto=require('crypto')
 module.exports = {
     placeorder: async (req, res) => {
         const userid = req.session.user._id
@@ -48,24 +49,31 @@ module.exports = {
         }
     },
     paymentverify: async (req, res) => {
-        const currentuser = req.session.user
         const userid = req.session.user._id;
         const paymentId = req.body['payment[razorpay_payment_id]'];
         const orderId = req.body['payment[razorpay_order_id]'];
         const signature = req.body['payment[razorpay_signature]'];
         const orderID = req.body.orderID
-         // const hmac = crypto.createHmac('sha256', process.env.KEY_SECRET)
-        // hmac.update(orderId + '|' + paymentId);
-        // hmachex = hmac.digest('hex')
+         const hmac = crypto.createHmac('sha256', process.env.KEY_SECRET)
+        hmac.update(orderId + '|' + paymentId);
+        hmachex = hmac.digest('hex')
         if (signature) {
             await order.placed(orderID, paymentId)
             await order.updatequantity(orderID)
-            await user.deletecartoredered(userid._id)
+            await user.deletecartoredered(userid)
             //Create Invoice
-            const result = await order.invoice(orderID)
+            // const result = await order.invoice(orderID)
             // const pdfData = {
             //     invoiceItems: result,
             // }
+            res.json("success")
         }
-    }
+        else{
+            res.json('fail')
+        }
+    },
+    success: (req, res) => {
+        const orderid = req.params.id
+        res.render('users/success', { orderid })
+      },
 }    

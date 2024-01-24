@@ -18,7 +18,7 @@ const orderSchema = new mongoose.Schema({
         required: true
     },
     address: {
-        type: String,
+        type: Array,
         required: true
     },
     city: {
@@ -40,7 +40,7 @@ const orderSchema = new mongoose.Schema({
         {
           product: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'products', // Reference to the Product model
+            ref: 'product', // Reference to the Product model
             required: true,
           },
           quantity: {

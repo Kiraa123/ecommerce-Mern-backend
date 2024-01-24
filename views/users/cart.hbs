@@ -5,7 +5,16 @@
 <link href="css/style.css" rel="stylesheet" />
 <!-- responsive style -->
 <link href="css/responsive.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+<!-- font awesome style -->
+<link href="css/font-awesome.min.css" rel="stylesheet" />
+<!-- Custom styles for this template -->
+<link href="css/style.css" rel="stylesheet" />
+<!-- responsive style -->
+<link href="css/responsive.css" rel="stylesheet" />
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
 
 {{> userheader}}
 <section class="h-100 h-custom" style="background-color: #d2c9ff;">
@@ -119,14 +128,14 @@
 </section>
 
 
-<script src="js/jquery-3.4.1.min.js"></script>
+{{!-- <script src="js/jquery-3.4.1.min.js"></script>
 <!-- popper js -->
 <script src="js/popper.min.js"></script>
 <!-- bootstrap js -->
 <script src="js/bootstrap.js"></script>
 <!-- custom js -->
 <script src="js/custom.js"></script>
-<!-- Inside the <head> section -->
+<!-- Inside the <head> section --> --}}
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
@@ -143,7 +152,7 @@
                 success: function (response) {
                     $('#' + uniqueId).val(response.quantity);
                     $('#totpriceLink').text('Rs: ' + response.totalPrice);
-                    $('#totlink').text('Rs: ' + (response.totalPrice + 40));
+                    $('#totlink').text('Rs: ' + (response.totalPrice + 50));
                 },
                 error: function (error) {
                     console.error(error);
@@ -164,7 +173,7 @@
                 success: function (response) {
                     $('#' + uniqueId).val(response.quantity);
                     $('#totpriceLink').text('Rs: ' + response.totalPrice);
-                    $('#totlink').text('Rs: ' + (response.totalPrice + 40));
+                    $('#totlink').text('Rs: ' + (response.totalPrice + 50));
                 },
                 error: function (error) {
                     console.error(error);

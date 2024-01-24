@@ -37,25 +37,25 @@
                             {{/each}}
 
                             <div class="order-summary row mb-2 mt-1 ">
-                                <div class="col-8 text-muted">Date: {{formatDate orderdate}}</div>
+                                {{!-- <div class="col-8 text-muted">Date: {{formatDate orderdate}}</div> --}}
                                 <div class="col-4">Total Price: {{totalamount}}</div>
                             </div>
                         </div>
                     {{/each}}
                 {{else}}
                     <h3>No Orders.</h3>
-                    <a href="/users/home" class="btn btn-success">Add Product</a>
+                    <a href="/users/allproducts" class="btn btn-success">Add Product</a>
                 {{/if}}
 
                 <div class="back-to-shop mt-3">
-                    <a href="/users/home">&leftarrow;</a>
+                    <a href="/">&leftarrow;</a>
                     <span class="text-muted">Back to shop</span>
                 </div>
             </div>
         </div>
 
         <div class="mt-4">
-            <a href="/users/home" class="btn btn-success">BACK TO SHOP</a>
+            <a href="/" class="btn btn-success">BACK TO SHOP</a>
         </div>
     </div>
 
