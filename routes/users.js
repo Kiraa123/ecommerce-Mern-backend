@@ -3,7 +3,7 @@ var router = express.Router();
 var isAuth=require('../middleware/isAuth')
 var back=require('../middleware/back')
 var mut=require('../middleware/multer')
-const{login,signup,products,logout,password,changepassword,dashboard,verify,addproduct,register,alldata,orders,moredetails,edituser,edituserpost}=require('../controllers/userController')
+const{login,signup,products,logout,password,changepassword,dashboard,verify,addproduct,register,alldata,alldata1,orders,moredetails,edituser,edituserpost}=require('../controllers/userController')
 const{cart,deletecart,cartadding,checkout,qtyadd,qtyminus}=require('../controllers/orderController')
 const{placeorder,paymentverify,success}=require('../controllers/paymentController')
 /* GET users listing. */
@@ -38,7 +38,9 @@ router.get('/moredetails/:id',isAuth,moredetails)
 router.get('/products',isAuth,products)
 router.get('/dashboard',isAuth,dashboard)
 router.get('/adminAddProduct',isAuth,addproduct)
-router.get('/allproducts',isAuth,alldata)
+router.get('/allproducts1',isAuth,alldata)
+router.get('/allproducts2',isAuth,alldata1)
+
 router.get('/success/:id',success)
 
 

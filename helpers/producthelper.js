@@ -15,11 +15,11 @@ module.exports={
         return result
     },
     allproducts2:async(data)=>{
-        var result = await product.find().skip(9).limit(9);
+        var result = await product.find().skip(9).limit(9).lean();
         return result
     },
     allproducts3:async(data)=>{
-        var result = await product.find().skip(18).limit(9);
+        var result = await product.find().skip(18).limit(9).lean();
         return result
     },
     deleteproduct:async(data)=>{
