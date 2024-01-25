@@ -4,7 +4,8 @@ const order=require('../helpers/orderhelper')
 const crypto=require('crypto')
 module.exports = {
     placeorder: async (req, res) => {
-        const userid = req.session.user._id
+        const userid = req.session.user._id;
+        const email = req.session.user.email
         const result = await user.getitemscart(userid)
         const timestamp = Date.now();
         const randomNum = Math.floor(Math.random() * 1000);
@@ -13,7 +14,7 @@ module.exports = {
             const orders = {
                 orderID: orderID,
                 orderdate: new Date(),
-                // username: userid.username,
+                username: email,
                 name: req.body.name,
                 address: req.body.address,
                 city: req.body.city,

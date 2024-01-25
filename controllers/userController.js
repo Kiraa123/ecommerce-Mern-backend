@@ -1,6 +1,5 @@
 const user = require('../models/userSchema')
 const product = require('../helpers/producthelper')
-const isAuth = require('../middleware/isAuth')
 const bcrypt = require('bcrypt')
 const User=require('../helpers/userhelper')
 
@@ -63,6 +62,19 @@ module.exports = {
     const isUser = req.session.loggedIn
     res.render('users/allproducts', { data, isUser })
   },
+  limdata: async (req, res) => {
+    const data = await product.allproducts()
+    // return data
+    const isUser = req.session.loggedIn
+    res.render('index', { data, isUser })
+  },
+  home:async(req,res)=>{
+    const isUser=req.session.loggedIn
+    const data=module.exports.limdata()
+
+  res.render('index',{isUser,data});
+
+  },
   changepassword: async (req, res) => {
     res.render('users/changepassword')
   },
@@ -82,7 +94,7 @@ module.exports = {
   },
 
   orders: async (req, res) => {
-    const username = req.session.user.name
+    const username = req.session.user.email
     const orders = await User.ordersfind(username);
     console.log(orders);
     res.render('users/orders', { data: orders })
@@ -93,10 +105,6 @@ module.exports = {
     try { 
       console.log(req.body);
       const email = req.body.email;
-      const password = req.body.password;
-      const name = req.body.name;
-      // const userid=req.body._id;
-
       const confirm = await user.findOne({ email: email });
       console.log(confirm);
       if (!confirm) {

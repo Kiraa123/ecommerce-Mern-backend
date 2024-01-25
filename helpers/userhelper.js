@@ -24,6 +24,7 @@ module.exports = ({
         await cart.findOneAndDelete({ user: userid });
     },
     orders: async (data) => {
+        console.log(data)
         const result = await order.insertMany(data)
         return result;
 
@@ -33,7 +34,7 @@ module.exports = ({
         return result;
     },
     ordersfind: async (data) => {
-        const result = await order.find({name: data }).populate('items.product').lean();
+        const result = await order.find({username: data }).populate('items.product').lean();
         return result
     },
     finduserid: async (data) => {
@@ -137,7 +138,7 @@ module.exports = ({
             },
             { new: true }
         );
-        res.redirect('/users/cart')
+        // res.redirect('/users/cart')
 
     },
     insertcart: async (userid, proid, cartItem) => {

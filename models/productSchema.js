@@ -1,12 +1,4 @@
 const mongoose=require('mongoose')
-// const url='mongodb://localhost:27017/test'
-// const connect =mongoose.connect(url)
-// connect.then(()=>{
-//     console.log('success');
-// })
-// .catch (()=>{
-//     console.log('error');
-// })
 const productSchema=new mongoose.Schema({
     productname:{
         type:String,

@@ -7,31 +7,6 @@ const cart = require('../models/cartSchema')
 const razorpay=require('../config/razorpay')
 
 module.exports = {
-
-    updateOrder: async (req, res) => {
-        const order = await Order.findById(req.params.id)
-        if (!order) {
-            return res.status(400).json({ msg: "No order with this id" })
-        }
-        if (order.orderStatus === 'Delivered') {
-            return res.status(400).json({ msg: 'The order has already been delivered' });
-
-        }
-        if (req.body.status === 'shipped') {
-
-        }
-
-
-    },
-    //delete order--Admin
-    deleteOrder: async (req, res) => {
-        const order = await Order.findById(req.params.id)
-        if (!order) {
-            return res.status(400).json({ msg: "No order with this id" })
-        }
-        await order.remove();
-        return res.status(400).json({ msg: "order removed" })
-    },
     checkout: async (req, res) => {
         const currentuser = req.session.user.name;
         const userid = req.session.user._id;
@@ -68,10 +43,6 @@ module.exports = {
             console.error(error);
         }
     },
-    add: async (req, res) => {
-
-
-    },
     cartadding: async (req, res) => {
         var cartqty = 0
         const productid = req.params.id;
@@ -99,15 +70,21 @@ module.exports = {
                 if (productexist) {
                     await user.updatecart(userId, cartItem)
                       res.json(count + 1);
+                      res.redirect('/users/cart')
                 }
                 else {
                     await user.pushitems(userId, cartItem)
+                    res.redirect('/users/cart')
+
 
                       res.json(count + 1);
+
                 }
             }
             else {
                 await user.insertcart(userId, productid, cartItem)
+                res.redirect('/users/cart')
+
 
                 // res.json(count + 1);
             }
@@ -129,15 +106,14 @@ module.exports = {
         const result = await order.updatequantity(order)
     },
     order: async (req, res) => {
-        const currentuser = req.session.user;
-        const username = currentuser.username;
-        const orders = await user.ordersFind(username)
+        const username = req.session.user.name;
+        const orders = await user.ordersfind(username)
         res.render('users/order', { data: orders })
     },
     shop: async (req, res) => {
         if (req.session.loggedIn) {
-            const currentuser = req.session.user;
-            const loggedInUser = await user.findexistuser(currentuser.username)
+            const currentuser = req.session.user.name;
+            const loggedInUser = await user.findexistuser(currentuser)
             const count = await user.countitems(loggedInUser._id)
             res.render('users/shop', { count })
         } else {

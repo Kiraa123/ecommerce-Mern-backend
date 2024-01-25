@@ -9,10 +9,10 @@ const orderSchema = new mongoose.Schema({
         type: Date,
         default:() => new Date().toLocaleString('en-US', { timeZone: 'UTC' })
     },
-    // username: {
-    //     type: String,
-    //     required: true
-    // },
+    username: {
+        type: String,
+        required: true
+    },
     name: {
         type: String,
         required: true
