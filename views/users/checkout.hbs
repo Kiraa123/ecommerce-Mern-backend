@@ -261,8 +261,8 @@
                                                         <div class="mb-3">
                                                             <label class="form-label" for="billing-address">
                                                                 Address</label>
-                                                            <input type="text" pattern="[A-Za-z]+" class="form-control"
-                                                                id="billing-email-address" required name="address"
+                                                            <input type="text"  class="form-control"
+                                                                 required name="address"
                                                                 placeholder="">
                                                         </div>
                                                     </div>
@@ -316,9 +316,9 @@
 
                                                     <div class="col-lg-4">
                                                         <div class="mb-0">
-                                                            <label class="form-label" for="zip-code">Postal
-                                                                code</label>
-                                                            <input type="number" class="form-control" id="zip-code"
+                                                            <label class="form-label" for="zip-code">Pincode
+                                                                </label>
+                                                            <input type="tel" class="form-control" id="zip-code"
                                                                 name="pincode" maxlength="6" placeholder="Enter Postal code" required>
                                                         </div>
                                                     </div>
@@ -358,7 +358,7 @@
                                                             <span class="text-muted fw-normal d-block">Mo.
                                                                 012-345-6789</span>
                                                         </div> --}}
-                                                        <div class="card-radio text-truncate p-3">
+                                                        {{!-- <div class="card-radio text-truncate p-3">
                                                             <span class="fs-14 mb-4 d-block">Address 1</span>
                                                             <span id="info-address1-name"
                                                                 class="fs-14 mb-2 d-block"></span>
@@ -370,7 +370,7 @@
                                                                 class="text-muted fw-normal d-block"></span>
                                                             <span id="info-address1-pincode"
                                                                 class="text-muted fw-normal d-block"></span>
-                                                        </div>
+                                                        </div> --}}
 
                                                     </label>
                                                     {{!-- <div class="edit-btn bg-light  rounded">
@@ -379,18 +379,18 @@
                                                             <i class="bx bx-pencil font-size-16"></i>
                                                         </a>
                                                     </div> --}}
-                                                    <div class="edit-btn bg-light  rounded">
+                                                    {{!-- <div class="edit-btn bg-light  rounded">
                                                         <a href="#" data-bs-toggle="tooltip" data-placement="top"
                                                             title="" data-bs-original-title="Edit"
                                                             onclick="populateAddress1()">
                                                             <i class="bx bx-pencil font-size-16"></i>
                                                         </a>
-                                                    </div>
+                                                    </div> --}}
 
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-4 col-sm-6">
+                                            {{!-- <div class="col-lg-4 col-sm-6">
                                                 <div>
                                                     <label class="card-radio-label mb-0">
                                                         <input type="radio" name="address" id="info-address2"
@@ -412,7 +412,7 @@
                                                         </a>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                 </div>

@@ -122,7 +122,6 @@ module.exports = {
     },
     qtyadd: async (req, res) => {
         const productid = req.params.id;
-        const currentuser = req.session.user.name;
         const userid = req.session.user._id;
         const quantity = await user.quantity(userid, productid)
         console.log(quantity);
