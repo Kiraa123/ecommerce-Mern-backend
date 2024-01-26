@@ -25,8 +25,19 @@ module.exports = {
       const address = req.body.address;
       const city = req.body.city;
       const phone = req.body.phone;
-      const hashpassword = await bcrypt.hash(req.body.password, 10)
-      await user.create({ name, email, password, address, city, phone });
+      const hashpassword = await bcrypt.hash(password, 10)
+      console.log(hashpassword)
+      const userObject = {
+        name: name,
+        email: email,
+        password: hashpassword,
+        address: address,
+        phone: phone,
+        city: city
+      };
+      console.log(userObject);
+      
+      await User.createUser(userObject );
       req.session.user = req.body;
       req.session.loggedIn = true;
       res.redirect('/users/login');
@@ -57,7 +68,7 @@ module.exports = {
     res.redirect('/')
   },
   alldata: async (req, res) => {
-    const data = await product.allproducts()
+    const data = await product.allproducts1()
     // return data
     const isUser = req.session.loggedIn
     res.render('users/allproducts', { data, isUser })
@@ -70,7 +81,7 @@ module.exports = {
   },
 
   limdata: async (req, res) => {
-    const data = await product.allproducts()
+    const data = await product.allproducts1()
     // return data
     const isUser = req.session.loggedIn
     res.render('index', { data, isUser })
@@ -83,7 +94,8 @@ module.exports = {
 
   },
   changepassword: async (req, res) => {
-    res.render('users/changepassword')
+    isUser=req.session.user
+    res.render('users/changepassword',{isUser})
   },
   password: async (req, res) => {
     const username = req.session.user.name
@@ -112,7 +124,11 @@ module.exports = {
     try { 
       console.log(req.body);
       const email = req.body.email;
+      const password = req.body.password
       const confirm = await user.findOne({ email: email });
+      const hashedPassword=confirm.password;
+      const passwordMatch = await bcrypt.compare(password, hashedPassword)
+
       console.log(confirm);
       if (!confirm) {
         res.render("users/login", { invalid: "invalid  user id" });
@@ -122,7 +138,7 @@ module.exports = {
         if (confirm.status=='block') {
           return res.render("users/login", { invalid: "Admin blocked you. Contact support for assistance." });
         }
-        if (req.body.password == confirm.password) {
+        if (passwordMatch) {
           req.session.user = confirm;
           req.session.loggedIn = true;
           console.log(req.session);
@@ -130,7 +146,7 @@ module.exports = {
           console.log(confirm.role);
           if (confirm.role == 'admin') {
             console.log("i am admin");
-            res.redirect("/users/dashboard")
+            res.redirect("/admin/dashboard")
           } else {
             res.redirect('/')
           }
@@ -141,7 +157,7 @@ module.exports = {
       }
     } catch (error) {
       console.log(error);
-      res.redirect("/users/login", { invalid: "invalid" });
+      res.redirect("/users/login", { invalid: "email already exists" });
     }
   },
 
@@ -184,10 +200,7 @@ module.exports = {
     req.session.destroy();
     res.redirect('/');
   },
-   dashboard: (req, res) => {
-    res.render('admin/charts')
-
-  }
+   
 }
 
 

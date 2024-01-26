@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 <link rel="stylesheet"
     href="https://unpkg.com/bs-brain@2.0.3/components/registrations/registration-5/assets/css/registration-5.css">
-{{> adminheader}}
+{{!-- {{> adminheader}} --}}
 <!-- Registration 5 - Bootstrap Brain Component -->
 <section class="p-3 p-md-4 p-xl-5">
     <div class="container">
@@ -44,13 +44,13 @@
                                     <label for="email" class="form-label">Email <span
                                             class="text-danger">*</span></label>
                                     <input type="email" class="form-control" name="email" id="email"
-                                        value="{{data.email}}" placeholder="name@example.com"  readonly>
+                                        value="{{data.email}}" placeholder="name@example.com" readonly>
                                 </div>
                                 <div class="col-12">
                                     <label for="password" class="form-label">Password <span
                                             class="text-danger">*</span></label>
-                                    <input type="password" class="form-control" name="password" id="password" value="{{data.password}}"
-                                        readonly placeholder="********">
+                                    <input type="password" class="form-control" name="password" id="password"
+                                        value="{{data.password}}" readonly placeholder="********">
                                 </div>
 
                                 <div class="col-12">
@@ -75,7 +75,8 @@
                                 <div class="col-12">
                                     <div class="d-grid">
                                         <button type="submit" class="btn btn-primary me-2">Update User</button>
-                                <button type="reset" class="btn btn-outline-secondary">Cancel</button>
+                                        <a href="/admin/dashboard"> <button type="button"
+                                                class="btn btn-outline-secondary">Cancel</button></a>
                                     </div>
                                 </div>
                             </div>
@@ -90,14 +91,13 @@
 
 
 </form>
-  <!-- Include jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
-        integrity="sha256-oa5io9gszzQSg3cF0NmOafHTs6+cmTuxU+oUDgZ1zBo=" crossorigin="anonymous"></script>
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"
+    integrity="sha256-oa5io9gszzQSg3cF0NmOafHTs6+cmTuxU+oUDgZ1zBo=" crossorigin="anonymous"></script>
 
-    <!-- Include Bootstrap JS (bundle) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-iVXEAgQCBQNOf0l4GqjXgF5f5I5/GyZgTCsCCnbKd8rPZPFF73VS9wbF5Yx1PiF"
-        crossorigin="anonymous"></script>
+<!-- Include Bootstrap JS (bundle) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-iVXEAgQCBQNOf0l4GqjXgF5f5I5/GyZgTCsCCnbKd8rPZPFF73VS9wbF5Yx1PiF" crossorigin="anonymous"></script>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>

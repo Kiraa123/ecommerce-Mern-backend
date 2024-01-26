@@ -7,6 +7,20 @@ const order = require('../models/orderSchema')
 const address=require('../models/addressSchema')
 
 module.exports = ({
+     createUser: async (data)=>{
+        console.log('jjdj',data)
+        console.log('j',data.name);
+        const newUser = await user.create({
+            name: data.name,
+            email: data.email,
+            password: data.password,
+            address: data.address,
+            phone: data.phone,
+            city: data.city
+        })
+        console.log(newUser)
+    },
+
     edituser: async (data,productid) => {
         const result = await user.updateOne({ _id:productid }, {
             $set:

@@ -253,24 +253,24 @@
                                                     <div class="col-lg-4">
                                                         <div class="mb-3">
                                                             <label class="form-label" for="billing-name">Name</label>
-                                                            <input type="text" class="form-control" id="billing-name"
-                                                                placeholder="Enter name" name="name">
+                                                            <input type="text" pattern="[A-Za-z]+" class="form-control" id="billing-name"
+                                                                placeholder="Enter name" name="name" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="mb-3">
                                                             <label class="form-label" for="billing-address">
                                                                 Address</label>
-                                                            <input type="text" class="form-control"
-                                                                id="billing-email-address" name="address"
+                                                            <input type="text" pattern="[A-Za-z]+" class="form-control"
+                                                                id="billing-email-address" required name="address"
                                                                 placeholder="">
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="mb-3">
                                                             <label class="form-label" for="billing-phone">Phone</label>
-                                                            <input type="text" name="phoneno" class="form-control"
-                                                                id="billing-phone" placeholder="Enter Phone no.">
+                                                            <input type="tel" name="phoneno" class="form-control"
+                                                                id="billing-phone" maxlength="10" placeholder="Enter Phone no." required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -302,15 +302,15 @@
                                                     <div class="col-lg-4">
                                                         <div class="mb-4 mb-lg-0">
                                                             <label class="form-label" for="billing-city">City</label>
-                                                            <input type="text" class="form-control" name="city"
-                                                                id="billing-city" placeholder="Enter City">
+                                                            <input type="text" pattern="[A-Za-z]+" class="form-control" name="city"
+                                                                id="billing-city" placeholder="Enter City" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="mb-4 mb-lg-0">
                                                             <label class="form-label" for="billing-city">State</label>
-                                                            <input type="text" class="form-control" name="state"
-                                                                id="billing-city" placeholder="Enter state">
+                                                            <input type="text" pattern="[A-Za-z]+" class="form-control" name="state"
+                                                                id="billing-city" placeholder="Enter state" required>
                                                         </div>
                                                     </div>
 
@@ -318,8 +318,8 @@
                                                         <div class="mb-0">
                                                             <label class="form-label" for="zip-code">Postal
                                                                 code</label>
-                                                            <input type="text" class="form-control" id="zip-code"
-                                                                name="pincode" placeholder="Enter Postal code">
+                                                            <input type="number" class="form-control" id="zip-code"
+                                                                name="pincode" maxlength="6" placeholder="Enter Postal code" required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -613,7 +613,6 @@
             "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
             "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
             "handler": function (response) {
-                alert(response)
                 verify(response, order.receipt);
             }
 

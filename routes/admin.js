@@ -3,15 +3,17 @@ var router = express.Router();
 const user = require('../controllers/userController')
 var upload=require('../middleware/multer')
 const isAuth=require('../middleware/isAuth')
+const isAdmin=require('../middleware/isAdmin')
 
 const Product=require('../controllers/productController')
 
 const{orders,confirm,shipped,delivered,cancelled}=require('../controllers/orderController')
-const{admin,createAdmin,alluser,deleteuser,edituserpost,blockuser,unblockuser,edituser,editproduct,edit_product,searchuser,adminlogout}=require('../controllers/adminController')
+const{admin,createAdmin,dashboard,alluser,deleteuser,edituserpost,blockuser,unblockuser,edituser,editproduct,edit_product,searchuser,adminlogout}=require('../controllers/adminController')
 const{addProduct,allproducts,addproductpage}=require('../controllers/productController')
 
 router.post('/loggedin',admin)
 router.post('/getProduct',upload.single('image'),addProduct);
+router.get('/dashboard',isAuth,dashboard)
 //PRODUCTS
 router.get('/deleteuser/:id',isAuth,deleteuser);
 router.post('/updateuser/:id',isAuth,edituserpost)

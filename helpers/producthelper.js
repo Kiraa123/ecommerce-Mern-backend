@@ -11,7 +11,11 @@ module.exports={
         return result
     },
     allproducts:async(data)=>{
-        var result = await product.find({}).limit(9).lean();
+        var result = await product.find({}).lean();
+        return result
+    },
+    allproducts1:async(data)=>{
+        var result = await product.find().limit(9).lean();
         return result
     },
     allproducts2:async(data)=>{

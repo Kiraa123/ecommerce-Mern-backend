@@ -147,6 +147,10 @@ module.exports = {
         req.session.destroy()
         res.redirect('/')
 
+      },
+      dashboard: (req, res) => {
+        res.render('admin/charts')
+    
       }
     
 }
