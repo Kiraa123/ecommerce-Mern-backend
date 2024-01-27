@@ -1,5 +1,6 @@
 const isAdmin = (req, res, next) => {
-    if (req.session.loggedIn && req.session.admin) {
+  const confirm=req.session.user
+    if (req.session.loggedIn && confirm.role=='admin') {
       next();
     } else {
         res.redirect('/users/login');
