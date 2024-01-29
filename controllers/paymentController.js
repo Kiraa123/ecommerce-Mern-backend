@@ -62,11 +62,7 @@ module.exports = {
             await order.placed(orderID, paymentId)
             await order.updatequantity(orderID)
             await user.deletecartoredered(userid)
-            //Create Invoice
-            // const result = await order.invoice(orderID)
-            // const pdfData = {
-            //     invoiceItems: result,
-            // }
+            
             res.json("success")
         }
         else{

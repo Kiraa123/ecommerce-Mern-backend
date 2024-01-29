@@ -218,7 +218,6 @@ module.exports = ({
     },
     address: async (data) => {
         await address.insertMany(data)
-        //add
     },
     existaddress: async (data) => {
         const existingAddress = await address.findOne({

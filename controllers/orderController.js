@@ -172,7 +172,6 @@ module.exports = {
             const orders = {
                 orderID: orderID,
                 orderdate: new Date(),
-                // username: userid.username,
                 name: req.body.name,
                 address: req.body.address,
                 city: req.body.city,

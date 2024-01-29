@@ -4,38 +4,24 @@ const bcrypt = require('bcrypt')
 const User=require('../helpers/userhelper')
 
 module.exports = {
-  // updatePassword: async (req, res) => {
-  //     const user = await User.findById(req.body.id).select('+pasword')
-  //     const isMatchedPassword = await User.comparePassword(req.body.oldPassword)
-  //     if (!isMatchedPassword) {
-  //         res.status(400).send({ message: 'old password incorect' })
-  //     }
-  //     if (req.body.newPassword !== req.body.confirmPasswod) {
-  //         res.status(400).send({ message: 'password doesnot match' })
-  //     }
-  //     user.password = req.body.newPasssowrd;
-  //     await user.save()
-
-  // },
+  
   register: async (req, res) => {
     try {
       const name = req.body.name;
       const email = req.body.email;
       const password = req.body.password;
-      const address = req.body.address;
-      const city = req.body.city;
-      const phone = req.body.phone;
+      // const address = req.body.address;
+      // const city = req.body.city;
+      // const phone = req.body.phone;
       const hashpassword = await bcrypt.hash(password, 10)
-      console.log(hashpassword)
       const userObject = {
         name: name,
         email: email,
         password: hashpassword,
-        address: address,
-        phone: phone,
-        city: city
+        // address: address,
+        // phone: phone,
+        // city: city
       };
-      console.log(userObject);
       
       await User.createUser(userObject );
       req.session.user = req.body;
@@ -102,8 +88,7 @@ module.exports = {
     
 
     if (req.body.password == req.body.confirmpassword) {
-      // const saltRounds = 10;
-      // const hashpassword = await bcrypt.hash(req.body.password, saltRounds)
+      
       const pswd=await req.body.password;
       await User.updatepassword(username,pswd)
       res.render('users/changepassword', { message: "Password updated successfully" })
@@ -113,10 +98,11 @@ module.exports = {
   },
 
   orders: async (req, res) => {
+    const isUser=req.session.loggedIn
     const username = req.session.user.email
     const orders = await User.ordersfind(username);
     console.log(orders);
-    res.render('users/orders', { data: orders })
+    res.render('users/orders', { data: orders ,isUser})
   },
 
 
