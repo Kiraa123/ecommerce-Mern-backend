@@ -48,6 +48,25 @@ module.exports = {
     // }
     res.render('users/profile', { data: data, name: existuser.name })
   },
+  forgotpassword: async (req, res) => {
+    res.render('users/forgotpassword')
+  },
+  sendotp: async (req, res) => {
+    const result = await User.finduseremail(req.body.email)
+    if (result) {
+      const generatedotp = await otp.generateOTP()
+      await otp.sendOTPEmail(req.body.email, generatedotp);
+      res.json(generatedotp)
+    }
+    else {
+      res.json({ error: "error" })
+    }
+  },
+  resetpassword: async (req, res) => {
+    const hashpassword = await bcrypt.hash(req.body.newPassword, 10)
+    await User.forgotpassword(req.body.email, hashpassword)
+    res.json("success")
+  },
   edituserpost: async (req, res) => {
     let productid = req.params.id;
     const result = await User.edituser(req.body, productid)

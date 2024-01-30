@@ -8,8 +8,6 @@ const address=require('../models/addressSchema')
 
 module.exports = ({
      createUser: async (data)=>{
-        console.log('jjdj',data)
-        console.log('j',data.name);
         const newUser = await user.create({
             name: data.name,
             email: data.email,
@@ -19,6 +17,10 @@ module.exports = ({
             city: data.city
         })
         console.log(newUser)
+    },
+    finduseremail: async (data) => {
+        var result = await user.findOne({ email: data })
+        return result;
     },
 
     edituser: async (data,productid) => {
@@ -36,6 +38,9 @@ module.exports = ({
     },
     deletecartoredered: async (userid) => {
         await cart.findOneAndDelete({ user: userid });
+    },
+    forgotpassword: async (email1, password1) => {
+        await user.updateOne({ email: email1 }, { $set: { password: password1 } })
     },
     orders: async (data) => {
         console.log(data)

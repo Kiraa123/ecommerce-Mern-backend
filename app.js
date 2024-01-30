@@ -6,13 +6,12 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session=require('express-session')
 var connect=require('./config/mongoConnect')
-var exphbs=require('express-handlebars')
+var exphbs=require('express-handlebars');
+const routerMiddleware = require('./middleware/routes');
 // const MongodbStore=require('connect-mongodb-session')(session)
 
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var adminRouter=require('./routes/admin')
+
 
 var app = express();
 
@@ -37,7 +36,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/users', express.static(path.join(__dirname, 'public/admin')));
-app.use('/users', express.static(path.join(__dirname, 'public/users')));
+// app.use('/users', express.static(path.join(__dirname, 'public/users')));
 app.use('/admin', express.static(path.join(__dirname, 'public')));
 app.use('/admin/alluser', express.static(path.join(__dirname, 'public')));
 
@@ -55,9 +54,9 @@ app.use(session({
 
 }))
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/admin', adminRouter);
+app.use (routerMiddleware());
+
+
 
 
 

@@ -3,7 +3,7 @@ var router = express.Router();
 var isAuth=require('../middleware/isAuth')
 var back=require('../middleware/back')
 var mut=require('../middleware/multer')
-const{login,signup,products,logout,password,changepassword,verify,addproduct,register,alldata,alldata1,orders,moredetails,edituser,edituserpost}=require('../controllers/userController')
+const{login,signup,products,logout,password,changepassword,verify,addproduct,register,alldata,alldata1,orders,moredetails,edituser,edituserpost,forgotpassword,sendotp,resetpassword}=require('../controllers/userController')
 const{cart,deletecart,cartadding,checkout,qtyadd,qtyminus}=require('../controllers/orderController')
 const{placeorder,paymentverify,success}=require('../controllers/paymentController')
 /* GET users listing. */
@@ -20,7 +20,9 @@ router.get('/profile',isAuth,edituser)
 router.post('/edit/:id',isAuth,edituserpost)
 router.get('/changepassword',isAuth,changepassword)
 router.post('/password',isAuth,password)
-//CART
+router.get('/forgotpassword',forgotpassword)
+router.post('/sendotp',sendotp)
+router.post('/resetpassword',resetpassword)//CART
 
 router.get('/cart',isAuth,cart)
 router.get('/addcart/:id',isAuth,cartadding)

@@ -245,12 +245,13 @@
 
 
 </head>
-
 <body>
+            {{> userheader}}
 
     <div class="container">
+
         <div class="card">
-            <div class="container-fliud">
+            <div class="container-fluid">
                 <div class="wrapper row">
                     <div class="preview col-md-6">
 
@@ -278,36 +279,32 @@
                     <div class="details col-md-6">
                         <h3 class="product-title">{{data.productname}}</h3>
                         <div class="rating">
-                            <div class="stars">
+                            {{!-- <div class="stars">
                                 <span class="fa fa-star checked"></span>
                                 <span class="fa fa-star checked"></span>
                                 <span class="fa fa-star checked"></span>
                                 <span class="fa fa-star"></span>
                                 <span class="fa fa-star"></span>
-                            </div>
-                            <span class="review-no">41 reviews</span>
+                            </div> --}}
+                            {{!-- <span class="review-no">41 reviews</span> --}}
                         </div>
                         <p class="product-description">Suspendisse quos? Tempus cras iure temporibus? Eu laudantium
                             cubilia sem sem! Repudiandae et! Massa senectus enim minim sociosqu delectus posuere.</p>
-                        <h4 class="price">current price: <span>${{data.price}}</span></h4>
-                        <p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong>
+                        <h4 class="price">current price: <span>Rs:{{data.price}}</span></h4>
+                        {{!-- <p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong> --}}
                         </p>
-                        <h5 class="sizes">sizes:
-                            <span class="size" data-toggle="tooltip" title="small">M</span>
+                        <h5 class="sizes">sizes:    M
+                            {{!-- <span class="size" data-toggle="tooltip" title="small">M</span> --}}
                             {{!-- <span class="size" data-toggle="tooltip" title="medium">m</span>
                             <span class="size" data-toggle="tooltip" title="large">l</span>
                             <span class="size" data-toggle="tooltip" title="xtra large">xl</span> --}}
                         </h5>
-                        {{!-- <h5 class="colors">colors:
-                            <span class="color orange not-available" data-toggle="tooltip" title="Not In store"></span>
-                            <span class="color green"></span>
-                            <span class="color blue"></span>
-                        </h5> --}}
+                       
                         <div class="action">
-                            <a href="/users/addcart/{{data._id}}"><button class="add-to-cart btn btn-default"
+                            <a href="/users/addcart/{{data._id}}"><button class="add-to-cart btn btn-primary"
                                     type="button">Add to cart</button></a>
 
-                            <a href="/"><button class="like btn btn-default" type="button">Cancel</button></a>
+                            <a href="/"><button class="like btn btn-secondary" type="button">Back</button></a>
                         </div>
                     </div>
                 </div>
