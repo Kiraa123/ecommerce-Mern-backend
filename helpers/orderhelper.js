@@ -16,10 +16,10 @@ module.exports = {
 
         }
     },
-    placed: async (data) => {
+    placed: async (data,payment) => {
         await order.findOneAndUpdate(
-            {orderid:data},
-            {$set:{status:'Placed'}}
+            {orderID:data},
+            {$set:{status:'Placed',paymentID:payment}}
             ,{new:true} )
 
     },

@@ -2,10 +2,12 @@ const user = require('../models/userSchema')
 const product = require('../helpers/producthelper')
 const bcrypt = require('bcrypt')
 const User=require('../helpers/userhelper')
+const otp=require('../config/otp')
 
 module.exports = {
   
   register: async (req, res) => {
+    // const genaratedotp=await otp.generateOTP()
     try {
       const name = req.body.name;
       const email = req.body.email;
@@ -24,8 +26,12 @@ module.exports = {
       };
       
       await User.createUser(userObject );
+      // await otp.sendOTPEmail(userObject.email,genaratedotp)
+      // const result=await User.createUser(userObject );
+
       req.session.user = req.body;
       req.session.loggedIn = true;
+      // res.render('users/otp',{_id:result[0]._id})
       res.redirect('/users/login');
     } catch (error) {
       console.log(error);
@@ -127,7 +133,6 @@ module.exports = {
 
   verify: async function (req, res) {
     try { 
-      console.log(req.body);
       const email = req.body.email;
       const password = req.body.password
       const confirm = await user.findOne({ email: email });
@@ -146,9 +151,6 @@ module.exports = {
         if (passwordMatch) {
           req.session.user = confirm;
           req.session.loggedIn = true;
-          console.log(req.session);
-          console.log('hello');
-          console.log(confirm.role);
           if (confirm.role == 'admin') {
             console.log("i am admin");
             res.redirect("/admin/dashboard")
@@ -162,7 +164,7 @@ module.exports = {
       }
     } catch (error) {
       console.log(error);
-      res.redirect("/users/login", { invalid: "email already exists" });
+      res.render("users/login", { invalid:"User not exists" });
     }
   },
 
@@ -180,13 +182,7 @@ module.exports = {
 
   },
 
-  // cart:async(req,res)=>{
-  //     res.render('users/cart')
-
-
-  // },
-
-  //get all users
+  
   getAllUser: async (req, res) => {
     const user = await User.find()
     res.status(200).json({

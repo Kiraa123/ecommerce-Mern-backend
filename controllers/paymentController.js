@@ -57,8 +57,8 @@ module.exports = {
         const orderID = req.body.orderID
          const hmac = crypto.createHmac('sha256', process.env.KEY_SECRET)
         hmac.update(orderId + '|' + paymentId);
-        hmachex = hmac.digest('hex')
-        if (signature) {
+        const hmachex = hmac.digest('hex')
+        if (signature===hmachex) {
             await order.placed(orderID, paymentId)
             await order.updatequantity(orderID)
             await user.deletecartoredered(userid)

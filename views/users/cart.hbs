@@ -134,7 +134,7 @@
 
                                         <div class="d-flex justify-content-between mb-4">
                                             <h5 class="text-uppercase" id="cartCount">items {{count}}</h5>
-                                            <h5 id="totpriceLink">$ {{data.totalPrice}}</h5>
+                                            <h5 id="totpriceLink">Rs. {{data.totalPrice}}</h5>
                                         </div>
 
 
@@ -190,9 +190,9 @@
                     url: '/users/cart/qtyminus/' + productId,
                     success: function (response) {
                         console.log(response)
-                        $('#' + uniqueId).text(response.quantity);
-                        $('#totpriceLink').text('Rs: ' + response.totalPrice);
-                        $('#totlink').text('Rs: ' + (response.totalPrice + 50));
+                        $('#' + uniqueId).text(response.quantity );
+                        $('#totpriceLink').text('Rs. ' + response.totalPrice);
+                        $('#totlink').text('Rs. ' + (response.totalPrice + 50));
                     },
                     error: function (error) {
                         console.error(error);
@@ -211,9 +211,9 @@
                     type: 'GET',
                     url: '/users/cart/qtyadd/' + productId,
                     success: function (response) {
-                        $('#' + uniqueId).text(response.quantity);
-                        $('#totpriceLink').text('Rs: ' + response.totalPrice);
-                        $('#totlink').text('Rs: ' + (response.totalPrice + 50));
+                        $('#' + uniqueId).text(response.quantity + 2);
+                        $('#totpriceLink').text('Rs. ' + response.totalPrice);
+                        $('#totlink').text('Rs. ' + (response.totalPrice + 50));
                     },
                     error: function (error) {
                         console.error(error);

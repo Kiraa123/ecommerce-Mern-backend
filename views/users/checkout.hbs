@@ -228,9 +228,31 @@
     integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
+
 <div class="container">
+    
 
     <div class="row">
+         {{#if address}}
+                    <div class="form-group">
+                        <div class="input-group">
+                            <select class="form-control" id="address" name="address">
+                                <option value="address">Select Address</option>
+                                {{#each address }}
+                                <option value="{{this._id}}" data-name="{{this.name}}" data-address="{{this.address}}"
+                                    data-city="{{this.city}}" data-state="{{this.state}}"
+                                    data-pincode="{{this.pincode}}" data-phoneno="{{this.phoneno}}">
+                                    {{this.name}} :<br>
+                                    {{this.address}}, {{this.city}},{{this.pincode}}<br>
+                                </option>
+                                {{/each}}
+                            </select>
+                            <div class="input-group-append">
+                                <button class=" btn-outline" type="button">&#9660;</button>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
         <div class="col-xl-8">
 
             <div class="card">
@@ -253,24 +275,25 @@
                                                     <div class="col-lg-4">
                                                         <div class="mb-3">
                                                             <label class="form-label" for="billing-name">Name</label>
-                                                            <input type="text" pattern="[A-Za-z]+" class="form-control" id="billing-name"
-                                                                placeholder="Enter name" name="name" required>
+                                                            <input type="text" pattern="[A-Za-z]+" class="form-control"
+                                                                id="billing-name" placeholder="Enter name" name="name"
+                                                                required>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="mb-3">
                                                             <label class="form-label" for="billing-address">
                                                                 Address</label>
-                                                            <input type="text"  class="form-control"
-                                                                 required name="address"
-                                                                placeholder="">
+                                                            <input type="text" class="form-control" required
+                                                                name="address" placeholder="">
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="mb-3">
                                                             <label class="form-label" for="billing-phone">Phone</label>
                                                             <input type="tel" name="phoneno" class="form-control"
-                                                                id="billing-phone" maxlength="10" placeholder="Enter Phone no." required>
+                                                                id="billing-phone" maxlength="10"
+                                                                placeholder="Enter Phone no." required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -302,24 +325,27 @@
                                                     <div class="col-lg-4">
                                                         <div class="mb-4 mb-lg-0">
                                                             <label class="form-label" for="billing-city">City</label>
-                                                            <input type="text" pattern="[A-Za-z]+" class="form-control" name="city"
-                                                                id="billing-city" placeholder="Enter City" required>
+                                                            <input type="text" pattern="[A-Za-z]+" class="form-control"
+                                                                name="city" id="billing-city" placeholder="Enter City"
+                                                                required>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="mb-4 mb-lg-0">
                                                             <label class="form-label" for="billing-city">State</label>
-                                                            <input type="text" pattern="[A-Za-z]+" class="form-control" name="state"
-                                                                id="billing-city" placeholder="Enter state" required>
+                                                            <input type="text" pattern="[A-Za-z]+" class="form-control"
+                                                                name="state" id="billing-city" placeholder="Enter state"
+                                                                required>
                                                         </div>
                                                     </div>
 
                                                     <div class="col-lg-4">
                                                         <div class="mb-0">
                                                             <label class="form-label" for="zip-code">Pincode
-                                                                </label>
+                                                            </label>
                                                             <input type="tel" class="form-control" id="zip-code"
-                                                                name="pincode" maxlength="6" placeholder="Enter Postal code" required>
+                                                                name="pincode" maxlength="6"
+                                                                placeholder="Enter Postal code" required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -330,6 +356,7 @@
                                 </div>
                             </div>
                         </li>
+                       
                         <li class="checkout-item">
                             <div class="avatar checkout-icon p-1">
                                 <div class="avatar-title rounded-circle bg-primary">
@@ -345,74 +372,17 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div data-bs-toggle="collapse">
                                                     <label class="card-radio-label mb-0">
-                                                        <input type="radio" name="address" id="info-address1"
-                                                            class="card-radio-input" checked="">
-                                                        {{!-- {{#if address}} --}}
-                                                        {{!-- <div class="card-radio text-truncate p-3">
-                                                            <span class="fs-14 mb-4 d-block">Address 1</span>
-                                                            <span class="fs-14 mb-2 d-block">Bradley McMillian</span>
-                                                            <span
-                                                                class="text-muted fw-normal text-wrap mb-1 d-block">109
-                                                                Clarksburg Park Road Show Low, AZ 85901</span>
+                                                                          
 
-                                                            <span class="text-muted fw-normal d-block">Mo.
-                                                                012-345-6789</span>
-                                                        </div> --}}
-                                                        {{!-- <div class="card-radio text-truncate p-3">
-                                                            <span class="fs-14 mb-4 d-block">Address 1</span>
-                                                            <span id="info-address1-name"
-                                                                class="fs-14 mb-2 d-block"></span>
-                                                            <span id="info-address1-address"
-                                                                class="text-muted fw-normal text-wrap mb-1 d-block"></span>
-                                                            <span id="info-address1-phoneno"
-                                                                class="text-muted fw-normal d-block"></span>
-                                                            <span id="info-address1-citystate"
-                                                                class="text-muted fw-normal d-block"></span>
-                                                            <span id="info-address1-pincode"
-                                                                class="text-muted fw-normal d-block"></span>
-                                                        </div> --}}
+                                                      
 
                                                     </label>
-                                                    {{!-- <div class="edit-btn bg-light  rounded">
-                                                        <a href="#" data-bs-toggle="tooltip" data-placement="top"
-                                                            title="" data-bs-original-title="Edit">
-                                                            <i class="bx bx-pencil font-size-16"></i>
-                                                        </a>
-                                                    </div> --}}
-                                                    {{!-- <div class="edit-btn bg-light  rounded">
-                                                        <a href="#" data-bs-toggle="tooltip" data-placement="top"
-                                                            title="" data-bs-original-title="Edit"
-                                                            onclick="populateAddress1()">
-                                                            <i class="bx bx-pencil font-size-16"></i>
-                                                        </a>
-                                                    </div> --}}
+                                                    
 
                                                 </div>
                                             </div>
 
-                                            {{!-- <div class="col-lg-4 col-sm-6">
-                                                <div>
-                                                    <label class="card-radio-label mb-0">
-                                                        <input type="radio" name="address" id="info-address2"
-                                                            class="card-radio-input">
-                                                        <div class="card-radio text-truncate p-3">
-                                                            <span class="fs-14 mb-4 d-block">Address 2</span>
-                                                            <span class="fs-14 mb-2 d-block">Bradley McMillian</span>
-                                                            <span
-                                                                class="text-muted fw-normal text-wrap mb-1 d-block">109
-                                                                Clarksburg Park Road Show Low, AZ 85901</span>
-                                                            <span class="text-muted fw-normal d-block">Mo.
-                                                                012-345-6789</span>
-                                                        </div>
-                                                    </label>
-                                                    <div class="edit-btn bg-light  rounded">
-                                                        <a href="#" data-bs-toggle="tooltip" data-placement="top"
-                                                            title="" data-bs-original-title="Edit">
-                                                            <i class="bx bx-pencil font-size-16"></i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div> --}}
+                                          
                                         </div>
                                     </div>
                                 </div>
@@ -562,25 +532,7 @@
     <!-- end row -->
 </div>
 <!-- Add this script at the end of your HTML file, just before the closing </body> tag -->
-<script>
-    // Function to populate the "Address 1" fields when the corresponding Edit button is clicked
-    function populateAddress1() {
-        // Fetch the values from the form fields
-        var name = document.getElementById('billing-name').value;
-        var email = document.getElementById('billing-address').value;
-        var phoneno = document.getElementById('billing-phone').value;
-        var city = document.getElementById('billing-city').value;
-        var state = document.getElementById('billing-state').value;
-        var pincode = document.getElementById('zip-code').value;
 
-        // Update the "Address 1" fields with the fetched values
-        document.getElementById('info-address1-name').innerText = name;
-        document.getElementById('info-address1-address').innerText = address;
-        document.getElementById('info-address1-phoneno').innerText = phoneno;
-        document.getElementById('info-address1-citystate').innerText = city + ', ' + state;
-        document.getElementById('info-address1-pincode').innerText = pincode;
-    }
-</script>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -606,7 +558,7 @@
     function razorpay(order) {
         var options = {
             "key": "rzp_test_tnX1UxDN9JUK6D", // Enter the Key ID generated from the Dashboard
-            "amount": order.amount * 100, 
+            "amount": order.amount * 100,
             "currency": "INR",
             "description": "Test Transaction",
             "image": "../public/uploads/1704708148013-Screenshot (42).png",
@@ -621,6 +573,7 @@
         rzp1.open();
     }
     function verify(payment, orderID) {
+        console.log(payment,'uhhihihihihihi')
         $.ajax({
             url: '/users/verifypayment',
             method: 'POST',

@@ -22,7 +22,7 @@ router.get('/changepassword',isAuth,changepassword)
 router.post('/password',isAuth,password)
 router.get('/forgotpassword',forgotpassword)
 router.post('/sendotp',sendotp)
-router.post('/resetpassword',resetpassword)//CART
+router.post('/resetpassword',resetpassword)
 
 router.get('/cart',isAuth,cart)
 router.get('/addcart/:id',isAuth,cartadding)
@@ -39,8 +39,8 @@ router.get('/moredetails/:id',moredetails)
 
 router.get('/products',isAuth,products)
 router.get('/adminAddProduct',isAuth,addproduct)
-router.get('/allproducts1',isAuth,alldata)
-router.get('/allproducts2',isAuth,alldata1)
+router.get('/allproducts1',alldata)
+router.get('/allproducts2',alldata1)
 
 router.get('/success/:id',success)
 

@@ -1,7 +1,8 @@
 var createError = require('http-errors');
+var path = require('path');
+
 require('dotenv').config({path:'./config/.env'})
 var express = require('express');
-var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session=require('express-session')
@@ -46,7 +47,7 @@ app.use('/users', express.static(path.join(__dirname, 'public')));
 // app.use('/partials', express.static(path.join(__dirname, 'public')));
 
 app.use(session({
-  secret: 'value',
+  secret:  process.env.SECRET_KEY,
   resave: false,
   saveUninitialized: true,
   cookie: {maxAge:600000 }
