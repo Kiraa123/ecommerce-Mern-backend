@@ -162,50 +162,50 @@ module.exports = {
         const orders = await order.orders()
         res.render('admin/orders', { orders })
     },
-    placeorder: async (req, res) => {
-        const userid = req.session.user._id
-        const result = await user.getitemscart(userid)
-        const timestamp = Date.now();
-        const randomNum = Math.floor(Math.random() * 1000);
-        orderID = `ORD-${timestamp}-${randomNum}`;
-        if (result) {
-            const orders = {
-                orderID: orderID,
-                orderdate: new Date(),
-                name: req.body.name,
-                address: req.body.address,
-                city: req.body.city,
-                state: req.body.state,
-                pincode: req.body.pincode,
-                phoneno: req.body.phoneno,
-                items: result.items,
-                total: result.totalPrice,
-                totalamount: result.totalPrice + 50,
-                status: "Pending",
-                paymentId: "null",
-            }
-            if (req.body.paymentMethod === "razorpay") {
-                var order = await razorpay.payment(orderID, orders.totalamount);
-            }
-            await user.orders(orders);
-            const newAddress = {
-                userID: userid,
-                addresses: {
-                    name: req.body.name,
-                    address: req.body.address,
-                    city: req.body.city,
-                    state: req.body.state,
-                    pincode: req.body.pincode,
-                    phoneno: req.body.phoneno,
-                }
-            };
-            const existingAddress = await user.existaddress(newAddress)
-            if (!existingAddress) {
-                await user.address(newAddress)
-            }
-            res.json(orders);
-        }
-    },
+    // placeorder: async (req, res) => {
+    //     const userid = req.session.user._id
+    //     const result = await user.getitemscart(userid)
+    //     const timestamp = Date.now();
+    //     const randomNum = Math.floor(Math.random() * 1000);
+    //     orderID = `ORD-${timestamp}-${randomNum}`;
+    //     if (result) {
+    //         const orders = {
+    //             orderID: orderID,
+    //             orderdate: new Date(),
+    //             name: req.body.name,
+    //             address: req.body.address,
+    //             city: req.body.city,
+    //             state: req.body.state,
+    //             pincode: req.body.pincode,
+    //             phoneno: req.body.phoneno,
+    //             items: result.items,
+    //             total: result.totalPrice,
+    //             totalamount: result.totalPrice + 50,
+    //             status: "Pending",
+    //             paymentId: "null",
+    //         }
+    //         if (req.body.paymentMethod === "razorpay") {
+    //             var order = await razorpay.payment(orderID, orders.totalamount);
+    //         }
+    //         await user.orders(orders);
+    //         const newAddress = {
+    //             userID: userid,
+    //             addresses: {
+    //                 name: req.body.name,
+    //                 address: req.body.address,
+    //                 city: req.body.city,
+    //                 state: req.body.state,
+    //                 pincode: req.body.pincode,
+    //                 phoneno: req.body.phoneno,
+    //             }
+    //         };
+    //         const existingAddress = await user.existaddress(newAddress)
+    //         if (!existingAddress) {
+    //             await user.address(newAddress)
+    //         }
+    //         res.json(orders);
+    //     }
+    // },
     deletecart: async (req, res) => {
         const productid = req.params.id
         const userid = req.session.user._id;

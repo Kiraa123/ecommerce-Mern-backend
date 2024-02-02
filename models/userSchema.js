@@ -34,7 +34,8 @@ const userSchema=new mongoose.Schema({
     // },
     status: {
       type: String,
-    }
+    },
+    verification:String
    
 })
 

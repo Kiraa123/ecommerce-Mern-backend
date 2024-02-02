@@ -7,11 +7,13 @@ const otp=require('../config/otp')
 module.exports = {
   
   register: async (req, res) => {
-    // const genaratedotp=await otp.generateOTP()
+    const generatedotp=await otp.generateOTP()
     try {
       const name = req.body.name;
       const email = req.body.email;
       const password = req.body.password;
+      const verification=generatedotp
+
       // const address = req.body.address;
       // const city = req.body.city;
       // const phone = req.body.phone;
@@ -20,19 +22,22 @@ module.exports = {
         name: name,
         email: email,
         password: hashpassword,
+        verification:generatedotp
         // address: address,
         // phone: phone,
         // city: city
       };
       
-      await User.createUser(userObject );
-      // await otp.sendOTPEmail(userObject.email,genaratedotp)
-      // const result=await User.createUser(userObject );
+      // await User.createUser(userObject );
+      await otp.sendOTPEmail(userObject.email,generatedotp)
+      const result=await User.createUser(userObject );
+      const userid=result[0]._id;
 
       req.session.user = req.body;
       req.session.loggedIn = true;
-      // res.render('users/otp',{_id:result[0]._id})
-      res.redirect('/users/login');
+
+      res.render('users/otp',{userid:userid})
+      // res.redirect('/users/login');
     } catch (error) {
       console.log(error);
       res.render("users/login", { invalid: "invalid" });
@@ -56,6 +61,32 @@ module.exports = {
   },
   forgotpassword: async (req, res) => {
     res.render('users/forgotpassword')
+  },
+  validateotp: async (req, res) => {
+
+    const result = await User.findedituserbyid(req.body.id)
+    console.log('huhh',result);
+    if ((req.body.enteredOTP) && (result)) {
+      if (result.verification == req.body.enteredOTP) {
+        await User.verified(req.body.id)
+        res.json({ success: true })
+        await User.gmail(result.email, result.name) //welcome mail
+        res.render('users/login')
+      }
+      else {
+        await User.delete(req.body._id)
+        res.json({ success: false });
+      }
+    }
+    else {
+      await User.delete(req.body._id)
+      res.status(422).json({ error: "Field can't be empty!" })
+    }
+  },
+  timeexeed: async (req, res) => {
+    const proid = req.params.id
+    await User.delete(proid)
+    res.render('users/signup')
   },
   sendotp: async (req, res) => {
     const result = await User.finduseremail(req.body.email)
