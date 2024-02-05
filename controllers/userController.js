@@ -28,7 +28,6 @@ module.exports = {
         // city: city
       };
       
-      // await User.createUser(userObject );
       await otp.sendOTPEmail(userObject.email,generatedotp)
       const result=await User.createUser(userObject );
       const userid=result[0]._id;
@@ -37,7 +36,6 @@ module.exports = {
       req.session.loggedIn = true;
 
       res.render('users/otp',{userid:userid})
-      // res.redirect('/users/login');
     } catch (error) {
       console.log(error);
       res.render("users/login", { invalid: "invalid" });
@@ -65,7 +63,6 @@ module.exports = {
   validateotp: async (req, res) => {
 
     const result = await User.findedituserbyid(req.body.id)
-    console.log('huhh',result);
     if ((req.body.enteredOTP) && (result)) {
       if (result.verification == req.body.enteredOTP) {
         await User.verified(req.body.id)
