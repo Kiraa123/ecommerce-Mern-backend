@@ -111,6 +111,18 @@ module.exports = {
         const data=await user.finduser()
         res.render('admin/allusers',{data})
     },
+    deleteproduct: async (req, res) => {
+      const proid = req.params.id
+      const data = await product.finddata(proid);
+      const imagePath = './public/uploads/' + data.image;
+      fs.unlink(imagePath, (err) => {
+        if (err && err.code !== 'ENOENT') {
+          console.error('Error deleting existing image:', unlinkErr);
+        }
+      });
+      await product.deleteproduct(proid)
+      res.redirect('/admin/products');
+    },
     editproduct: async (req, res) => {
         const productid = req.params.id
         const data = await product.finddata(productid)
@@ -134,6 +146,7 @@ module.exports = {
           price: req.body.price,
           category: req.body.category,
           quantity: req.body.quantity,
+          description:req.body.description,
         }
         await product.editproduct(datas, productid)
         res.redirect('/admin/products')

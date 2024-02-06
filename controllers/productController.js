@@ -16,6 +16,7 @@ module.exports={
             category:req.body.category,
             price:req.body.price,
             quantity:req.body.quantity,
+            description:req.body.description,
             image:Image
         }
         

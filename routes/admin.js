@@ -9,7 +9,7 @@ const back=require('../middleware/back')
 const Product=require('../controllers/productController')
 
 const{orders,confirm,shipped,delivered,cancelled}=require('../controllers/orderController')
-const{admin,createAdmin,dashboard,alluser,deleteuser,edituserpost,blockuser,unblockuser,edituser,editproduct,edit_product,searchuser,adminlogout}=require('../controllers/adminController')
+const{admin,createAdmin,dashboard,alluser,deleteuser,edituserpost,blockuser,unblockuser,edituser,deleteproduct,editproduct,edit_product,searchuser,adminlogout}=require('../controllers/adminController')
 const{addProduct,allproducts,addproductpage}=require('../controllers/productController')
 
 router.post('/loggedin',admin)
@@ -25,6 +25,7 @@ router.get('/unblockuser/:id',isAdmin,isAuth,unblockuser);
 router.get('/edit_product/:id',isAdmin,isAuth,editproduct)
 router.post('/edit_products/:id',isAdmin,isAuth,upload.single('image'),edit_product)
 router.get('/products',isAdmin,isAuth,allproducts)
+router.get('/products/deleteproduct/:id',isAdmin,isAuth,deleteproduct);
 router.get('/alluser1',isAdmin,isAuth,alluser)
 router.get('/searchuser',isAdmin,isAuth,searchuser)
 router.get('/logout',back,adminlogout)
