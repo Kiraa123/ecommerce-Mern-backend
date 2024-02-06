@@ -9,11 +9,13 @@ const noCache=require('../middleware/noCache')
 const Product=require('../controllers/productController')
 
 const{orders,confirm,shipped,delivered,cancelled}=require('../controllers/orderController')
-const{admin,createAdmin,dashboard,alluser,deleteuser,edituserpost,blockuser,unblockuser,edituser,deleteproduct,editproduct,edit_product,searchuser,adminlogout}=require('../controllers/adminController')
+const{admin,createAdmin,dashboard,alluser,deleteuser,edituserpost,addproduct,blockuser,unblockuser,edituser,deleteproduct,editproduct,edit_product,searchuser,adminlogout}=require('../controllers/adminController')
 const{addProduct,allproducts,addproductpage}=require('../controllers/productController')
 
 router.post('/loggedin',admin)
-router.post('/getProduct',upload.single('image'),addProduct);
+router.post('/addproduct',upload.single('image'),addProduct);
+router.get('/adminAddProduct',isAuth,addproduct)
+
 router.get('/dashboard',isAdmin,isAuth,dashboard)
 //PRODUCTS
 router.get('/deleteuser/:id',isAdmin,isAuth,deleteuser);
@@ -37,12 +39,6 @@ router.get('/confirm/:id',isAdmin,isAuth,confirm);
 router.get('/shipped/:id',isAdmin,isAuth,shipped);
 router.get('/delivered/:id',isAdmin,isAuth,delivered);
 router.get('/cancelled/:id',isAdmin,isAuth,cancelled);
-
-
-
-
-
-
 
 
 

@@ -27,8 +27,17 @@ module.exports = {
                 status: "Pending",
                 paymentId: "null",
             }
-            if (req.body.paymentMethod === "razorpay") {
+            if (req.body.paymentMethod === "cod") {
+                orders.status="Placed"
+                await user.orders(orders);
+                await user.deletecartoredered(userid)
+                res.json({ success: true });
+
+            }
+                else if (req.body.paymentMethod === "razorpay") {
                 var order = await razorpay.payment(orderID, orders.totalamount);
+                res.json(order);
+
             }
             await user.orders(orders);
             const newAddress = {
@@ -46,7 +55,7 @@ module.exports = {
             if (!existingAddress) {
                 await user.address(newAddress)
             }
-            res.json(order);
+            // res.json(order);
         }
     },
     paymentverify: async (req, res) => {

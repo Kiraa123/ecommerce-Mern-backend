@@ -42,10 +42,7 @@ module.exports = {
     }
 
   },
-  addproduct: (req, res) => {
-    res.render('admin/addproduct')
-
-  },
+ 
   edituser: async (req, res) => {
     const existuser = req.session.user
     const data = await User.findexistuser(existuser.name)

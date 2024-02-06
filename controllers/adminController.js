@@ -59,6 +59,10 @@ module.exports = {
         req.session.destroy();
         res.redirect('/');
     },
+    addproduct: (req, res) => {
+      res.render('admin/addproduct')
+  
+    },
     edituser: async (req, res) => {
         const productid = req.params.id
         const data = await user.findedituserbyid(productid)

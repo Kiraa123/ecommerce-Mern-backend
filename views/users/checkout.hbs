@@ -420,7 +420,7 @@
                                         <div class="col-lg-3 col-sm-6">
                                             <div>
                                                 <label class="card-radio-label">
-                                                    <input type="radio" name="paymentMethod" value="cashOnDelivery"
+                                                    <input type="radio" name="paymentMethod" value="cod"
                                                         id="pay-methodoption3" class="card-radio-input">
 
                                                     <span class="card-radio py-3 text-center text-truncate">
@@ -553,6 +553,24 @@
                     console.error("AJAX Error:", status, error);
                 }
             });
+        } else
+        if (paymentMethod === 'cod') {
+            $.ajax({
+                url: '/users/placeorder',
+                method: 'POST',
+                data: $("#formorder").serialize(),
+                success: (res) => {
+                   if (res && res.success) {
+                location.href = "/users/success";
+            } else {
+                // Handle the case where the response does not indicate success
+                console.error("Payment not successful.");
+            }
+        },
+                error: (xhr, status, error) => {
+                    console.error("AJAX Error:", status, error);
+                }
+            });
         }
     });
     function razorpay(order) {
@@ -583,7 +601,7 @@
             },
             success: (response) => {
                 if (response == "success") {
-                    location.href = "/users/success/" + orderID;
+                    location.href = "/users/success/"  //+ orderID;
                 }
                 else {
                     location.href = "/users/fail";
