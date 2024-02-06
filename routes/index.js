@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
-const{limdata}=require('../controllers/userController')
+const{limitdata}=require('../controllers/userController')
 
 /* GET home page. */
 
-router.get('/',limdata)
+router.get('/',limitdata)
 module.exports = router;

@@ -119,7 +119,7 @@ module.exports = {
     res.render('users/allproducts', { data, isUser })
   },
 
-  limdata: async (req, res) => {
+  limitdata: async (req, res) => {
     const data = await product.allproducts1()
     // return data
     const isUser = req.session.loggedIn

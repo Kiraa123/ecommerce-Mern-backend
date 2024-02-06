@@ -4,7 +4,7 @@ const user = require('../controllers/userController')
 var upload=require('../middleware/multer')
 const isAuth=require('../middleware/isAuth')
 const isAdmin=require('../middleware/isAdmin')
-const back=require('../middleware/back')
+const noCache=require('../middleware/noCache')
 
 const Product=require('../controllers/productController')
 
@@ -28,7 +28,7 @@ router.get('/products',isAdmin,isAuth,allproducts)
 router.get('/products/deleteproduct/:id',isAdmin,isAuth,deleteproduct);
 router.get('/alluser1',isAdmin,isAuth,alluser)
 router.get('/searchuser',isAdmin,isAuth,searchuser)
-router.get('/logout',back,adminlogout)
+router.get('/logout',noCache,adminlogout)
 
 //ORDERS
 

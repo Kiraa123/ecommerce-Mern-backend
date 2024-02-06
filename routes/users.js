@@ -1,8 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var isAuth=require('../middleware/isAuth')
-var back=require('../middleware/back')
-var mut=require('../middleware/multer')
+var noCache=require('../middleware/noCache')
 const{login,signup,products,logout,password,changepassword,verify,addproduct,validateotp,timeexeed,register,alldata,alldata1,orders,moredetails,edituser,edituserpost,forgotpassword,sendotp,resetpassword}=require('../controllers/userController')
 const{cart,deletecart,cartadding,checkout,qtyadd,qtyminus}=require('../controllers/orderController')
 const{placeorder,paymentverify,success}=require('../controllers/paymentController')
@@ -11,8 +10,8 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 //get login page
-router.get('/login',back,login)
-router.get('/logout',back,logout)
+router.get('/login',noCache,login)
+router.get('/logout',noCache,logout)
 router.post('/login',register)
 router.post('/loggedin',verify)
 router.get('/signup',signup)
