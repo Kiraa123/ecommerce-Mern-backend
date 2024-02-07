@@ -33,8 +33,9 @@ module.exports={
         await cart.create(user,data)
 
     },
-    search:async()=>{
-        const data=await product.find({name:{$regex:`^${word}`,$optionss:'i'}})
+    search:async(search)=>{
+        const data=await product.find({productname:{$regex:`^${search}`,$options:'i'}}).lean();
+        return data;
     },
     category:async(data)=>{
         const category=await product.find({category:data})

@@ -139,7 +139,10 @@ module.exports = {
 
     if (req.body.password == req.body.confirmpassword) {
       
-      const pswd=await req.body.password;
+      // const pswd=await req.body.password;
+      const pswd=await bcrypt.hash(req.body.password,10);
+
+
       await User.updatepassword(username,pswd)
       res.render('users/changepassword', { message: "Password updated successfully" })
     } else {

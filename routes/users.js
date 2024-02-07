@@ -5,6 +5,7 @@ var noCache=require('../middleware/noCache')
 const{login,signup,products,logout,password,changepassword,verify,validateotp,timeexeed,register,alldata,alldata1,orders,moredetails,edituser,edituserpost,forgotpassword,sendotp,resetpassword}=require('../controllers/userController')
 const{cart,deletecart,cartadding,checkout,qtyadd,qtyminus}=require('../controllers/orderController')
 const{placeorder,paymentverify,success}=require('../controllers/paymentController')
+const {searchProduct}=require('../controllers/productController')
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
@@ -39,6 +40,7 @@ router.get('/moredetails/:id',moredetails)
 
 
 router.get('/products',isAuth,products)
+router.post('/search',searchProduct)
 router.get('/allproducts1',alldata)
 router.get('/allproducts2',alldata1)
 

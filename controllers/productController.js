@@ -38,5 +38,31 @@ module.exports={
         const data=await product.finddata(id)
         res.render('admin/editproduct',{data})
     },
+    searchProduct :async function (req, res) {
+        try {
+          const data = req.body.search;
+          const products = await product.search(data)
+
+          if(products.length>=1){
+            if (req.session.user) {
+              let isUser = true;
+              res.render("users/allproducts", { data: products, isUser });
+            } else {
+              res.render("users/allproducts", { data: products });
+            }
+          }else{
+            const noProduct = true
+            if(req.session.user){
+              let isUser = true
+              res.render("users/allproducts", { isUser, noProduct });
+      
+            }else{
+              res.render("users/allproducts", { noProduct });
+            }
+          }
+        } catch (error) {
+        //   logger.error({ message: "error searching product" });
+        }
+      }
        
 }
