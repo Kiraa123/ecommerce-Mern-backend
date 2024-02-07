@@ -17,6 +17,10 @@ module.exports = {
             if (address1 != '') {
                 var address = address1[0].addresses
             }
+            console.log(address);
+            console.log(address1);
+
+
             total = data.totalPrice + 50
             res.render('users/checkout', { data, total, count, address})
         } else {

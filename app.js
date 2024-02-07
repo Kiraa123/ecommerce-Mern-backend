@@ -8,6 +8,7 @@ var session=require('express-session')
 var connect=require('./config/mongoConnect')
 var exphbs=require('express-handlebars');
 const routerMiddleware = require('./middleware/routes');
+const {error, errorHandling} = require("./middleware/error");
 // const MongodbStore=require('connect-mongodb-session')(session)
 var app = express();
 
@@ -44,23 +45,27 @@ app.use(session({
 }))
 
 app.use (routerMiddleware());
+app.use(error)
+app.use(errorHandling)
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+// app.use(function(req, res, next) {
+//   next(createError(404));
+// });
+
+// // error handler
+// app.use(function(err, req, res, next) {
+//   // set locals, only providing error in development
+//   res.locals.message = err.message;
+//   res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+//   // render the error page
+//   res.status(err.status || 500);
+//   res.render('error');
+// });
 process.on('unhandledRejection', (reason, promise) => {
   console.error('Unhandled Rejection at:', promise, 'reason:', reason);
   // Handle the error or log it as needed
 });
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
 
 module.exports = app;
