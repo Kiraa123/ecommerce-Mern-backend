@@ -74,11 +74,11 @@ module.exports = {
                 if (productexist) {
                     await user.updatecart(userId, cartItem)
                       res.json(count + 1);
-                      res.redirect('/users/cart')
+                    //   res.redirect('/users/cart')
                 }
                 else {
                     await user.pushitems(userId, cartItem)
-                    res.redirect('/users/cart')
+                    // res.redirect('/users/cart')
 
 
                       res.json(count + 1);
@@ -87,14 +87,14 @@ module.exports = {
             }
             else {
                 await user.insertcart(userId, productid, cartItem)
-                res.redirect('/users/cart')
+                // res.redirect('/users/cart')
 
 
-                // res.json(count + 1);
+                res.json(count + 1);
             }
         } else {
-            // var count = false
-            // res.json(count);
+            var count = false
+            res.json(count);
             return 1
         }
     },
