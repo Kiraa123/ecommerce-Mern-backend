@@ -61,7 +61,6 @@ module.exports={
             }
           }
         } catch (error) {
-        //   logger.error({ message: "error searching product" });
         }
       }
        

@@ -23,46 +23,90 @@ module.exports = {
             ,{new:true} )
 
     },
-    confirm: async (data) => {
-        await order.findOneAndUpdate(
-            { _id: data },
-            {
-                $set:
-                {
-                    status: 'Confirm'
-                }
-            },{new:true})
+    // confirm: async (data) => {
+    //     const order = await order.findById(data);
+    //     if (order.status !== 'Cancelled' && order.status !== 'Delivered') {
+    //         await order.findOneAndUpdate(
+    //             { _id: data },
+    //             { $set: { status: 'Confirm' } },
+    //             { new: true }
+    //         );
+    //     }
+    // },
+    // shipped: async (data) => {
+    //     await order.findOneAndUpdate(
+    //         { _id: data },
+    //         {
+    //             $set:
+    //             {
+    //                 status: 'Shipped'
+    //             }
+    //         },{new:true})
+    // },
+    // delivered: async (data) => {
+    //     await order.findOneAndUpdate(
+    //         { _id: data },
+    //         {
+    //             $set:
+    //             {
+    //                 status: 'Delivered'
+    //             }
+    //         },{new:true})
+    // },
+    // cancelled: async (data) => {
+    //     await order.findOneAndUpdate(
+    //         { _id: data },
+    //         {
+    //             $set:
+    //             {
+    //                 status: 'Cancelled'
+    //             }
+    //         },{new:true})
+    // },
+
+    updateStatus: async (data, newStatus) => {
+        const allowedTransitions = {
+            Placed: ['Confirm', 'Cancelled','Shipped','Delivered'],
+            Confirm: ['Shipped', 'Cancelled','Delivered'],
+            Shipped: ['Delivered', 'Cancelled'],
+            Delivered: ['Cancelled'],
+            Cancelled: [],
+        };
+    
+        const currentOrder = await order.findById(data);
+    
+        if (!currentOrder) {
+            console.error(`Order with id ${data} not found`);
+            return;
+        }
+    
+        const validTransitions = allowedTransitions[currentOrder.status];
+        console.log(validTransitions,'kaana');
+    
+        if (!validTransitions || !validTransitions.includes(newStatus)) {
+            console.error(`Invalid status transition from ${currentOrder.status} to ${newStatus}`);
+            return;
+        }
+    
+        // Additional check to prevent transitioning from Placed to Shipped directly
+        if (currentOrder.status === 'Placed' && newStatus === 'Shipped') {
+            console.error(`Invalid status transition from ${currentOrder.status} to Shipped`);
+            return;
+        }
+    
+        // Perform the status update
+        await order.findByIdAndUpdate(
+            data,
+            { $set: { status: newStatus } },
+            { new: true }
+        );
+    
+        // Log after status update for debugging
+        console.log(`After status update: ${newStatus}`);
     },
-    shipped: async (data) => {
-        await order.findOneAndUpdate(
-            { _id: data },
-            {
-                $set:
-                {
-                    status: 'Shipped'
-                }
-            },{new:true})
-    },
-    delivered: async (data) => {
-        await order.findOneAndUpdate(
-            { _id: data },
-            {
-                $set:
-                {
-                    status: 'Delivered'
-                }
-            },{new:true})
-    },
-    cancelled: async (data) => {
-        await order.findOneAndUpdate(
-            { _id: data },
-            {
-                $set:
-                {
-                    status: 'Cancelled'
-                }
-            },{new:true})
-    },
+    
+    
+    
     totalorderedcount:async()=>{
         const result=await order.aggregate([{
             $match:{

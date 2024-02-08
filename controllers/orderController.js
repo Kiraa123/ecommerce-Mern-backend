@@ -173,26 +173,46 @@ module.exports = {
         await user.deletecart(userid, productid);
         res.redirect('/users/cart')
     },
+    // confirm: async (req, res) => {
+    //     const id = req.params.id
+    //     const result = await order.confirm(id)
+    //     res.redirect('/admin/order')
+    // },
+    // shipped: async (req, res) => {
+    //     const id = req.params.id
+    //     const result = await order.shipped(id)
+    //     res.redirect('/admin/order')
+    // },
+    // cancelled: async (req, res) => {
+    //     const id = req.params.id
+    //     const result = await order.cancelled(id)
+    //     res.redirect('/admin/order')
+    // },
+    // delivered: async (req, res) => {
+    //     const id = req.params.id
+    //     const result = await order.delivered(id);
+    //     res.redirect('/admin/order')
+    // }
     confirm: async (req, res) => {
-        const id = req.params.id
-        const result = await order.confirm(id)
-        res.redirect('/admin/order')
+        const id = req.params.id;
+        await order.updateStatus(id, 'Confirm');
+        res.redirect('/admin/order');
     },
     shipped: async (req, res) => {
-        const id = req.params.id
-        const result = await order.shipped(id)
-        res.redirect('/admin/order')
+        const id = req.params.id;
+        await order.updateStatus(id, 'Shipped');
+        res.redirect('/admin/order');
     },
     cancelled: async (req, res) => {
-        const id = req.params.id
-        const result = await order.cancelled(id)
-        res.redirect('/admin/order')
+        const id = req.params.id;
+        await order.updateStatus(id, 'Cancelled');
+        res.redirect('/admin/order');
     },
     delivered: async (req, res) => {
-        const id = req.params.id
-        const result = await order.delivered(id);
-        res.redirect('/admin/order')
-    }
+        const id = req.params.id;
+        await order.updateStatus(id, 'Delivered');
+        res.redirect('/admin/order');
+    },
 
 
 
