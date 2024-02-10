@@ -1,6 +1,6 @@
 <div class="hero_area">
     <!-- header section strats -->
-    
+
     <!-- end header section -->
     <!-- slider section -->
     {{> userheader}}
@@ -414,6 +414,10 @@
                             <a href="/users/moredetails/{{this._id}}" class="option2">
                                 View Details
                             </a>
+                            <a href="/users/addwishlist/{{this._id}}" class="option">
+                                
+                                <i class="fas fa-heart" id="wishlist-icon"></i>
+                            </a>
                         </div>
                     </div>
                     <div class="img-box">
@@ -434,19 +438,19 @@
 
         </div>
         <br>
-       <nav aria-label="Page navigation example">
-  <ul class="pagination justify-content-center">
-    <li class="page-item disabled">
-      {{!-- <a class="page-link" href="#" tabindex="-1">Previous</a> --}}
-    </li>
-    <li class="page-item"><a class="page-link" href="/users/allproducts1">1</a></li>
-    <li class="page-item"><a class="page-link" href="/users/allproducts2">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item">
-      {{!-- <a class="page-link" href="#">Next</a> --}}
-    </li>
-  </ul>
-</nav>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    {{!-- <a class="page-link" href="#" tabindex="-1">Previous</a> --}}
+                </li>
+                <li class="page-item"><a class="page-link" href="/users/allproducts1">1</a></li>
+                <li class="page-item"><a class="page-link" href="/users/allproducts2">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    {{!-- <a class="page-link" href="#">Next</a> --}}
+                </li>
+            </ul>
+        </nav>
     </div>
 </section>
 <!-- end product section -->
@@ -558,44 +562,97 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-   $(document).ready(function () {
-      $('.box .option1').click(function (e) {
-         e.preventDefault();
-         var productId = $(this).attr('href').split('/').pop();
-         var productCount = $(this).closest('.box').find('.badge').text();
-         $.ajax({
-            type: 'GET',
-            url: '/users/addcart/' + productId,
-            success: function (response) {
-               console.log(response)
-               if(response === false){
-                  Swal.fire({
-                     icon: 'warning',
-                     title: 'Out of Stock!',
-                     text: 'Item will be added back.',
-                     width: '300px',
-                  });
-               }
-               else{
-                  if (typeof response === 'number') {
-                     console.log(response)
-                     var newCount = response;
-                     
-                     $('.fa-shopping-cart + .badge').text(newCount);
-                     Swal.fire({
-                        icon: 'success',
-                        title: 'Success!',
-                        text: 'Item successfully added to the cart.',
-                        width: '300px',
-                     });
-                  }
-                  else {
-                     location.href = "/users/login";
-                  }
-               }
-            }
-         });
-      });
-   });
+    $(document).ready(function () {
+        $('.box .option1').click(function (e) {
+            e.preventDefault();
+            var productId = $(this).attr('href').split('/').pop();
+            var productCount = $(this).closest('.box').find('.badge').text();
+            $.ajax({
+                type: 'GET',
+                url: '/users/addcart/' + productId,
+                success: function (response) {
+                    console.log(response)
+                    if (response === false) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Out of Stock!',
+                            text: 'Item will be added back.',
+                            width: '300px',
+                        });
+                    }
+                    else {
+                        if (typeof response === 'number') {
+                            console.log(response)
+                            var newCount = response;
+
+                            $('.fa-shopping-cart + .badge').text(newCount);
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: 'Item successfully added to the cart.',
+                                width: '300px',
+                            });
+                        }
+                        else {
+                            location.href = "/users/login";
+                        }
+                    }
+                }
+            });
+        });
+    });
 </script>
+<script>
+    $(document).ready(function () {
+        $('.box .option').click(function (e) {
+            e.preventDefault();
+            var clickedElement = $(this);
+            var productId = clickedElement.attr('href').split('/').pop();
+            var isAdded = clickedElement.data('added') || false; // Retrieve the current state, default to false
+
+            $.ajax({
+                type: 'GET',
+                url: '/users/addwishlist/' + productId,
+                success: function (response) {
+                    if (response) {
+                        if (isAdded) {
+                            Swal.fire({
+                                icon: 'info',
+                                title: 'Removed from Wishlist!',
+                                text: 'Item removed from your wishlist.',
+                                width: '300px',
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Added to Wishlist!',
+                                text: 'Item successfully added to your wishlist.',
+                                width: '300px',
+                            });
+                        }
+
+                        // Toggle the added state for the next click
+                        clickedElement.data('added', !isAdded);
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Unable to add/remove item to/from wishlist.',
+                            width: '300px',
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'Unable to add/remove item to/from wishlist.',
+                        width: '300px',
+                    });
+                }
+            });
+        });
+    });
+</script>
+
 

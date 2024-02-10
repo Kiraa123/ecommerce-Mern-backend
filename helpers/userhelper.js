@@ -6,21 +6,22 @@ const Product = require("../models/productSchema");
 const order = require("../models/orderSchema");
 const address = require("../models/addressSchema");
 const nodemailer = require("nodemailer");
+const wishlist = require("../models/wishlist");
 
 module.exports = {
-   createUser: async (data)=>{
-      const newUser = await user.insertMany({
-          name: data.name,
-          email: data.email,
-          password: data.password,
-          verification:data.verification
-          // address: data.address,
-          // phone: data.phone,
-          // city: data.city
-      })
-      return newUser;
+  createUser: async (data) => {
+    const newUser = await user.insertMany({
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      verification: data.verification,
+      // address: data.address,
+      // phone: data.phone,
+      // city: data.city
+    });
+    return newUser;
   },
-  
+
   finduseremail: async (data) => {
     var result = await user.findOne({ email: data });
     return result;
@@ -76,10 +77,7 @@ module.exports = {
     return result;
   },
   ordersfind: async (data) => {
-    const result = await order
-      .find({ username: data })
-      .populate("items.product")
-      .lean();
+    const result = await order.find({ username: data }).populate("items.product").lean();
     return result;
   },
   finduserid: async (data) => {
@@ -121,6 +119,47 @@ module.exports = {
   productexist: async (data, userid) => {
     const result = await cart.findOne({ user: userid, "items.product": data });
     return result;
+  },
+  getwishlist: async (data) => {
+    const wishlists = await wishlist.findOne({ user: data }).populate("items.product").lean();
+    return wishlists;
+  },
+  wishlistAdd: async (userid, proid) => {
+    const existwishlist = await wishlist.findOne({ user: userid });
+    let result;
+    if (existwishlist) {
+      const productexist = await wishlist.findOne({ user: userid , "items.product": proid} );
+      if (productexist) {
+        result = await wishlist.findOneAndUpdate(
+          { user: userid },
+          { $pull: { items: { product: proid } } },
+          { new: true }
+        );
+      } else {
+        result = await wishlist.findOneAndUpdate(
+          { user: userid },
+          { $push: { items: { product:proid } } },
+          { new: true }
+        );
+      }
+    } else {
+      result = await wishlist.insertMany({
+        user: userid,
+        items: [{ product: proid }],
+      });
+
+    }
+    return result;
+
+  },
+  wishlistdelete: async (userid, proid) => {
+    const deletewishlist = await wishlist.updateOne(
+      { _id: userid },
+      { $pull: { wishlist: { product: proid } } },
+      { new: true }
+    );
+    const user = await wishlist.findOne({ _id: userid });
+    return deletewishlist;
   },
   blockuser: async (data) => {
     await user.updateOne({ _id: data }, { $set: { status: "block" } });
@@ -264,7 +303,8 @@ module.exports = {
     return existingAddress;
   },
   addresstake: async (id) => {
-    const result = await address.find({ userid: id }).lean();
+    const result = await address.find({userid:id }).lean();
+    console.log(result,'asd');
     return result;
   },
 };

@@ -75,6 +75,10 @@
                             <a href="/users/moredetails/{{this._id}}" class="option2">
                                 View Details
                             </a>
+                            <a href="/users/addwishlist/{{this._id}}" class="option">
+                                
+                                <i class="fas fa-heart" id="wishlist-icon"></i>
+                            </a>
                         </div>
                     </div>
                     <div class="img-box">
@@ -160,4 +164,57 @@
          });
       });
    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('.box .option').click(function (e) {
+            e.preventDefault();
+            var clickedElement = $(this);
+            var productId = clickedElement.attr('href').split('/').pop();
+            var isAdded = clickedElement.data('added') || false; // Retrieve the current state, default to false
+
+            $.ajax({
+                type: 'GET',
+                url: '/users/addwishlist/' + productId,
+                success: function (response) {
+                    if (response) {
+                        if (isAdded) {
+                            Swal.fire({
+                                icon: 'info',
+                                title: 'Removed from Wishlist!',
+                                text: 'Item removed from your wishlist.',
+                                width: '300px',
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Added to Wishlist!',
+                                text: 'Item successfully added to your wishlist.',
+                                width: '300px',
+                            });
+                        }
+
+                        // Toggle the added state for the next click
+                        clickedElement.data('added', !isAdded);
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Unable to add/remove item to/from wishlist.',
+                            width: '300px',
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'Unable to add/remove item to/from wishlist.',
+                        width: '300px',
+                    });
+                }
+            });
+        });
+    });
 </script>

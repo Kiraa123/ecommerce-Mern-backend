@@ -76,7 +76,7 @@
                     $.ajax({
                         url: '/users/validateotp', // Replace with your server-side endpoint
                         method: 'POST',
-                        data: { enteredOTP, id },
+                        data: { enteredOTP,id},
                         success: function (response) {
                             if (response.success) {
                                 showMessage("success", "OTP is valid!");
@@ -89,7 +89,7 @@
                                     timer: 15000,
                                 });
                                 clearInterval(countdownTimer);
-                                timerContainer.textContent = '';
+                               timerContainer.textContent = '';
                                 location.href = "/users/login"
                             } else {
                                 Swal.fire({
@@ -97,6 +97,8 @@
                                     title: 'Invalied OTP!',
                                     text: 'Pls Enter Correct OTP, Pls try again',
                                     width: '300px',
+                                    timer: 15000,
+
                                 });
                                 location.href = "/users/signup"
                             }

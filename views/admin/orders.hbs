@@ -33,6 +33,102 @@
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
+              
+                <div class="dropdown float-right pl-2">
+                  <button
+                    class="btn btn-outline-secondary dropdown-toggle"
+                    type="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    Status<i class="ti ti-adjustments"></i>
+                  </button>
+                  <div
+                    class="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton"
+                  >
+                    <a class="dropdown-item " href="/admin/filterStatus/Pending">
+                      Pending</a>
+                    <a
+                      class="dropdown-item "
+                      href="/admin/filterStatus/Shipped"
+                    > Shipped </a>
+                    <a
+                      class="dropdown-item " 
+                      href="/admin/filterStatus/Delivered"
+                    > Delivered</a>
+                    <a
+                      class="dropdown-item"
+                      href="/admin/filterStatus/Cancelled"
+                    > Cancelled</a>
+                    <a
+                      class="dropdown-item"
+                      href="/admin/order"
+                    > All</a>
+                  </div>
+                </div>
+                <div class="dropdown float-right pl-2">
+                  <button
+                    class="btn btn-outline-secondary dropdown-toggle"
+                    type="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    Payment<i class="ti ti-adjustments"></i>
+                  </button>
+                  <div
+                    class="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton"
+                  >
+                    <a class="dropdown-item" href="/admin/filter/null">
+                      COD</a>
+                    <a
+                      class="dropdown-item"
+                      href="/admin/filter/razorpay"
+                    > Online</a>
+                    <a
+                      class="dropdown-item"
+                      href="/admin/order"
+                    > All</a>
+                  </div>
+                </div>
+                <div class="dropdown float-right pl-2">
+                  <span>Filters:   </span>
+
+                  <button
+                    class="btn btn-outline-secondary dropdown-toggle"
+                    type="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    Price<i class="ti ti-adjustments"></i>
+                  </button>
+                  <div
+                    class="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton"
+                  >
+                    {{!-- href="/admin/filter/?l=0&h=20000"> --}}
+                    <a class="dropdown-item"
+                    id="price"
+                     href="/admin/filter/?l=0&h=20000"
+                      >Less than ₹20000</a>
+                    <a
+                      class="dropdown-item price"
+                      href="/admin/filter/?l=20000&h=30000"
+                    > ₹20000 </a>
+                    <a
+                      class="dropdown-item price"
+                      href="/admin/filter/?l=30000&h=100000"
+                    > More than ₹30000</a>
+                    <a
+                      class="dropdown-item price"
+                      href="/admin/order"
+                    >All</a>
+                  </div>
+                </div>
 
 
             <table class="table">
@@ -46,6 +142,8 @@
                         <th>Phone No</th>
                         <th>Total</th>
                         <th>Actions</th>
+                        <th>Status</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -64,6 +162,8 @@
                         <td>{{pincode}}</td>
                         <td>{{phoneno}}</td>
                         <td>{{total}}</td>
+                        <td>{{status}}</td>
+
 
                         <td>
                             <div class="dropdown">

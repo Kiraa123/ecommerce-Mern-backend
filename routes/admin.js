@@ -9,7 +9,7 @@ const noCache=require('../middleware/noCache')
 const Product=require('../controllers/productController')
 
 const{orders,confirm,shipped,delivered,cancelled}=require('../controllers/orderController')
-const{admin,createAdmin,dashboard,alluser,deleteuser,edituserpost,addproduct,blockuser,unblockuser,edituser,deleteproduct,editproduct,edit_product,searchuser,adminlogout}=require('../controllers/adminController')
+const{admin,createAdmin,dashboard,alluser,deleteuser,edituserpost,addproduct,filterOrder,filterType,filterStatus,blockuser,unblockuser,edituser,deleteproduct,editproduct,edit_product,searchuser,adminlogout}=require('../controllers/adminController')
 const{addProduct,allproducts,addproductpage}=require('../controllers/productController')
 
 router.post('/loggedin',admin)
@@ -33,7 +33,9 @@ router.get('/searchuser',isAdmin,isAuth,searchuser)
 router.get('/logout',noCache,adminlogout)
 
 //ORDERS
-
+router.get("/filter", isAdmin, filterOrder);
+router.get("/filter/:paymentMethod", isAdmin, filterType);
+router.get("/filterStatus/:status",isAdmin, filterStatus)
 router.get('/order',isAdmin,isAuth,orders);
 router.get('/confirm/:id',isAdmin,isAuth,confirm);
 router.get('/shipped/:id',isAdmin,isAuth,shipped);

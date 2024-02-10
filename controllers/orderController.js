@@ -17,8 +17,8 @@ module.exports = {
             if (address1 != '') {
                 var address = address1[0].addresses
             }
-            console.log(address);
-            console.log(address1);
+            console.log(address,'aaa');
+            console.log(address1,'bbb');
 
 
             total = data.totalPrice + 50
@@ -74,22 +74,14 @@ module.exports = {
                 if (productexist) {
                     await user.updatecart(userId, cartItem)
                       res.json(count + 1);
-                    //   res.redirect('/users/cart')
                 }
                 else {
                     await user.pushitems(userId, cartItem)
-                    // res.redirect('/users/cart')
-
-
                       res.json(count + 1);
-
                 }
             }
             else {
                 await user.insertcart(userId, productid, cartItem)
-                // res.redirect('/users/cart')
-
-
                 res.json(count + 1);
             }
         } else {

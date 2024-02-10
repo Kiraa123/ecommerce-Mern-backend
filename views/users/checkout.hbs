@@ -230,29 +230,10 @@
 
 
 <div class="container">
-    
+
 
     <div class="row">
-         {{#if address}}
-                    <div class="form-group">
-                        <div class="input-group">
-                            <select class="form-control" id="address" name="address">
-                                <option value="address">Select Address</option>
-                                {{#each address }}
-                                <option value="{{this._id}}" data-name="{{this.name}}" data-address="{{this.address}}"
-                                    data-city="{{this.city}}" data-state="{{this.state}}"
-                                    data-pincode="{{this.pincode}}" data-phoneno="{{this.phoneno}}">
-                                    {{this.name}} :<br>
-                                    {{this.address}}, {{this.city}},{{this.pincode}}<br>
-                                </option>
-                                {{/each}}
-                            </select>
-                            <div class="input-group-append">
-                                <button class=" btn-outline" type="button">&#9660;</button>
-                            </div>
-                        </div>
-                    </div>
-                    {{/if}}
+
         <div class="col-xl-8">
 
             <div class="card">
@@ -356,7 +337,29 @@
                                 </div>
                             </div>
                         </li>
-                       
+                        {{#if address}}
+                        <div class="form-group">
+                            <div class="input-group">
+                                <select class="form-control" id="address" name="address">
+                                    <option value="address">Select Address</option>
+                                    {{#each address }}
+                                    <option value="{{this._id}}" data-name="{{this.name}}"
+                                        data-address="{{this.address}}" data-city="{{this.city}}"
+                                        data-state="{{this.state}}" data-pincode="{{this.pincode}}"
+                                        data-phoneno="{{this.phoneno}}">
+                                        {{this.name}} :<br>
+                                        {{this.address}}, {{this.city}},{{this.pincode}}<br>
+                                    </option>
+                                    {{/each}}
+                                </select>
+                                <div class="input-group-append">
+                                    <button class=" btn-outline" type="button">&#9660;</button>
+                                </div>
+                            </div>
+                        </div>
+                        {{/if}}
+
+
                         <li class="checkout-item">
                             <div class="avatar checkout-icon p-1">
                                 <div class="avatar-title rounded-circle bg-primary">
@@ -372,17 +375,17 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div data-bs-toggle="collapse">
                                                     <label class="card-radio-label mb-0">
-                                                                          
 
-                                                      
+
+
 
                                                     </label>
-                                                    
+
 
                                                 </div>
                                             </div>
 
-                                          
+
                                         </div>
                                     </div>
                                 </div>
@@ -537,6 +540,19 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
+    $(document).ready(function () {
+        $('#address').on('change', function () {
+            var selectedOption = $(this).find(':selected');
+            $('#name').val(selectedOption.data('name'));
+            $('#address1').val(selectedOption.data('address'));
+            $('#city').val(selectedOption.data('city'));
+            $('#state').val(selectedOption.data('state'));
+            $('#pincode').val(selectedOption.data('pincode'));
+            $('#contact').val(selectedOption.data('phoneno'));
+        });
+    });
+</script>
+<script>
     $("#formorder").submit((e) => {
         e.preventDefault();
         var paymentMethod = $('input[name="paymentMethod"]:checked').val();
@@ -554,24 +570,24 @@
                 }
             });
         } else
-        if (paymentMethod === 'cod') {
-            $.ajax({
-                url: '/users/placeorder',
-                method: 'POST',
-                data: $("#formorder").serialize(),
-                success: (res) => {
-                   if (res && res.success) {
-                location.href = "/users/success";
-            } else {
-                // Handle the case where the response does not indicate success
-                console.error("Payment not successful.");
+            if (paymentMethod === 'cod') {
+                $.ajax({
+                    url: '/users/placeorder',
+                    method: 'POST',
+                    data: $("#formorder").serialize(),
+                    success: (res) => {
+                        if (res && res.success) {
+                            location.href = "/users/success";
+                        } else {
+                            // Handle the case where the response does not indicate success
+                            console.error("Payment not successful.");
+                        }
+                    },
+                    error: (xhr, status, error) => {
+                        console.error("AJAX Error:", status, error);
+                    }
+                });
             }
-        },
-                error: (xhr, status, error) => {
-                    console.error("AJAX Error:", status, error);
-                }
-            });
-        }
     });
     function razorpay(order) {
         var options = {
@@ -591,7 +607,7 @@
         rzp1.open();
     }
     function verify(payment, orderID) {
-        console.log(payment,'uhhihihihihihi')
+        console.log(payment, 'uhhihihihihihi')
         $.ajax({
             url: '/users/verifypayment',
             method: 'POST',

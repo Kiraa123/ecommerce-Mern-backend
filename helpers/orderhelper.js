@@ -69,7 +69,7 @@ module.exports = {
             Placed: ['Confirm', 'Cancelled','Shipped','Delivered'],
             Confirm: ['Shipped', 'Cancelled','Delivered'],
             Shipped: ['Delivered', 'Cancelled'],
-            Delivered: ['Cancelled'],
+            Delivered: [],
             Cancelled: [],
         };
     
@@ -141,21 +141,27 @@ module.exports = {
         for (const orderItem of orderItems) {
             const productId = orderItem.product._id;
             const orderedQuantity = orderItem.quantity;
-            await Product.findOneAndUpdate(
-                { _id: productId },
-                {
-                    $inc: { qty: -orderedQuantity }
-                },
-                { new: true }
-            );
+            await Product.findOneAndUpdate({ _id: productId },{$inc: { qty: -orderedQuantity }},{ new: true });
         }
     },
-    invoice: async (orderid) => {
-        const details = await order.findOne({ orderID: orderid }).populate('items.product').lean();
-        return details
-    },
+    // invoice: async (orderid) => {
+    //     const details = await order.findOne({ orderID: orderid }).populate('items.product').lean();
+    //     return details
+    // },
+    filterorder: async function(low, high){
+        const orders = await order.find({totalamount: {$gt: low, $lt: high}}).populate('orderID').lean()
+        return orders;
+      },
     
-    
-       
+      filterOrderType: async function(payType){
+        const orders = await order.find({paymentID: payType}).populate('orderID').lean()
+        console.log(orders,'razii');
+          return orders;
+      },
+      filterOrderStatus: async function(status1){
+        const orders = await order.find({status: status1}).populate('orderID').lean()
+        console.log(orders,'raziikp');
 
+          return orders;
+      }
 }
