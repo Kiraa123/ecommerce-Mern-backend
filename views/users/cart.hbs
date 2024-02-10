@@ -106,8 +106,9 @@
                                                     {{this.product.price}}</h6>
                                             </div>
                                             <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                                 <a href="/users/cart/delete/{{this.product._id}}" data-productid="{{this.product._id}}">
-                                                <i class="ti ti-trash"></i></a>
+                                                <a href="/users/cart/delete/{{this.product._id}}"
+                                                    data-productid="{{this.product._id}}">
+                                                    <i class="ti ti-trash"></i></a>
                                             </div>
                                         </div>
                                         {{/each}}
@@ -148,11 +149,19 @@
 
                                             </select>
                                         </div>
+                                        <form>
+                                            {{#each coupon}}
+                                            <p>{{this.code}}</p>
+                                            {{/each}}
+                                            <input type="text" name="code" placeholder="COUPON CODE">
+                                            <button class="new">Apply</button>
+
+                                        </form>
 
 
 
 
-                                      
+
 
 
                                         <hr class="my-4">
@@ -184,13 +193,13 @@
                 e.preventDefault();
                 var productId = $(this).data('productid')
                 var uniqueId = 'quantityLink_' + productId;
-                
+
                 $.ajax({
                     type: 'GET',
                     url: '/users/cart/qtyminus/' + productId,
                     success: function (response) {
                         console.log(response)
-                        $('#' + uniqueId).text(response.quantity );
+                        $('#' + uniqueId).text(response.quantity);
                         $('#totpriceLink').text('Rs. ' + response.totalPrice);
                         $('#totlink').text('Rs. ' + (response.totalPrice + 50));
                     },

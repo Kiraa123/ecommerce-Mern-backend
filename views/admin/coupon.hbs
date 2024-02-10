@@ -37,47 +37,62 @@
 
             <table class="table">
                 <thead>
-                    <tr>
-                        <th>Image</th>
-                        <th>Product Name</th>
-                        <th>Quantity</th>
-                        <th>Description</th>
-                        <th>Price</th>
-                        <th>Category</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each data}}
-                    <tr>
-                        {{!-- <th scope="row">{{this.productname}}</th> --}}
-                        <td>
-                            <li>
-                                <img src="uploads/{{this.image}}" style="width: 70px;height:60px;" />
-                            </li>
-                        </td>
-                        <td>{{this.productname}}</td>
-                        <td>{{this.quantity}}</td>
-                        <td>{{this.description}}</td>
-                        <td>{{this.price}}</td>
-                        <td>{{this.category}}</td>
-                        <td>
-                            <div class="dropdown">
-                                <button class="btn btn-outline-secondary dropdown-toggle" type="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    More
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="/admin/edit_product/{{this._id}}">Edit</a>
-                                    <a class="dropdown-item" href="/admin/products/deleteproduct/{{this._id}}"
-                                        onclick="return confirm('Are you want to Delete ?')">
-                                        <i class="bx bx-trash me-1"></i> Delete</a>
+                        <tr>
+                            <th>Coupen Code</th>
+                            <th>Discount (%)</th>
+                            <th>Valid From</th>
+                            <th>Valid Until</th>
+                            <th>Min Price</th>
+                            <th>Max Price</th>
+                            <th>isActive</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                        {{#each allcoupon}}
+                        <tr>
+                            <td>
+                                <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
+                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
+                                        class="avatar avatar-xs pull-up" title="{{this.code}}">{{this.code}}
+                                    </li>
+
+                                </ul>
+
+                            </td>
+                            <td>
+                                <span class="fw-medium">{{this.discount}}</span>
+                            </td>
+                            <td>{{formatDate this.validFrom}}</td>
+
+                            <td><span class="badge bg-label-danger me-1">{{formatDate this.validUntil}}</span></td>
+
+                            <td>{{this.minPriceRange}}</span></td>
+                            <td>{{this.maxPriceRange}}</span></td>
+                            <td>{{this.isActive}}</span></td>
+                            <td>
+                                <div class="dropdown">
+                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                        data-bs-toggle="dropdown">
+                                        <i class="bx bx-dots-vertical-rounded"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+
+                                        {{#if isActive}}
+                                        <a class="dropdown-item" href="/admin/coupen-block/{{this._id}} " />
+                                        <i class="bx bx-check-square me-1"></i> Block</a>
+                                        {{else}}
+                                        <a class="dropdown-item" href="/admin/coupen-active/{{this._id}} "
+                                            onclick="return confirm('Are you Sure Active {{this.code}} ?')">
+                                            <i class="bx bx-block me-1"></i> Active</a>
+                                        {{/if}}
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
-                    {{/each}}
-                </tbody>
+                            </td>
+                        </tr>
+                        {{/each}}
+
+                    </tbody>
             </table>
 
 

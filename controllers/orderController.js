@@ -1,10 +1,7 @@
 const order = require('../helpers/orderhelper')
 const product = require('../helpers/producthelper')
 const user = require('../helpers/userhelper')
-const Product = require('../models/productSchema')
-const User = require('../models/userSchema')
-const cart = require('../models/cartSchema')
-const razorpay=require('../config/razorpay')
+const coupon=require('../helpers/couponhelper')
 
 module.exports = {
     checkout: async (req, res) => {
@@ -34,12 +31,12 @@ module.exports = {
             const userId = req.session.user._id;
             const data = await user.getitemscart(userId);
             const count = await user.count(userId);
-            console.log(count);
+            const allcoupon=await coupon.showcoupon()
             const isUser=req.session.loggedIn;
 
             if (data) {
                 total = data.totalPrice + 50
-                res.render('users/cart', { data, total, count ,isUser})
+                res.render('users/cart', { data, total, count,coupon:allcoupon ,isUser})
             } else {
                 res.render('users/cart',{isUser})
             }
@@ -165,26 +162,6 @@ module.exports = {
         await user.deletecart(userid, productid);
         res.redirect('/users/cart')
     },
-    // confirm: async (req, res) => {
-    //     const id = req.params.id
-    //     const result = await order.confirm(id)
-    //     res.redirect('/admin/order')
-    // },
-    // shipped: async (req, res) => {
-    //     const id = req.params.id
-    //     const result = await order.shipped(id)
-    //     res.redirect('/admin/order')
-    // },
-    // cancelled: async (req, res) => {
-    //     const id = req.params.id
-    //     const result = await order.cancelled(id)
-    //     res.redirect('/admin/order')
-    // },
-    // delivered: async (req, res) => {
-    //     const id = req.params.id
-    //     const result = await order.delivered(id);
-    //     res.redirect('/admin/order')
-    // }
     confirm: async (req, res) => {
         const id = req.params.id;
         await order.updateStatus(id, 'Confirm');
