@@ -4,6 +4,7 @@ const user = require('../helpers/userhelper')
 const product = require('../helpers/producthelper')
 const fs = require('fs')
 const order=require('../helpers/orderhelper')
+const coupon=require('../helpers/couponhelper')
 
 module.exports = {
 
@@ -186,7 +187,22 @@ module.exports = {
 
     const filteredOrderStatus = await order.filterOrderStatus(status)
     res.render("admin/orders", {orders: filteredOrderStatus})
-  }
+  },
+  coupon:async(req,res)=>{
+    const allcoupon=await coupon.showcoupon()
+    res.render('admin/coupon',{allcoupon})
+  },
+  addcoupon:async(req,res)=>{
+    res.render('admin/addcoupon')
+  },
+  postaddcoupon:async(req,res)=>{
+    console.log(req.body);
+    const result=await coupon.addcoupon(req.body);
+    res.redirect('/admin/coupon')
+  },
+  editcoupon:async(req,res)=>{
+    res.render('admin/coupon')
+  },
 
 }
 

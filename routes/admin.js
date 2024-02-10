@@ -9,7 +9,7 @@ const noCache=require('../middleware/noCache')
 const Product=require('../controllers/productController')
 
 const{orders,confirm,shipped,delivered,cancelled}=require('../controllers/orderController')
-const{admin,createAdmin,dashboard,alluser,deleteuser,edituserpost,addproduct,filterOrder,filterType,filterStatus,blockuser,unblockuser,edituser,deleteproduct,editproduct,edit_product,searchuser,adminlogout}=require('../controllers/adminController')
+const{admin,createAdmin,dashboard,alluser,deleteuser,edituserpost,coupon,addcoupon,postaddcoupon,editcoupon,addproduct,filterOrder,filterType,filterStatus,blockuser,unblockuser,edituser,deleteproduct,editproduct,edit_product,searchuser,adminlogout}=require('../controllers/adminController')
 const{addProduct,allproducts,addproductpage}=require('../controllers/productController')
 
 router.post('/loggedin',admin)
@@ -41,6 +41,12 @@ router.get('/confirm/:id',isAdmin,isAuth,confirm);
 router.get('/shipped/:id',isAdmin,isAuth,shipped);
 router.get('/delivered/:id',isAdmin,isAuth,delivered);
 router.get('/cancelled/:id',isAdmin,isAuth,cancelled);
+
+//  COUPON
+router.get('/coupon',coupon)
+router.get('/addcoupon',addcoupon)
+router.post('/addcoupon',postaddcoupon)
+router.get('/editcoupon',editcoupon)
 
 
 
