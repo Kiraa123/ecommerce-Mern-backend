@@ -257,7 +257,7 @@
                                                         <div class="mb-3">
                                                             <label class="form-label" for="billing-name">Name</label>
                                                             <input type="text" pattern="[A-Za-z]+" class="form-control"
-                                                                id="billing-name" placeholder="Enter name" name="name"
+                                                                id="name" placeholder="Enter name" name="name"
                                                                 required>
                                                         </div>
                                                     </div>
@@ -266,14 +266,14 @@
                                                             <label class="form-label" for="billing-address">
                                                                 Address</label>
                                                             <input type="text" class="form-control" required
-                                                                name="address" placeholder="">
+                                                                name="address" placeholder="" id="address1">
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="mb-3">
                                                             <label class="form-label" for="billing-phone">Phone</label>
                                                             <input type="tel" name="phoneno" class="form-control"
-                                                                id="billing-phone" maxlength="10"
+                                                                id="phone" maxlength="10"
                                                                 placeholder="Enter Phone no." required>
                                                         </div>
                                                     </div>
@@ -286,28 +286,13 @@
                                                 </div> --}}
 
                                                 <div class="row">
-                                                    {{!-- <div class="col-lg-4">
-                                                        <div class="mb-4 mb-lg-0">
-                                                            <label class="form-label">Country</label>
-                                                            <select name="country" class="form-control form-select"
-                                                                title="Country">
-                                                                <option value="0">Select Country</option>
-                                                                <option value="AF">Afghanistan</option>
-                                                                <option value="AL">Albania</option>
-                                                                <option value="DZ">Algeria</option>
-                                                                <option value="AS">American Samoa</option>
-                                                                <option value="AD">Andorra</option>
-                                                                <option value="AO">Angola</option>
-                                                                <option value="AI">Anguilla</option>
-                                                            </select>
-                                                        </div>
-                                                    </div> --}}
+
 
                                                     <div class="col-lg-4">
                                                         <div class="mb-4 mb-lg-0">
                                                             <label class="form-label" for="billing-city">City</label>
                                                             <input type="text" pattern="[A-Za-z]+" class="form-control"
-                                                                name="city" id="billing-city" placeholder="Enter City"
+                                                                name="city" id="city" placeholder="Enter City"
                                                                 required>
                                                         </div>
                                                     </div>
@@ -315,7 +300,7 @@
                                                         <div class="mb-4 mb-lg-0">
                                                             <label class="form-label" for="billing-city">State</label>
                                                             <input type="text" pattern="[A-Za-z]+" class="form-control"
-                                                                name="state" id="billing-city" placeholder="Enter state"
+                                                                name="state" id="state" placeholder="Enter state"
                                                                 required>
                                                         </div>
                                                     </div>
@@ -324,7 +309,7 @@
                                                         <div class="mb-0">
                                                             <label class="form-label" for="zip-code">Pincode
                                                             </label>
-                                                            <input type="tel" class="form-control" id="zip-code"
+                                                            <input type="tel" class="form-control" id="pincode"
                                                                 name="pincode" maxlength="6"
                                                                 placeholder="Enter Postal code" required>
                                                         </div>
@@ -344,52 +329,26 @@
                                     <option value="address">Select Address</option>
                                     {{#each address }}
                                     <option value="{{this._id}}" data-name="{{this.name}}"
-                                        data-address="{{this.address}}" data-city="{{this.city}}"
+                                        data-address="{{this.address}}"data-phone="{{this.phone}}" data-city="{{this.city}}"
                                         data-state="{{this.state}}" data-pincode="{{this.pincode}}"
-                                        data-phoneno="{{this.phoneno}}">
+                                        >
                                         {{this.name}} :<br>
-                                        {{this.address}}, {{this.city}},{{this.pincode}}<br>
+                                        {{this.address}},{{this.phone}}, {{this.city}},{{this.state}},{{this.pincode}}<br>
                                     </option>
                                     {{/each}}
                                 </select>
                                 <div class="input-group-append">
-                                    <button class=" btn-outline" type="button">&#9660;</button>
+                                    <button class="btn btn-outline-secondary" type="button" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        &#9660;
+                                    </button>
                                 </div>
                             </div>
                         </div>
                         {{/if}}
 
 
-                        <li class="checkout-item">
-                            <div class="avatar checkout-icon p-1">
-                                <div class="avatar-title rounded-circle bg-primary">
-                                    <i class="bx bxs-truck text-white font-size-20"></i>
-                                </div>
-                            </div>
-                            <div class="feed-item-list">
-                                <div>
-                                    <h5 class="font-size-16 mb-1">Shipping Info</h5>
-                                    <p class="text-muted text-truncate mb-4">Neque porro quisquam est</p>
-                                    <div class="mb-3">
-                                        <div class="row">
-                                            <div class="col-lg-4 col-sm-6">
-                                                <div data-bs-toggle="collapse">
-                                                    <label class="card-radio-label mb-0">
-
-
-
-
-                                                    </label>
-
-
-                                                </div>
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                     
                         </li>
                         <li class="checkout-item">
                             <div class="avatar checkout-icon p-1">

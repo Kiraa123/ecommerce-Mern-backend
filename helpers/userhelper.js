@@ -69,7 +69,6 @@ module.exports = {
     await user.updateOne({ email: email1 }, { $set: { password: password1 } });
   },
   orders: async (data) => {
-    console.log(data);
     const result = await order.insertMany(data);
     return result;
   },
@@ -317,7 +316,7 @@ module.exports = {
     return existingAddress;
   },
   addresstake: async (id) => {
-    const result = await address.find({userid:id }).lean();
+    const result = await address.find({userID:id }).lean();
     console.log(result,'asd');
     return result;
   },

@@ -5,7 +5,6 @@ const coupon=require('../helpers/couponhelper')
 
 module.exports = {
     checkout: async (req, res) => {
-        const currentuser = req.session.user.name;
         const userid = req.session.user._id;
         const count = await user.count(userid)
         if (count) {
