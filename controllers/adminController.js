@@ -82,7 +82,6 @@ module.exports = {
       address: req.body.address,
       city: req.body.city
     }
-    console.log(datas);
     await user.edituser(datas, productid);
     res.redirect('/admin/alluser')
   },
@@ -105,7 +104,6 @@ module.exports = {
       email: result.email,
       password: result.password,
       phone: result.phone,
-      gender: result.gender,
       address: result.address,
       city: result.city
     }
@@ -189,7 +187,7 @@ module.exports = {
     res.render("admin/orders", {orders: filteredOrderStatus})
   },
   coupon:async(req,res)=>{
-    const allcoupon=await coupon.showcoupon()
+    const allcoupon=await coupon.showallcoupon()
     res.render('admin/coupon',{allcoupon})
   },
   addcoupon:async(req,res)=>{

@@ -151,19 +151,14 @@
                                         </div>
                                         <form>
                                             {{#each coupon}}
-                                            <p>{{this.code}}</p>
+                                            <p>{{this.code}}-{{this.discount}}</p>
                                             {{/each}}
+
                                             <input type="text" name="code" placeholder="COUPON CODE">
-                                            <button class="new">Apply</button>
+                                            <button class="new"
+                                                data-code="{{this.code}}-{{this.discount}}">Apply</button>
 
                                         </form>
-
-
-
-
-
-
-
                                         <hr class="my-4">
 
 
@@ -185,6 +180,30 @@
         </div>
     </section>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.new').click(function (e) {
+                e.preventDefault();
+                var codeWithDiscount = $(this).data('code');
+                var codeAndDiscount = codeWithDiscount.split('-');
+                var code = codeAndDiscount[0];
+                var discount = codeAndDiscount[1];
+                $.ajax({
+                    type: 'POST',
+                    url: '/users/cart/coupon',
+                    data: { code: code, discount: discount },
+                    success: function (response) {
+                        $('#totpriceLink').text('Rs: ' + response.totalPrice);
+                        $('#totlink').text('Rs: ' + (response.totalPrice + 50));
+                    },
+                    error: function (error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+    </script>
+
 
 
     <script>

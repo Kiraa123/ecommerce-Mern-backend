@@ -31,7 +31,7 @@ module.exports = {
             const userId = req.session.user._id;
             const data = await user.getitemscart(userId);
             const count = await user.count(userId);
-            const allcoupon=await coupon.showcoupon()
+            const allcoupon=await coupon.showcoupon(userId)
             const isUser=req.session.loggedIn;
 
             if (data) {
@@ -44,6 +44,14 @@ module.exports = {
             console.error(error);
         }
     },
+    coupon:async (req,res)=>{
+        const userid = req.session.user._id
+        const result=await user.addcoupon(userid,req.body)
+        const response = {
+          totalPrice: result.discountprice
+        };
+        res.json(response)
+      },
     cartadding: async (req, res) => {
         var cartqty = 0
         const productid = req.params.id;

@@ -1,6 +1,7 @@
 var createError = require('http-errors');
 var path = require('path');
 require('dotenv').config({path:'./config/.env'})
+require('./helpers/handlebars');
 var express = require('express');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');

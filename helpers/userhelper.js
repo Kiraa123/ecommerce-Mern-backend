@@ -42,6 +42,23 @@ module.exports = {
     );
     return result;
   },
+  addcoupon:async(userid,data)=>{
+    let cartprice = await cart.findOne({ user: userid });
+    if (!cart) {
+        throw new Error('Cart not found for the user');
+    }
+    const discountPrice = cartprice.totalPrice-(cartprice.totalPrice * (data.discount / 100));
+    const result = await cart.findOneAndUpdate(
+        { user: userid },
+        {
+            $set: { coupencode:data.code,
+                discount: data.discount,
+                discountprice: discountPrice },
+        },
+        { new: true }
+    );
+    return result
+},
   verified: async (data) => {
     await user.updateOne({ _id: data }, { $set: { verification: true } });
   },
@@ -106,10 +123,7 @@ module.exports = {
     await user.deleteOne({ _id: data });
   },
   getitemscart: async (data) => {
-    const result = await cart
-      .findOne({ user: data })
-      .populate("items.product")
-      .lean();
+    const result = await cart.findOne({ user: data }).populate("items.product").lean();
     return result;
   },
   cartexist: async (data) => {
