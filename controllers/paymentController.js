@@ -48,7 +48,7 @@ module.exports = {
           phoneno: req.body.phoneno,
         },
       };
-      const existingAddress = await user.existaddress(newAddress);
+      const existingAddress = await user.existaddress(newAddress,userid);
       if (!existingAddress) {
         await user.address(newAddress);
       }

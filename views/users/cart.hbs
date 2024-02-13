@@ -135,7 +135,9 @@
 
                                         <div class="d-flex justify-content-between mb-4">
                                             <h5 class="text-uppercase" id="cartCount">items {{count}}</h5>
-                                            <div id="totpriceLink" class="col text-right">Rs:{{#if data.discountprice}}{{data.discountprice}} {{else}}{{data.totalPrice}}{{/if}}</div>
+                                            <div id="totpriceLink" class="col text-right">Rs:{{#if
+                                                data.discountprice}}{{data.discountprice}}
+                                                {{else}}{{data.totalPrice}}{{/if}}</div>
                                         </div>
 
 
@@ -160,13 +162,13 @@
                                             <div class="col" id="count" style="padding-left:0;">AVAILABLE COUPEN</div>
                                             <form>
                                                 {{#each coupon}}
-                                                <p>{{this.code}}-{{this.discount}}%</p>
-                                                {{/each}}
+                                                <div class="mb-2">
+                                                    <span class="mr-2">{{this.code}} - {{this.discount}}% OFF</span>
 
-
-                                                <input type="text" name="code" placeholder="COUPON CODE">
-                                                <a class="new" id="applyButton"
-                                                    data-code="{{this.code}}-{{this.discount}}">Apply</a>
+                                                    {{!-- <input type="text" name="code" placeholder="COUPON CODE"> --}}
+                                                    <a class="new" id="applyButton"
+                                                        data-code="{{this.code}}-{{this.discount}}">Apply</a>
+                                                    {{/each}}
                                             </form>
                                             {{/if}}
 
@@ -184,7 +186,7 @@
                                                 </div>
                                                 <div id="totlink" class="col text-right">Discount %: {{data.discount}}
                                                 </div>
-                                                <div id="totlink" class="col text-right">Discount Rs: {{total}}</div>
+                                                {{!-- <div id="totlink" class="col text-right">Discount Rs: {{total}}</div> --}}
                                                 {{else}}
                                                 <div id="totlink" class="col text-right">Rs: {{total}}</div>
                                                 {{/if}}
@@ -212,6 +214,8 @@
                 var codeAndDiscount = codeWithDiscount.split('-');
                 var code = codeAndDiscount[0];
                 var discount = codeAndDiscount[1];
+                 var $clickedElement = $(this);
+
                 $.ajax({
                     type: 'POST',
                     url: '/users/cart/coupon',
@@ -221,7 +225,7 @@
                         $('#totlink').text('Rs: ' + (response.totalPrice + 50));
                         var appliedButtonHtml = '<span class="badge badge-success">Applied</span>';
                         appliedButtonHtml += '<a href="/users/coupon/remove"> &#10005;</a>';
-                        $('.new').parent().html(appliedButtonHtml);
+                        $clickedElement.parent().append(newHtml);
 
                     },
                     error: function (error) {

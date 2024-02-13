@@ -44,7 +44,7 @@ module.exports = {
         }
     },
     coupon:async (req,res)=>{
-        const userid = req.session.user._id
+        const userid = req.session.user._id;
         const result=await user.addcoupon(userid,req.body)
         const response = {
           totalPrice: result.discountprice

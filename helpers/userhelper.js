@@ -51,7 +51,7 @@ module.exports = {
     const result = await cart.findOneAndUpdate(
         { user: userid },
         {
-            $set: { coupencode:data.code,
+            $set: { couponcode:data.code,
                 discount: data.discount,
                 discountprice: discountPrice },
         },
@@ -316,12 +316,13 @@ module.exports = {
   address: async (data) => {
     await address.insertMany(data);
   },
-  existaddress: async (data) => {
+ 
+  existaddress: async (data,userid) => {
     const existingAddress = await address.findOne({
-      userID: data.userID,
-      "addresses.name": data.addresses.name,
-      "addresses.city": data.addresses.city,
-      "addresses.pincode": data.addresses.pincode,
+      userID: userid,
+      "addresses.name": data.name,
+      "addresses.city": data.city,
+      "addresses.pincode": data.pincode,
     });
     return existingAddress;
   },

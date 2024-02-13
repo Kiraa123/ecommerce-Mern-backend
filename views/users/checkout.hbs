@@ -416,6 +416,8 @@
                     <div class="p-3 bg-light mb-3">
                         <h5 class="font-size-16 mb-0">Order Summary <span class="float-end ms-2">{{count}} Items</span>
                         </h5>
+                                                 <div class="col text-right">Rs: {{#if data.discountprice}}{{data.discountprice}} {{else}}{{data.totalPrice}}{{/if}}</div>
+
                     </div>
                     <div class="table-responsive">
                         <table class="table table-centered mb-0 table-nowrap">
@@ -467,14 +469,23 @@
                                 {{/each}}
 
 
-                                <tr class="bg-light">
+                                {{!-- <tr class="bg-light">
                                     <td colspan="2">
                                         <h5 class="font-size-14 m-0">Total:</h5>
                                     </td>
                                     <td>
                                         {{total}}
                                     </td>
-                                </tr>
+                                </tr> --}}
+                                <div class="col">TOTAL PRICE</div>
+                        {{#if data.discountprice}}
+                            <div id="totlink" class="row text-right">Total Rs: {{data.totalPrice}}</div><br>
+                            <div id="totlink" class="row text-right">Discount %: {{data.discount}}</div>
+                            {{!-- <div id="totlink" class="col text-right">Discount Rs: {{total}}</div> --}}
+                            {{else}}
+                            <div id="totlink" class="col text-right">Rs: {{total}}</div>
+                            {{/if}}
+                    </div>
                             </tbody>
 
                         </table>
