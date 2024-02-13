@@ -51,6 +51,11 @@ module.exports = {
         };
         res.json(response)
       },
+      removecoupon:async(req,res)=>{
+        const userid = req.session.user._id;
+        const result=await user.removecoupon(userid)
+        res.redirect('/users/cart')
+      },
     cartadding: async (req, res) => {
         var cartqty = 0
         const productid = req.params.id;

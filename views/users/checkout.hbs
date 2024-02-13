@@ -271,20 +271,13 @@
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="mb-3">
-                                                            <label class="form-label" for="billing-phone">Phone</label>
+                                                            <label class="form-label" for="">Phoneno</label>
                                                             <input type="tel" name="phoneno" class="form-control"
-                                                                id="phone" maxlength="10"
-                                                                placeholder="Enter Phone no." required>
+                                                                id="phoneno" maxlength="10"
+                                                                placeholder="Enter Phone no" required>
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                                {{!-- <div class="mb-3">
-                                                    <label class="form-label" for="billing-address">Address</label>
-                                                    <textarea class="form-control" id="billing-address" rows="3"
-                                                        placeholder="Enter full address" name="address"></textarea>
-                                                </div> --}}
-
                                                 <div class="row">
 
 
@@ -329,11 +322,11 @@
                                     <option value="address">Select Address</option>
                                     {{#each address }}
                                     <option value="{{this._id}}" data-name="{{this.name}}"
-                                        data-address="{{this.address}}"data-phone="{{this.phone}}" data-city="{{this.city}}"
+                                        data-address="{{this.address}}" data-phoneno="{{this.phoneno}}" data-city="{{this.city}}"
                                         data-state="{{this.state}}" data-pincode="{{this.pincode}}"
                                         >
                                         {{this.name}} :<br>
-                                        {{this.address}},{{this.phone}}, {{this.city}},{{this.state}},{{this.pincode}}<br>
+                                        {{this.address}},{{this.phoneno}},{{this.city}},{{this.state}},{{this.pincode}}<br>
                                     </option>
                                     {{/each}}
                                 </select>
@@ -507,7 +500,7 @@
             $('#city').val(selectedOption.data('city'));
             $('#state').val(selectedOption.data('state'));
             $('#pincode').val(selectedOption.data('pincode'));
-            $('#contact').val(selectedOption.data('phoneno'));
+            $('#phoneno').val(selectedOption.data('phoneno'));
         });
     });
 </script>

@@ -135,7 +135,7 @@
 
                                         <div class="d-flex justify-content-between mb-4">
                                             <h5 class="text-uppercase" id="cartCount">items {{count}}</h5>
-                                            <h5 id="totpriceLink">Rs. {{data.totalPrice}}</h5>
+                                            <div id="totpriceLink" class="col text-right">Rs:{{#if data.discountprice}}{{data.discountprice}} {{else}}{{data.totalPrice}}{{/if}}</div>
                                         </div>
 
 
@@ -145,31 +145,56 @@
                                         <div class="mb-4 pb-2">
                                             <select class="select">
                                                 <option value="1">Standard-Delivery- Rs:50</option>
-
-
                                             </select>
                                         </div>
-                                        <form>
-                                            {{#each coupon}}
-                                            <p>{{this.code}}-{{this.discount}}</p>
-                                            {{/each}}
+                                        <div class="row">
+                                            {{#if data.couponcode}}
+                                            <div class="col mb-2" id="count" style="padding-left:0;">APPLIED COUPON
+                                            </div>
+                                            <div class="mr-2 mb-2">
+                                                <span class="mr-2">{{data.couponcode}} - {{this.discount}}% OFF</span>
+                                                <span class="badge badge-success">Applied</span>
+                                                <a href="/users/coupon/remove"> &#10005;</a>
+                                            </div>
+                                            {{else}}
+                                            <div class="col" id="count" style="padding-left:0;">AVAILABLE COUPEN</div>
+                                            <form>
+                                                {{#each coupon}}
+                                                <p>{{this.code}}-{{this.discount}}%</p>
+                                                {{/each}}
 
-                                            <input type="text" name="code" placeholder="COUPON CODE">
-                                            <button class="new"
-                                                data-code="{{this.code}}-{{this.discount}}">Apply</button>
 
-                                        </form>
-                                        <hr class="my-4">
+                                                <input type="text" name="code" placeholder="COUPON CODE">
+                                                <a class="new" id="applyButton"
+                                                    data-code="{{this.code}}-{{this.discount}}">Apply</a>
+                                            </form>
+                                            {{/if}}
 
+                                            {{!--
+                                            <hr class="my-4">
+                                            <div class="d-flex justify-content-between mb-5">
+                                                <h5 class="text-uppercase">Total price</h5>
+                                                <h5 id="totlink">Rs:{{total}}</h5>
+                                            </div> --}}
+                                            <div class="row"
+                                                style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                                                <div class="col">TOTAL PRICE</div>
+                                                {{#if data.discountprice}}
+                                                <div id="totlink" class="col text-right">Total Rs: {{data.totalPrice}}
+                                                </div>
+                                                <div id="totlink" class="col text-right">Discount %: {{data.discount}}
+                                                </div>
+                                                <div id="totlink" class="col text-right">Discount Rs: {{total}}</div>
+                                                {{else}}
+                                                <div id="totlink" class="col text-right">Rs: {{total}}</div>
+                                                {{/if}}
 
-                                        <div class="d-flex justify-content-between mb-5">
-                                            <h5 class="text-uppercase">Total price</h5>
-                                            <h5 id="totlink">Rs:{{total}}</h5>
+                                            </div>
+                                            <a href="/users/checkout">
+                                                <button type="button" class="btn btn-dark btn-block btn-lg"
+                                                    data-mdb-ripple-color="dark">Checkout</button>
+                                            </a>
                                         </div>
-                                        <a href="/users/checkout">
-                                            <button type="button" class="btn btn-dark btn-block btn-lg"
-                                                data-mdb-ripple-color="dark">Checkout</button>
-                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -177,7 +202,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </section>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
@@ -195,6 +219,10 @@
                     success: function (response) {
                         $('#totpriceLink').text('Rs: ' + response.totalPrice);
                         $('#totlink').text('Rs: ' + (response.totalPrice + 50));
+                        var appliedButtonHtml = '<span class="badge badge-success">Applied</span>';
+                        appliedButtonHtml += '<a href="/users/coupon/remove"> &#10005;</a>';
+                        $('.new').parent().html(appliedButtonHtml);
+
                     },
                     error: function (error) {
                         console.error(error);

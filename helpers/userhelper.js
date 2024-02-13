@@ -96,6 +96,16 @@ module.exports = {
     const result = await order.find({ username: data }).populate("items.product").lean();
     return result;
   },
+  removecoupon:async(userid)=>{
+    const result = await cart.findOneAndUpdate(
+        { user: userid },
+        {
+             $unset: { couponcode: "", discount: "", discountprice: "" } ,
+        },
+        { new: true }
+    );
+    return result
+},
   finduserid: async (data) => {
     var result = await user.findOne({ _id: data }).lean();
     return result;
