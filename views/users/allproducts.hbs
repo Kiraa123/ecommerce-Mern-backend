@@ -76,8 +76,11 @@
                                 View Details
                             </a>
                             <a href="/users/addwishlist/{{this._id}}" class="option">
-                                
-                                <i class="fas fa-heart" id="wishlist-icon"></i>
+
+<svg class="wishlist-icon" xmlns="http://www.w3.org/2000/svg" width="34" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M20 6C20 10.42 12 18 12 18S4 10.42 4 6C4 3.48 6.48 1.5 9 1.5C10.69 1.5 12 2.79 12 4.5C12 2.57 14.64 1 18 1C21.31 1 24 3.57 24 6" />
+</svg>
+
                             </a>
                         </div>
                     </div>
@@ -89,30 +92,30 @@
                             {{this.productname}}
                         </h5>
                         <h6>
-                         Rs.{{this.price}}
+                            Rs.{{this.price}}
                         </h6>
                     </div>
                 </div>
             </div>
-            
+
             {{/each}}
-           
+
 
 
         </div>
         <nav aria-label="Page navigation example">
-  <ul class="pagination justify-content-center">
-    <li class="page-item disabled">
-      {{!-- <a class="page-link" href="#" tabindex="-1">Previous</a> --}}
-    </li>
-    <li class="page-item"><a class="page-link" href="/users/allproducts1">1</a></li>
-    <li class="page-item"><a class="page-link" href="/users/allproducts2">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item">
-      {{!-- <a class="page-link" href="#">Next</a> --}}
-    </li>
-  </ul>
-</nav>
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    {{!-- <a class="page-link" href="#" tabindex="-1">Previous</a> --}}
+                </li>
+                <li class="page-item"><a class="page-link" href="/users/allproducts1">1</a></li>
+                <li class="page-item"><a class="page-link" href="/users/allproducts2">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    {{!-- <a class="page-link" href="#">Next</a> --}}
+                </li>
+            </ul>
+        </nav>
     </div>
 </section>
 {{!--
@@ -125,45 +128,45 @@
 <script src="js/custom.js"></script> --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-   $(document).ready(function () {
-      $('.box .option1').click(function (e) {
-         e.preventDefault();
-         var productId = $(this).attr('href').split('/').pop();
-         var productCount = $(this).closest('.box').find('.badge').text();
-         $.ajax({
-            type: 'GET',
-            url: '/users/addcart/' + productId,
-            success: function (response) {
-               console.log(response)
-               if(response === false){
-                  Swal.fire({
-                     icon: 'warning',
-                     title: 'Out of Stock!',
-                     text: 'Item will be added back.',
-                     width: '300px',
-                  });
-               }
-               else{
-                  if (typeof response === 'number') {
-                     console.log(response)
-                     var newCount = response;
-                     
-                     $('.fa-shopping-cart + .badge').text(newCount);
-                     Swal.fire({
-                        icon: 'success',
-                        title: 'Success!',
-                        text: 'Item successfully added to the cart.',
-                        width: '300px',
-                     });
-                  }
-                  else {
-                     location.href = "/users/login";
-                  }
-               }
-            }
-         });
-      });
-   });
+    $(document).ready(function () {
+        $('.box .option1').click(function (e) {
+            e.preventDefault();
+            var productId = $(this).attr('href').split('/').pop();
+            var productCount = $(this).closest('.box').find('.badge').text();
+            $.ajax({
+                type: 'GET',
+                url: '/users/addcart/' + productId,
+                success: function (response) {
+                    console.log(response)
+                    if (response === false) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Out of Stock!',
+                            text: 'Item will be added back.',
+                            width: '300px',
+                        });
+                    }
+                    else {
+                        if (typeof response === 'number') {
+                            console.log(response)
+                            var newCount = response;
+
+                            $('.fa-shopping-cart + .badge').text(newCount);
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: 'Item successfully added to the cart.',
+                                width: '300px',
+                            });
+                        }
+                        else {
+                            location.href = "/users/login";
+                        }
+                    }
+                }
+            });
+        });
+    });
 </script>
 
 <script>

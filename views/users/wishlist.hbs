@@ -171,6 +171,8 @@
         color: #212529;
     }
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -178,93 +180,293 @@
 
 {{> userheader}}
 <section class="product">
-  <div class="cart-wrap">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="main-heading mb-10">My wishlist</div>
-                <div class="table-wishlist">
-                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th width="45%">Product Name</th>
-                                <th width="15%">Unit Price</th>
-                                <th width="15%">Stock Status</th>
-                                <th width="15%"></th>
-                                <th width="10%"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{#if wishlist}}
-                            {{#each wishlist}}
-                            <tr>
-                                <td width="45%">
-                                    <div class="display-flex align-center">
-                                        <div class="img-product">
-                                            <a href="/users/moredetails/{{this.product._id}}"><img src="../uploads/{{this.product.image}}"
-                                                alt="" class="mCS_img_loaded"></a>
-                                            
+    <div class="cart-wrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="main-heading mb-10"><center style="font-size: 40px;">My wishlist</center></div>
+                    <div class="table-wishlist">
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th width="45%">Product Name</th>
+                                    <th width="15%">Unit Price</th>
+                                    <th width="15%">Category</th>
+                                    <th width="15%"></th>
+                                    <th width="10%"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#if wishlist}}
+                                {{#each wishlist}}
+                                <tr>
+                                    <td width="45%">
+                                        <div class="display-flex align-center">
+                                            <div class="img-product">
+                                                <a href="/users/moredetails/{{this.product._id}}"><img
+                                                        src="../uploads/{{this.product.image}}" alt=""
+                                                        class="mCS_img_loaded"></a>
+
+                                            </div>
+                                            <div class="name-product">
+                                                {{this.product.productname}}
+                                            </div>
                                         </div>
-                                        <div class="name-product">
-                                           {{this.product.productname}}
-                                        </div>
-                                    </div>
-                                </td>
-                                <td width="15%" class="price">Rs.{{this.product.price}}</td>
-                                <td width="15%"><span class="in-stock-box">{{this.product.category}}</span></td>
-                                <td width="15%"> <a href="/users/addcart/{{this.product._id}}"> <button class="round-black-btn small-btn">Add to Cart</button></a></td>
-                                <td width="10%" class="text-center"><a href="#" class="trash-icon"><i
-                                            class="far fa-trash-alt"></i></a></td>
-                            </tr>
-                            {{/each}}
-                            {{/if}}
-                        </tbody>
-                    </table>
+                                    </td>
+                                    <td width="15%" class="price">Rs.{{this.product.price}}</td>
+                                    <td width="15%"><span class="in-stock-box">{{this.product.category}}</span></td>
+                                    <td width="15%"> <button class="round-black-btn small-btn"><a
+                                                href="/users/addcart/{{this.product._id}}"> Add to Cart</a></button>
+                                    </td>
+                                    <td width="10%" class="text-center"><a href="/users/addwishlist/{{this.product._id}}" class="trash-icon"><i
+                                                class="far fa-trash-alt"></i></a></td>
+                                </tr>
+                                {{/each}}
+                                {{/if}}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 </section>
 
-</div><script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 <script>
-   $(document).ready(function () {
-      $('.box .option1').click(function (e) {
-         e.preventDefault();
-         var productId = $(this).attr('href').split('/').pop();
-         var productCount = $(this).closest('.box').find('.badge').text();
-         $.ajax({
-            type: 'GET',
-            url: '/users/addcart/' + productId,
-            success: function (response) {
-               console.log(response)
-               if(response === false){
-                  Swal.fire({
-                     icon: 'warning',
-                     title: 'Out of Stock!',
-                     text: 'Item will be added back.',
-                     width: '300px',
-                  });
-               }
-               else{
-                  if (typeof response === 'number') {
-                     console.log(response)
-                     var newCount = response;
-                     
-                     $('.fa-shopping-cart + .badge').text(newCount);
-                     Swal.fire({
-                        icon: 'success',
-                        title: 'Success!',
-                        text: 'Item successfully added to the cart.',
-                        width: '300px',
-                     });
-                  }
-                  else {
-                     location.href = "/users/login";
-                  }
-               }
+    $(document).ready(function () {
+        $('.round-black-btn').click(function (e) {
+            e.preventDefault();
+
+            // Find the 'a' element inside the button and get its 'href' attribute
+            var hrefAttribute = $(this).find('a').attr('href');
+
+            if (hrefAttribute) {
+                var productId = hrefAttribute.split('/').pop();
+
+                // Rest of your code
+                $.ajax({
+                    type: 'GET',
+                    url: '/users/addcart/' + productId,
+                    success: function (response) {
+                        if (response === false) {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Out of Stock!',
+                                text: 'Item will be added back.',
+                                width: '300px',
+                            });
+                        }
+                        else {
+                            if (typeof response === 'number') {
+                                console.log(response)
+                                var newCount = response;
+
+                                $('.fa-shopping-cart + .badge').text(newCount);
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Success!',
+                                    text: 'Item successfully added to the cart.',
+                                    width: '300px',
+                                });
+                            }
+                            else {
+                                location.href = "/users/login";
+                            }
+                        }
+                        // Your existing success handling code should be here, outside the else block
+                    }
+                });
+            } else {
+                console.error('The clicked element does not have an href attribute');
             }
-         });
-      });
-   });
+        });
+    });
+</script>
+{{!-- <script>
+$(document).ready(function () {
+    $('.trash-icon').click(function (e) {
+        e.preventDefault();
+        var clickedElement = $(this);
+        var productId = clickedElement.attr('href').split('/').pop();
+        var isAdded = clickedElement.data('added') || false; // Retrieve the current state, default to false
+
+        $.ajax({
+            type: 'GET',
+            url: '/users/addwishlist/' + productId,
+            success: function (response) {
+                if (response.success) {
+                    // Toggle the added state
+                    isAdded = !isAdded;
+                    clickedElement.data('added', isAdded);
+
+                    if (isAdded) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Added to Wishlist!',
+                            text: 'Item added to your wishlist.',
+                            width: '300px',
+                        });
+                    } else {
+                        // Remove the product from the UI
+                        clickedElement.closest('.product-container').remove();
+
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Removed from Wishlist!',
+                            text: 'Item removed from your wishlist.',
+                            width: '300px',
+                        });
+                    }
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'Failed to update wishlist. Please try again.',
+                        width: '300px',
+                    });
+                }
+            },
+            error: function (error) {
+                console.error('Ajax request failed:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Failed to update wishlist. Please try again.',
+                    width: '300px',
+                });
+            }
+        });
+    });
+});
+</script> --}}
+
+
+
+
+{{!-- <script>
+    $(document).ready(function () {
+        $('.trash-icon').click(function (e) {
+            e.preventDefault();
+            var clickedElement = $(this);
+            var productId = clickedElement.attr('href').split('/').pop();
+            var isAdded = clickedElement.data('added') || false; // Retrieve the current state, default to false
+
+            $.ajax({
+                type: 'GET',
+                url: '/users/addwishlist/' + productId,
+                success: function (response) {
+                    if (response) {
+                        if (isAdded) {
+                            Swal.fire({
+                                icon: 'info',
+                                title: 'Removed from Wishlist!',
+                                text: 'Item removed from your wishlist.',
+                                width: '300px',
+                            });
+                        } 
+
+                        // Toggle the added state for the next click
+                        clickedElement.data('added', !isAdded);
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Unable to add/remove item to/from wishlist.',
+                            width: '300px',
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'Unable to add/remove item to/from wishlist.',
+                        width: '300px',
+                    });
+                }
+            });
+        });
+    });
+</script> --}}
+<!-- Add a click event listener to the trash icon -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.trash-icon').forEach(function(icon) {
+        icon.addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent the default behavior of the anchor tag
+
+            // Get the product ID from the href attribute
+            var productId = this.getAttribute('href').split('/').pop();
+
+            // Reference to the current element
+            var currentElement = $(this);
+
+            // Send a DELETE request to the server
+            fetch('/users/addwishlist/' + productId, {
+                method: 'DELETE'
+            })
+            .then(() => {
+                // Product deleted successfully, remove the entire row
+                currentElement.closest('tr').remove();
+            })
+            .catch(error => {
+                console.error('Error deleting product:', error);
+            });
+        });
+    });
+});
+</script><script>
+    $(document).ready(function () {
+        $('.trash-icon').click(function (e) {
+            e.preventDefault();
+            var clickedElement = $(this);
+            var productId = clickedElement.attr('href').split('/').pop();
+            var isAdded = clickedElement.data('added') || false; // Retrieve the current state, default to false
+
+            $.ajax({
+                type: 'GET',
+                url: '/users/addwishlist/' + productId,
+                success: function (response) {
+                    if (response) {
+                        if (isAdded) {
+                            Swal.fire({
+                                icon: 'info',
+                                title: 'Removed from Wishlist!',
+                                text: 'Item removed from your wishlist.',
+                                width: '300px',
+                            });
+                        } else {
+                            Swal.fire({
+                                 icon: 'info',
+                                title: 'Removed from Wishlist!',
+                                text: 'Item removed from your wishlist.',
+                                width: '300px',
+                            });
+                        }
+
+                        // Toggle the added state for the next click
+                        clickedElement.data('added', !isAdded);
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Unable to add/remove item to/from wishlist.',
+                            width: '300px',
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'Unable to add/remove item to/from wishlist.',
+                        width: '300px',
+                    });
+                }
+            });
+        });
+    });
 </script>

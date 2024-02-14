@@ -47,7 +47,7 @@ module.exports = {
     if (!cart) {
         throw new Error('Cart not found for the user');
     }
-    const discountPrice = cartprice.totalPrice-(cartprice.totalPrice * (data.discount / 100));
+    const discountPrice = cartprice.totalPrice-(cartprice.totalPrice * (data.discount / 100)) ;
     const result = await cart.findOneAndUpdate(
         { user: userid },
         {

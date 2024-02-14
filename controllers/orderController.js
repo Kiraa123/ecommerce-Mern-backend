@@ -1,7 +1,7 @@
 const order = require('../helpers/orderhelper')
 const product = require('../helpers/producthelper')
 const user = require('../helpers/userhelper')
-const coupon=require('../helpers/couponhelper')
+const coupon = require('../helpers/couponhelper')
 
 module.exports = {
     checkout: async (req, res) => {
@@ -13,12 +13,12 @@ module.exports = {
             if (address1 != '') {
                 var address = address1[0].addresses
             }
-            console.log(address,'aaa');
-            console.log(address1,'bbb');
+            console.log(address, 'aaa');
+            console.log(address1, 'bbb');
 
 
             total = data.totalPrice + 50
-            res.render('users/checkout', { data, total, count, address})
+            res.render('users/checkout', { data, total, count, address })
         } else {
             res.redirect('/')
         }
@@ -30,32 +30,32 @@ module.exports = {
             const userId = req.session.user._id;
             const data = await user.getitemscart(userId);
             const count = await user.count(userId);
-            const allcoupon=await coupon.showcoupon(userId)
-            const isUser=req.session.loggedIn;
+            const isUser = req.session.loggedIn;
 
             if (data) {
+                const allcoupon = await coupon.showcoupon(userId)
                 total = data.totalPrice + 50
-                res.render('users/cart', { data, total, count,coupon:allcoupon ,isUser})
+                res.render('users/cart', { data, total, count, coupon: allcoupon, isUser })
             } else {
-                res.render('users/cart',{isUser})
+                res.render('users/cart', { isUser })
             }
         } catch (error) {
             console.error(error);
         }
     },
-    coupon:async (req,res)=>{
+    coupon: async (req, res) => {
         const userid = req.session.user._id;
-        const result=await user.addcoupon(userid,req.body)
+        const result = await user.addcoupon(userid, req.body)
         const response = {
-          totalPrice: result.discountprice
+            totalPrice: result.discountprice
         };
         res.json(response)
-      },
-      removecoupon:async(req,res)=>{
+    },
+    removecoupon: async (req, res) => {
         const userid = req.session.user._id;
-        const result=await user.removecoupon(userid)
+        const result = await user.removecoupon(userid)
         res.redirect('/users/cart')
-      },
+    },
     cartadding: async (req, res) => {
         var cartqty = 0
         const productid = req.params.id;
@@ -82,11 +82,11 @@ module.exports = {
             if (cart) {
                 if (productexist) {
                     await user.updatecart(userId, cartItem)
-                      res.json(count + 1);
+                    res.json(count + 1);
                 }
                 else {
                     await user.pushitems(userId, cartItem)
-                      res.json(count + 1);
+                    res.json(count + 1);
                 }
             }
             else {
@@ -129,28 +129,33 @@ module.exports = {
         const productid = req.params.id;
         const userid = req.session.user._id;
         const quantity = await user.quantity(userid, productid)
-        console.log(quantity);
-        const productexist = await user.productexist(productid, userid)
-        if (productexist) {
-            var foundItem = productexist.items.find(item => item.product.toString() === productid);
-            var cartqty = foundItem.quantity
-        }
-        const productqty = await product.finddata(productid)
-        if (productqty.quantity > cartqty) {
-            const cart = await user.qtyadd(userid, productid)
-            const response = {
-                quantity: quantity,
-                totalPrice: cart.totalPrice
-            };
-              res.json(response)
-        } else {
-            const response = false;
+        const cart = await user.cartexist(userid)
+        if (cart.discountprice) {
+            const response = "coupon";
             res.json(response)
+        } else {
+            const productexist = await user.productexist(productid, userid)
+            if (productexist) {
+                var foundItem = productexist.items.find(item => item.product.toString() === productid);
+                var cartqty = foundItem.quantity
+            }
+            const productqty = await product.finddata(productid)
+            if (productqty.quantity > cartqty) {
+                const cart = await user.qtyadd(userid, productid)
+                const response = {
+                    quantity: quantity,
+                    totalPrice: cart.totalPrice
+                };
+                res.json(response)
+            } else {
+                const response = false;
+                res.json(response)
+            }
         }
     },
     qtyminus: async (req, res) => {
         const productid = req.params.id;
-        
+
         const currentuser = req.session.user.name;
         const userid = req.session.user._id;
         const quantity = await user.quantity(userid, productid)
@@ -167,7 +172,7 @@ module.exports = {
         const orders = await order.orders()
         res.render('admin/orders', { orders })
     },
-   
+
     deletecart: async (req, res) => {
         const productid = req.params.id
         const userid = req.session.user._id;

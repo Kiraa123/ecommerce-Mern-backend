@@ -102,7 +102,7 @@
 
                                             </div>
                                             <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                                <h6 class="mb-0" id="price_{{this.product._id}}">$
+                                                <h6 class="mb-0" id="price_{{this.product._id}}">
                                                     {{this.product.price}}</h6>
                                             </div>
                                             <div class="col-md-1 col-lg-1 col-xl-1 text-end">
@@ -167,7 +167,8 @@
 
                                                     {{!-- <input type="text" name="code" placeholder="COUPON CODE"> --}}
                                                     <a class="new" id="applyButton"
-                                                        data-code="{{this.code}}-{{this.discount}}">Apply</a>
+                                                        data-code="{{this.code}}-{{this.discount}}"> Apply </a>
+                                                </div>
                                                     {{/each}}
                                             </form>
                                             {{/if}}
@@ -206,6 +207,8 @@
             </div>
     </section>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
         $(document).ready(function () {
             $('.new').click(function (e) {
@@ -225,7 +228,7 @@
                         $('#totlink').text('Rs: ' + (response.totalPrice + 50));
                         var appliedButtonHtml = '<span class="badge badge-success">Applied</span>';
                         appliedButtonHtml += '<a href="/users/coupon/remove"> &#10005;</a>';
-                        $clickedElement.parent().append(newHtml);
+                        $clickedElement.parent().append(appliedButtonHtml);
 
                     },
                     error: function (error) {
@@ -262,23 +265,34 @@
         });
     </script>
     <script>
-        $(document).ready(function () {
-            $('.btn-add').click(function (e) {
-                e.preventDefault();
-                var productId = $(this).data('productid');
-                var uniqueId = 'quantityLink_' + productId;
-                $.ajax({
-                    type: 'GET',
-                    url: '/users/cart/qtyadd/' + productId,
-                    success: function (response) {
+    $(document).ready(function () {
+        $('.btn-add').click(function (e) {
+            e.preventDefault();
+            var productId = $(this).data('productid');
+            var uniqueId = 'quantityLink_' + productId;
+            
+            $.ajax({
+                type: 'GET',
+                url: '/users/cart/qtyadd/' + productId,
+                success: function (response) {
+                    if (response === "coupon") {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'First Remove Coupon!',
+                            text: 'then Add Quantity',
+                            width: '300px',
+                        });
+                    } else {
                         $('#' + uniqueId).text(response.quantity + 2);
                         $('#totpriceLink').text('Rs. ' + response.totalPrice);
                         $('#totlink').text('Rs. ' + (response.totalPrice + 50));
-                    },
-                    error: function (error) {
-                        console.error(error);
                     }
-                });
+                },
+                error: function (error) {
+                    console.error("Error occurred:", error);
+                    // You might want to handle the error more gracefully for the user.
+                }
             });
         });
-    </script>
+    });
+</script>

@@ -257,8 +257,7 @@
                                                         <div class="mb-3">
                                                             <label class="form-label" for="billing-name">Name</label>
                                                             <input type="text" pattern="[A-Za-z]+" class="form-control"
-                                                                id="name" placeholder="Enter name" name="name"
-                                                                required>
+                                                                id="name" placeholder="Enter name" name="name" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-4">
@@ -273,8 +272,8 @@
                                                         <div class="mb-3">
                                                             <label class="form-label" for="">Phoneno</label>
                                                             <input type="tel" name="phoneno" class="form-control"
-                                                                id="phoneno" maxlength="10"
-                                                                placeholder="Enter Phone no" required>
+                                                                id="phoneno" maxlength="10" placeholder="Enter Phone no"
+                                                                required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -285,8 +284,7 @@
                                                         <div class="mb-4 mb-lg-0">
                                                             <label class="form-label" for="billing-city">City</label>
                                                             <input type="text" pattern="[A-Za-z]+" class="form-control"
-                                                                name="city" id="city" placeholder="Enter City"
-                                                                required>
+                                                                name="city" id="city" placeholder="Enter City" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-4">
@@ -322,9 +320,9 @@
                                     <option value="address">Select Address</option>
                                     {{#each address }}
                                     <option value="{{this._id}}" data-name="{{this.name}}"
-                                        data-address="{{this.address}}" data-phoneno="{{this.phoneno}}" data-city="{{this.city}}"
-                                        data-state="{{this.state}}" data-pincode="{{this.pincode}}"
-                                        >
+                                        data-address="{{this.address}}" data-phoneno="{{this.phoneno}}"
+                                        data-city="{{this.city}}" data-state="{{this.state}}"
+                                        data-pincode="{{this.pincode}}">
                                         {{this.name}} :<br>
                                         {{this.address}},{{this.phoneno}},{{this.city}},{{this.state}},{{this.pincode}}<br>
                                     </option>
@@ -341,7 +339,7 @@
                         {{/if}}
 
 
-                     
+
                         </li>
                         <li class="checkout-item">
                             <div class="avatar checkout-icon p-1">
@@ -416,86 +414,88 @@
                     <div class="p-3 bg-light mb-3">
                         <h5 class="font-size-16 mb-0">Order Summary <span class="float-end ms-2">{{count}} Items</span>
                         </h5>
-                                                 <div class="col text-right">Rs: {{#if data.discountprice}}{{data.discountprice}} {{else}}{{data.totalPrice}}{{/if}}</div>
-
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-centered mb-0 table-nowrap">
-                            <thead>
-                                <tr>
-                                    <th class="border-top-0" style="width: 110px;" scope="col">Product</th>
-                                    <th class="border-top-0" scope="col">Product Desc</th>
-                                    <th class="border-top-0" scope="col">Price</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {{#each data.items}}
-
-                                <tr>
-                                    <th scope="row"><img src="../uploads/{{this.product.image}}" alt="product-img"
-                                            title="product-img" class="avatar-lg rounded"></th>
-                                    <td>
-                                        <h5 class="font-size-16 text-truncate"><a href="#"
-                                                class="text-dark">{{this.product.productname}}</a></h5>
-                                        <p class="text-muted mb-0">
-                                            <i class="bx bxs-star text-warning"></i>
-                                            <i class="bx bxs-star text-warning"></i>
-                                            <i class="bx bxs-star text-warning"></i>
-                                            <i class="bx bxs-star text-warning"></i>
-                                            <i class="bx bxs-star-half text-warning"></i>
-                                        </p>
-                                        <p class="text-muted mb-0 mt-1">{{this.product.price}}* </p>
-                                    </td>
-                                    <td>{{this.product.price}}</td>
-                                </tr>
-
-
-                                <tr>
-                                    <td colspan="2">
-                                        <h5 class="font-size-14 m-0">Shipping Charge :</h5>
-                                    </td>
-                                    <td>
-                                        Rs:50
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">
-                                        <h5 class="font-size-14 m-0">Estimated Tax :</h5>
-                                    </td>
-                                    <td>
-                                        Rs:0
-                                    </td>
-                                </tr>
-                                {{/each}}
-
-
-                                {{!-- <tr class="bg-light">
-                                    <td colspan="2">
-                                        <h5 class="font-size-14 m-0">Total:</h5>
-                                    </td>
-                                    <td>
-                                        {{total}}
-                                    </td>
-                                </tr> --}}
-                                <div class="col">TOTAL PRICE</div>
+                        <div class="col text-right">Rs: {{#if data.discountprice}}<b>{{data.discountprice}}</b>
+                            {{else}}{{data.totalPrice}}{{/if}}</div>
+                        {{!-- <div class="col">TOTAL PRICE</div> --}}
                         {{#if data.discountprice}}
-                            <div id="totlink" class="row text-right">Total Rs: {{data.totalPrice}}</div><br>
-                            <div id="totlink" class="row text-right">Discount %: {{data.discount}}</div>
-                            {{!-- <div id="totlink" class="col text-right">Discount Rs: {{total}}</div> --}}
-                            {{else}}
-                            <div id="totlink" class="col text-right">Rs: {{total}}</div>
-                            {{/if}}
+                        <div id="totlink" class="row text-right">Total Rs: {{data.totalPrice}}</div><br>
+                        <div id="totlink" class="row text-right">Discount %: {{data.discount}}</div>
+                        {{!-- <div id="totlink" class="col text-right">Discount Rs: {{total}}</div> --}}
+                        {{else}}
+                        <div id="totlink" class="col text-right">Rs: {{total}}</div>
+                        {{/if}}
                     </div>
-                            </tbody>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-centered mb-0 table-nowrap">
+                        <thead>
+                            <tr>
+                                <th class="border-top-0" style="width: 110px;" scope="col">Product</th>
+                                <th class="border-top-0" scope="col">Product Desc</th>
+                                <th class="border-top-0" scope="col">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each data.items}}
 
-                        </table>
+                            <tr>
+                                <th scope="row"><img src="../uploads/{{this.product.image}}" alt="product-img"
+                                        title="product-img" class="avatar-lg rounded"></th>
+                                <td>
+                                    <h5 class="font-size-16 text-truncate"><a href="#"
+                                            class="text-dark">{{this.product.productname}}</a></h5>
+                                    <p class="text-muted mb-0">
+                                        {{!-- <i class="bx bxs-star text-warning"></i>
+                                        <i class="bx bxs-star text-warning"></i>
+                                        <i class="bx bxs-star text-warning"></i>
+                                        <i class="bx bxs-star text-warning"></i>
+                                        <i class="bx bxs-star-half text-warning"></i> --}}
+                                    </p>
+                                    <p class="text-muted mb-0 mt-1">{{this.product.price}}*{{quantity}} </p>
+                                </td>
+                                <td>{{this.product.price}}</td>
+                            </tr>
 
-                    </div>
+
+                            <tr>
+                                <td colspan="2">
+                                    <h5 class="font-size-14 m-0">Shipping Charge :</h5>
+                                </td>
+                                <td>
+                                    Rs:50
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <h5 class="font-size-14 m-0">Estimated Tax :</h5>
+                                </td>
+                                <td>
+                                    Rs:0
+                                </td>
+                            </tr>
+                            {{/each}}
+
+
+                            {{!-- <tr class="bg-light">
+                                <td colspan="2">
+                                    <h5 class="font-size-14 m-0">Total:</h5>
+                                </td>
+                                <td>
+                                    {{total}}
+                                </td>
+                            </tr> --}}
+
+
+                        </tbody>
+
+                    </table>
+
                 </div>
             </div>
         </div>
     </div>
-    <!-- end row -->
+</div>
+<!-- end row -->
 </div>
 <!-- Add this script at the end of your HTML file, just before the closing </body> tag -->
 

@@ -41,7 +41,7 @@ router.get('/orders',isAuth,orders)
 router.get('/moredetails/:id',moredetails)
 router.get('/wishlist',isAuth,wishlist)
 router.get('/addwishlist/:id',isAuth,addwishlist)
-router.get('deletewishlist/:id',isAuth,deletewishlist)
+router.get('/deletewishlist/:id',isAuth,deletewishlist)
 
 
 

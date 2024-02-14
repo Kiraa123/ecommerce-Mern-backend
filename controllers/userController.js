@@ -298,7 +298,7 @@ module.exports = {
     const wishlistitems = await User.getwishlist(userid);
     let isUser = req.session.user;
     if (wishlistitems) {
-      res.render("users/wishlist", { wishlist: wishlistitems.items });
+      res.render("users/wishlist", { wishlist: wishlistitems.items ,isUser});
     } else {
       res.render('users/wishlist')
     }
@@ -308,17 +308,16 @@ module.exports = {
     const proid = req.params.id;
     const userid = req.session.user._id;
     const addWishlist = await User.wishlistAdd(userid, proid);
-    res.json({addWishlist})
+    res.json(addWishlist)
 
   },
   deletewishlist: async (req, res) => {
     const proid = req.params.id;
     const userid = req.session.user._id;
     const deletedWishlist = await User.wishlistdelete(userid, proid);
-    res.redirect("/users/wishlist");
+    // res.redirect("/users/wishlist");
+    res.render('users/wishlist',{deletedWishlist})
   }
-
-
 }
 
 
