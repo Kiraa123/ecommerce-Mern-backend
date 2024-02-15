@@ -329,10 +329,10 @@
                                     {{/each}}
                                 </select>
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="button" data-toggle="dropdown"
+                                    {{!-- <button class="btn btn-outline-secondary" type="button" data-toggle="dropdown"
                                         aria-haspopup="true" aria-expanded="false">
                                         &#9660;
-                                    </button>
+                                    </button> --}}
                                 </div>
                             </div>
                         </div>
@@ -455,6 +455,7 @@
                                 </td>
                                 <td>{{this.product.price}}</td>
                             </tr>
+                            {{/each}}
 
 
                             <tr>
@@ -473,7 +474,6 @@
                                     Rs:0
                                 </td>
                             </tr>
-                            {{/each}}
 
 
                             {{!-- <tr class="bg-light">

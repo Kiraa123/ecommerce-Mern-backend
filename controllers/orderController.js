@@ -23,7 +23,6 @@ module.exports = {
             res.redirect('/')
         }
     },
-
     cart: async (req, res) => {
         const currentuser = req.session.user.name;
         try {
@@ -31,6 +30,7 @@ module.exports = {
             const data = await user.getitemscart(userId);
             const count = await user.count(userId);
             const isUser = req.session.loggedIn;
+            
 
             if (data) {
                 const allcoupon = await coupon.showcoupon(userId)
@@ -159,6 +159,11 @@ module.exports = {
         const currentuser = req.session.user.name;
         const userid = req.session.user._id;
         const quantity = await user.quantity(userid, productid)
+        const cart = await user.cartexist(userid)
+        if (cart.discountprice) {
+            const response = "coupon";
+            res.json(response)
+        }else
         if (quantity > 0) {
             const cart = await user.qtyminus(userid, productid)
             const response = {

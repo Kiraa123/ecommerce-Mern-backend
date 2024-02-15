@@ -166,7 +166,7 @@
                                                     <span class="mr-2">{{this.code}} - {{this.discount}}% OFF</span>
 
                                                     {{!-- <input type="text" name="code" placeholder="COUPON CODE"> --}}
-                                                    <a class="new" id="applyButton"
+                                                    <a class="new" 
                                                         data-code="{{this.code}}-{{this.discount}}"> Apply </a>
                                                 </div>
                                                     {{/each}}
@@ -209,61 +209,85 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script>
-        $(document).ready(function () {
-            $('.new').click(function (e) {
-                e.preventDefault();
-                var codeWithDiscount = $(this).data('code');
-                var codeAndDiscount = codeWithDiscount.split('-');
-                var code = codeAndDiscount[0];
-                var discount = codeAndDiscount[1];
-                 var $clickedElement = $(this);
+   <script>
+   $(document).ready(function () {
+    // Check if there is an applied coupon on page load
+    var appliedCoupon = $('.badge-success').length > 0;
 
-                $.ajax({
-                    type: 'POST',
-                    url: '/users/cart/coupon',
-                    data: { code: code, discount: discount },
-                    success: function (response) {
-                        $('#totpriceLink').text('Rs: ' + response.totalPrice);
-                        $('#totlink').text('Rs: ' + (response.totalPrice + 50));
-                        var appliedButtonHtml = '<span class="badge badge-success">Applied</span>';
-                        appliedButtonHtml += '<a href="/users/coupon/remove"> &#10005;</a>';
-                        $clickedElement.parent().append(appliedButtonHtml);
+    // If an applied coupon is found, hide the "Apply" buttons
+    if (appliedCoupon) {
+        $('.new').hide();
+    }
 
-                    },
-                    error: function (error) {
-                        console.error(error);
-                    }
-                });
-            });
+    $('.new').click(function (e) {
+        e.preventDefault();
+        var codeWithDiscount = $(this).data('code');
+        var codeAndDiscount = codeWithDiscount.split('-');
+        var code = codeAndDiscount[0];
+        var discount = codeAndDiscount[1];
+        var $clickedElement = $(this);
+
+        $.ajax({
+            type: 'POST',
+            url: '/users/cart/coupon',
+            data: { code: code, discount: discount },
+            success: function (response) {
+                $('#totpriceLink').text('Rs: ' + response.totalPrice);
+                $('#totlink').text('Rs: ' + (response.totalPrice + 50));
+
+                if ($clickedElement.siblings('.badge-success').length === 0) {
+                    var appliedButtonHtml = '<span class="badge badge-success">Applied</span>';
+                    appliedButtonHtml += '<a href="/users/coupon/remove"> &#10005;</a>';
+                    $clickedElement.parent().append(appliedButtonHtml);
+
+                    // Hide all other "Apply" buttons after applying a coupon
+                    $('.new').hide();
+                }
+            },
+            error: function (error) {
+                console.error(error);
+            }
         });
-    </script>
+    });
+});
+
+</script>
 
 
 
-    <script>
-        $(document).ready(function () {
-            $('.btn-minus').click(function (e) {
-                e.preventDefault();
-                var productId = $(this).data('productid')
-                var uniqueId = 'quantityLink_' + productId;
+   <script>
+    $(document).ready(function () {
+        $('.btn-minus').click(function (e) {
+            e.preventDefault();
+            var productId = $(this).data('productid')
+            var uniqueId = 'quantityLink_' + productId;
 
-                $.ajax({
-                    type: 'GET',
-                    url: '/users/cart/qtyminus/' + productId,
-                    success: function (response) {
+            $.ajax({
+                type: 'GET',
+                url: '/users/cart/qtyminus/' + productId,
+                success: function (response) {
+                    if (response === "coupon") {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'First Remove Coupon!',
+                            text: 'then reduce quantity',
+                            width: '300px',
+                        });
+                    } else {
                         console.log(response)
                         $('#' + uniqueId).text(response.quantity);
                         $('#totpriceLink').text('Rs. ' + response.totalPrice);
                         $('#totlink').text('Rs. ' + (response.totalPrice + 50));
-                    },
-                    error: function (error) {
-                        console.error(error);
                     }
-                });
+                },
+                error: function (error) {
+                    console.error(error);
+                }
             });
         });
-    </script>
+    });
+</script>
+
     <script>
     $(document).ready(function () {
         $('.btn-add').click(function (e) {
