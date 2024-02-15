@@ -23,47 +23,6 @@ module.exports = {
             ,{new:true} )
 
     },
-    // confirm: async (data) => {
-    //     const order = await order.findById(data);
-    //     if (order.status !== 'Cancelled' && order.status !== 'Delivered') {
-    //         await order.findOneAndUpdate(
-    //             { _id: data },
-    //             { $set: { status: 'Confirm' } },
-    //             { new: true }
-    //         );
-    //     }
-    // },
-    // shipped: async (data) => {
-    //     await order.findOneAndUpdate(
-    //         { _id: data },
-    //         {
-    //             $set:
-    //             {
-    //                 status: 'Shipped'
-    //             }
-    //         },{new:true})
-    // },
-    // delivered: async (data) => {
-    //     await order.findOneAndUpdate(
-    //         { _id: data },
-    //         {
-    //             $set:
-    //             {
-    //                 status: 'Delivered'
-    //             }
-    //         },{new:true})
-    // },
-    // cancelled: async (data) => {
-    //     await order.findOneAndUpdate(
-    //         { _id: data },
-    //         {
-    //             $set:
-    //             {
-    //                 status: 'Cancelled'
-    //             }
-    //         },{new:true})
-    // },
-
     updateStatus: async (data, newStatus) => {
         const allowedTransitions = {
             Placed: ['Confirm', 'Cancelled','Shipped','Delivered'],
@@ -155,13 +114,10 @@ module.exports = {
     
       filterOrderType: async function(payType){
         const orders = await order.find({paymentID: payType}).populate('orderID').lean()
-        console.log(orders,'razii');
           return orders;
       },
       filterOrderStatus: async function(status1){
         const orders = await order.find({status: status1}).populate('orderID').lean()
-        console.log(orders,'raziikp');
-
           return orders;
       }
 }
