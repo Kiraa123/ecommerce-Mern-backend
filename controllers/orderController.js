@@ -149,17 +149,18 @@ module.exports = {
 
                 };
                 res.json(response)
-            } else {
-                const response = false;
-                res.json(response)
             }
+            //  else {
+            //     const response = false;
+            //     res.json(response)
+            // }
         }
         async function getAvailableCoupons(totalPrice, userid) {
             if (totalPrice >= 20000 && totalPrice <= 80000) {
                 const allcoupon = await coupon.showcoupon(userid);
                 return allcoupon;
             } else {
-                return 0;
+                return 1;
             }
         }
     },
@@ -190,7 +191,7 @@ module.exports = {
                 const allcoupon = await coupon.showcoupon(userid);
                 return allcoupon;
             } else {
-                return 0;
+                return 1;
             }
         }
     },
