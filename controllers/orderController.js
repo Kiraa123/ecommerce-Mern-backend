@@ -30,7 +30,7 @@ module.exports = {
             const data = await user.getitemscart(userId);
             const count = await user.count(userId);
             const isUser = req.session.loggedIn;
-            
+
 
             if (data) {
                 const allcoupon = await coupon.showcoupon(userId)
@@ -144,12 +144,22 @@ module.exports = {
                 const cart = await user.qtyadd(userid, productid)
                 const response = {
                     quantity: quantity,
-                    totalPrice: cart.totalPrice
+                    totalPrice: cart.totalPrice,
+                    availableCoupons: await getAvailableCoupons(cart.totalPrice, userid)
+
                 };
                 res.json(response)
             } else {
                 const response = false;
                 res.json(response)
+            }
+        }
+        async function getAvailableCoupons(totalPrice, userid) {
+            if (totalPrice >= 20000 && totalPrice <= 80000) {
+                const allcoupon = await coupon.showcoupon(userid);
+                return allcoupon;
+            } else {
+                return 0;
             }
         }
     },
@@ -158,21 +168,33 @@ module.exports = {
 
         const currentuser = req.session.user.name;
         const userid = req.session.user._id;
-        const quantity = await user.quantity(userid, productid)
-        const cart = await user.cartexist(userid)
+        const quantity = await user.quantity(userid, productid);
+        const cart = await user.cartexist(userid);
+
         if (cart.discountprice) {
             const response = "coupon";
-            res.json(response)
-        }else
-        if (quantity > 0) {
-            const cart = await user.qtyminus(userid, productid)
+            res.json(response);
+        } else if (quantity > 0) {
+            const updatedCart = await user.qtyminus(userid, productid);
             const response = {
                 quantity: quantity,
-                totalPrice: cart.totalPrice
+                totalPrice: updatedCart.totalPrice,
+                availableCoupons: await getAvailableCoupons(cart.totalPrice, userid)
             };
-            res.json(response)
+            res.json(response);
+        }
+
+
+        async function getAvailableCoupons(totalPrice, userid) {
+            if (totalPrice >= 20000 && totalPrice <= 80000) {
+                const allcoupon = await coupon.showcoupon(userid);
+                return allcoupon;
+            } else {
+                return 0;
+            }
         }
     },
+
     orders: async (req, res) => {
         const orders = await order.orders()
         res.render('admin/orders', { orders })

@@ -154,22 +154,22 @@
                                             <div class="col mb-2" id="count" style="padding-left:0;">APPLIED COUPON
                                             </div>
                                             <div class="mr-2 mb-2">
-                                                <span class="mr-2">{{data.couponcode}} - {{this.discount}}% OFF</span>
+                                                <span class="mr-2">{{data.couponcode}} - {{data.discount}}% OFF</span>
                                                 <span class="badge badge-success">Applied</span>
                                                 <a href="/users/coupon/remove"> &#10005;</a>
                                             </div>
                                             {{else}}
                                             <div class="col" id="count" style="padding-left:0;">AVAILABLE COUPEN</div>
-                                            <form>
+                                            <form id="updateC">
                                                 {{#each coupon}}
                                                 <div class="mb-2">
                                                     <span class="mr-2">{{this.code}} - {{this.discount}}% OFF</span>
 
                                                     {{!-- <input type="text" name="code" placeholder="COUPON CODE"> --}}
-                                                    <a class="new" 
-                                                        data-code="{{this.code}}-{{this.discount}}"> Apply </a>
+                                                    <a class="new" data-code="{{this.code}}-{{this.discount}}"> Apply
+                                                    </a>
                                                 </div>
-                                                    {{/each}}
+                                                {{/each}}
                                             </form>
                                             {{/if}}
 
@@ -187,7 +187,8 @@
                                                 </div>
                                                 <div id="totlink" class="col text-right">Discount %: {{data.discount}}
                                                 </div>
-                                                {{!-- <div id="totlink" class="col text-right">Discount Rs: {{total}}</div> --}}
+                                                {{!-- <div id="totlink" class="col text-right">Discount Rs: {{total}}
+                                                </div> --}}
                                                 {{else}}
                                                 <div id="totlink" class="col text-right">Rs: {{total}}</div>
                                                 {{/if}}
@@ -209,114 +210,279 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-   <script>
-   $(document).ready(function () {
-    // Check if there is an applied coupon on page load
-    var appliedCoupon = $('.badge-success').length > 0;
-
-    // If an applied coupon is found, hide the "Apply" buttons
-    if (appliedCoupon) {
-        $('.new').hide();
-    }
-
-    $('.new').click(function (e) {
-        e.preventDefault();
-        var codeWithDiscount = $(this).data('code');
-        var codeAndDiscount = codeWithDiscount.split('-');
-        var code = codeAndDiscount[0];
-        var discount = codeAndDiscount[1];
-        var $clickedElement = $(this);
-
-        $.ajax({
-            type: 'POST',
-            url: '/users/cart/coupon',
-            data: { code: code, discount: discount },
-            success: function (response) {
-                $('#totpriceLink').text('Rs: ' + response.totalPrice);
-                $('#totlink').text('Rs: ' + (response.totalPrice + 50));
-
-                if ($clickedElement.siblings('.badge-success').length === 0) {
-                    var appliedButtonHtml = '<span class="badge badge-success">Applied</span>';
-                    appliedButtonHtml += '<a href="/users/coupon/remove"> &#10005;</a>';
-                    $clickedElement.parent().append(appliedButtonHtml);
-
-                    // Hide all other "Apply" buttons after applying a coupon
-                    $('.new').hide();
-                }
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
-    });
-});
-
-</script>
-
-
-
-   <script>
-    $(document).ready(function () {
-        $('.btn-minus').click(function (e) {
-            e.preventDefault();
-            var productId = $(this).data('productid')
-            var uniqueId = 'quantityLink_' + productId;
-
-            $.ajax({
-                type: 'GET',
-                url: '/users/cart/qtyminus/' + productId,
-                success: function (response) {
-                    if (response === "coupon") {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'First Remove Coupon!',
-                            text: 'then reduce quantity',
-                            width: '300px',
-                        });
-                    } else {
-                        console.log(response)
-                        $('#' + uniqueId).text(response.quantity);
-                        $('#totpriceLink').text('Rs. ' + response.totalPrice);
-                        $('#totlink').text('Rs. ' + (response.totalPrice + 50));
-                    }
-                },
-                error: function (error) {
-                    console.error(error);
-                }
-            });
-        });
-    });
-</script>
-
     <script>
-    $(document).ready(function () {
-        $('.btn-add').click(function (e) {
-            e.preventDefault();
-            var productId = $(this).data('productid');
-            var uniqueId = 'quantityLink_' + productId;
-            
-            $.ajax({
-                type: 'GET',
-                url: '/users/cart/qtyadd/' + productId,
-                success: function (response) {
-                    if (response === "coupon") {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'First Remove Coupon!',
-                            text: 'then Add Quantity',
-                            width: '300px',
-                        });
-                    } else {
-                        $('#' + uniqueId).text(response.quantity + 2);
-                        $('#totpriceLink').text('Rs. ' + response.totalPrice);
-                        $('#totlink').text('Rs. ' + (response.totalPrice + 50));
+        $(document).ready(function () {
+            // Check if there is an applied coupon on page load
+            var appliedCoupon = $('.badge-success').length > 0;
+
+            // If an applied coupon is found, hide the "Apply" buttons
+            if (appliedCoupon) {
+                $('.new').hide();
+            }
+
+            $('.new').click(function (e) {
+                e.preventDefault();
+                var codeWithDiscount = $(this).data('code');
+                var codeAndDiscount = codeWithDiscount.split('-');
+                var code = codeAndDiscount[0];
+                var discount = codeAndDiscount[1];
+                var $clickedElement = $(this);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/users/cart/coupon',
+                    data: { code: code, discount: discount },
+                    success: function (response) {
+                        $('#totpriceLink').text('Rs: ' + response.totalPrice);
+                        $('#totlink').text('Rs: ' + (response.totalPrice + 50));
+
+                        if ($clickedElement.siblings('.badge-success').length === 0) {
+                            var appliedButtonHtml = '<span class="badge badge-success">Applied</span>';
+                            appliedButtonHtml += '<a href="/users/coupon/remove"> &#10005;</a>';
+                            $clickedElement.parent().append(appliedButtonHtml);
+
+                            // Hide all other "Apply" buttons after applying a coupon
+                            $('.new').hide();
+                        }
+                    },
+                    error: function (error) {
+                        console.error(error);
                     }
-                },
-                error: function (error) {
-                    console.error("Error occurred:", error);
-                    // You might want to handle the error more gracefully for the user.
-                }
+                });
             });
         });
-    });
-</script>
+
+    </script>
+
+
+
+    <!-- Quantity Adjustment Script -->
+    <!-- Quantity Adjustment and Coupon Application Scripts -->
+    <script>
+        $(document).ready(function () {
+            // Quantity Adjustment
+            $('.btn-minus').click(function (e) {
+                e.preventDefault();
+                var productId = $(this).data('productid');
+                var uniqueId = 'quantityLink_' + productId;
+
+                $.get('/users/cart/qtyminus/' + productId)
+                    .done(function (response) {
+                        console.log(response);  // Check the response in the browser console
+                        if (response === "coupon") {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'First Remove Coupon!',
+                                text: 'then Add Quantity',
+                                width: '300px',
+                            });
+                        } else {
+
+                            // Update the available coupons content in the updateC form
+                            updateAvailableCoupons(response.availableCoupons);
+
+                            // Update other elements in the UI
+                            $('#' + uniqueId).text(response.quantity);
+                            $('#totpriceLink').text('Rs. ' + response.totalPrice);
+                            $('#totlink').text('Rs. ' + (response.totalPrice + 50));
+
+                            // Apply styles only when the document is ready
+                            if (document.readyState === 'complete') {
+                                applyStyles();
+                            } else {
+                                $(document).ready(applyStyles);
+                            }
+                        }
+                    })
+                    .fail(function (error) {
+                        console.error(error);
+                    });
+            });
+
+
+            // Function to update available coupons content in the updateC form
+            function updateAvailableCoupons(availableCoupons) {
+                var updateCForm = $('#updateC');
+
+                // Assuming your coupon codes are within the updateC form
+                updateCForm.html('');
+
+                for (var i = 0; i < availableCoupons.length; i++) {
+                    // Assuming each coupon has '_id', 'code', and 'discount' properties
+                    var couponHtml = '<div class="mb-2">' +
+                        '<span class="mr-2">' + availableCoupons[i].code + ' - ' + availableCoupons[i].discount + '% OFF</span>' +
+                        '<a class="new" data-code="' + availableCoupons[i].code + '-' + availableCoupons[i].discount + '" data-id="new' + availableCoupons[i]._id + '"> Apply </a>' +
+                        '</div>';
+
+                    updateCForm.append(couponHtml);
+                }
+            }
+
+            // Function to apply styles to the "Apply" links
+            function applyStyles() {
+                // Add or adjust these styles in your CSS file or style section
+                $('.new').css({
+                    // display: 'inline-block',
+                    // padding: '8px 16px',
+                    //backgroundColor: '#4CAF50', /* Green background color */
+                    // color: 'white',
+                    //  textAlign: 'center',
+                    // textDecoration: 'none',
+                    //fontSize: '14px',
+                    //  cursor: 'pointer',
+                    //borderRadius: '4px',
+                });
+
+                $('.new:hover').css({
+                    backgroundColor: '#45a049', /* Darker green on hover */
+                });
+            }
+
+            // Coupon Application
+            $(document).on('click', '.new', function (e) {
+                e.preventDefault();
+                var codeWithDiscount = $(this).data('code');
+                var codeAndDiscount = codeWithDiscount.split('-');
+                var code = codeAndDiscount[0];
+                var discount = codeAndDiscount[1];
+                var $clickedElement = $(this);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/users/cart/coupon',
+                    data: { code: code, discount: discount },
+                    success: function (response) {
+                        $('#totpriceLink').text('Rs: ' + response.totalPrice);
+                        $('#totlink').text('Rs: ' + (response.totalPrice + 50));
+
+                        if ($clickedElement.siblings('.badge-success').length === 0) {
+                            var appliedButtonHtml = '<span class="badge badge-success">Applied</span>';
+                            appliedButtonHtml += '<a href="/users/coupon/remove"> &#10005;</a>';
+                            $clickedElement.parent().append(appliedButtonHtml);
+
+                            // Hide all other "Apply" buttons after applying a coupon
+                            $('.new').hide();
+                        }
+                    },
+                    error: function (error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Quantity Adjustment
+            $('.btn-add').click(function (e) {
+                e.preventDefault();
+                var productId = $(this).data('productid');
+                var uniqueId = 'quantityLink_' + productId;
+
+                $.get('/users/cart/qtyadd/' + productId)
+                    .done(function (response) {
+                        console.log(response);  // Check the response in the browser console
+                        if (response === "coupon") {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'First Remove Coupon!',
+                                text: 'then Add Quantity',
+                                width: '300px',
+                            });
+                        } else {
+
+                            // Update the available coupons content in the updateC form
+                            updateAvailableCoupons(response.availableCoupons);
+
+                            // Update other elements in the UI
+                            $('#' + uniqueId).text(response.quantity + 2);
+                            $('#totpriceLink').text('Rs. ' + response.totalPrice);
+                            $('#totlink').text('Rs. ' + (response.totalPrice + 50));
+
+                            // Apply styles only when the document is ready
+                            if (document.readyState === 'complete') {
+                                applyStyles();
+                            } else {
+                                $(document).ready(applyStyles);
+                            }
+                        }
+                    })
+                    .fail(function (error) {
+                        console.error(error);
+                    });
+            });
+
+
+            // Function to update available coupons content in the updateC form
+            function updateAvailableCoupons(availableCoupons) {
+                var updateCForm = $('#updateC');
+
+                // Assuming your coupon codes are within the updateC form
+                updateCForm.html('');
+
+                for (var i = 0; i < availableCoupons.length; i++) {
+                    // Assuming each coupon has '_id', 'code', and 'discount' properties
+                    var couponHtml = '<div class="mb-2">' +
+                        '<span class="mr-2">' + availableCoupons[i].code + ' - ' + availableCoupons[i].discount + '% OFF</span>' +
+                        '<a class="new" data-code="' + availableCoupons[i].code + '-' + availableCoupons[i].discount + '" data-id="new' + availableCoupons[i]._id + '"> Apply </a>' +
+                        '</div>';
+
+                    updateCForm.append(couponHtml);
+                }
+            }
+
+            // Function to apply styles to the "Apply" links
+            function applyStyles() {
+                // Add or adjust these styles in your CSS file or style section
+                $('.new').css({
+                    // display: 'inline-block',
+                    // padding: '8px 16px',
+                    //backgroundColor: '#4CAF50', /* Green background color */
+                    // color: 'white',
+                    //  textAlign: 'center',
+                    // textDecoration: 'none',
+                    //fontSize: '14px',
+                    //  cursor: 'pointer',
+                    //borderRadius: '4px',
+                });
+
+                $('.new:hover').css({
+                    backgroundColor: '#45a049', /* Darker green on hover */
+                });
+            }
+
+            // Coupon Application
+            $(document).on('click', '.new', function (e) {
+                e.preventDefault();
+                var codeWithDiscount = $(this).data('code');
+                var codeAndDiscount = codeWithDiscount.split('-');
+                var code = codeAndDiscount[0];
+                var discount = codeAndDiscount[1];
+                var $clickedElement = $(this);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/users/cart/coupon',
+                    data: { code: code, discount: discount },
+                    success: function (response) {
+                        $('#' + uniqueId).text(response.quantity + 2);
+                        $('#totpriceLink').text('Rs: ' + response.totalPrice);
+                        $('#totlink').text('Rs: ' + (response.totalPrice + 50));
+
+                        if ($clickedElement.siblings('.badge-success').length === 0) {
+                            var appliedButtonHtml = '<span class="badge badge-success">Applied</span>';
+                            appliedButtonHtml += '<a href="/users/coupon/remove"> &#10005;</a>';
+                            $clickedElement.parent().append(appliedButtonHtml);
+
+                            // Hide all other "Apply" buttons after applying a coupon
+                            $('.new').hide();
+                        }
+                    },
+                    error: function (error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+    </script>
+   
