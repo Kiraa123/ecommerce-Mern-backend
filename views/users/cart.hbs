@@ -182,7 +182,7 @@
                                                 style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
                                                 <div class="col">TOTAL PRICE</div>
                                                 {{#if data.discountprice}}
-                                                <div id="" class="col text-right totlink">Total Rs: {{data.totalPrice}}
+                                                <div id="" class="col text-right totlink">Total Rs: {{data.discountprice}}
                                                 </div>
                                                 <div id="totlink1" class="col text-right totlink">Discount %: {{data.discount}}
                                                 </div>
@@ -231,7 +231,7 @@
                     url: '/users/cart/coupon',
                     data: { code: code, discount: discount },
                     success: function (response) {
-                        $('#totpriceLink').text('Rs: ' + response.totalPrice);
+                      //  $('#totpriceLink').text('Rs: ' + response.totalPrice);
                         $('.row .totlink').text('Rs: ' + (response.totalPrice + 50));
 
                         if ($clickedElement.siblings('.badge-success').length === 0) {
@@ -281,7 +281,7 @@
 
                             // Update other elements in the UI
                             $('#' + uniqueId).text(response.quantity);
-                            $('#totpriceLink').text('Rs. ' + response.totalPrice);
+                          //  $('#totpriceLink').text('Rs. ' + response.totalPrice);
                             $('.row .totlink').text('Rs. ' + (response.totalPrice + 50));
 
                             // Apply styles only when the document is ready
@@ -350,7 +350,7 @@
                     url: '/users/cart/coupon',
                     data: { code: code, discount: discount },
                     success: function (response) {
-                        $('#totpriceLink').text('Rs: ' + response.totalPrice);
+                       // $('#totpriceLink').text('Rs: ' + response.totalPrice);
                         $('.row .totlink').text('Rs: ' + (response.totalPrice + 50));
 
                         if ($clickedElement.siblings('.badge-success').length === 0) {
@@ -394,7 +394,7 @@
 
                             // Update other elements in the UI
                             $('#' + uniqueId).text(response.quantity + 2);
-                            $('#totpriceLink').text('Rs. ' + response.totalPrice);
+                           // $('#totpriceLink').text('Rs. ' + response.totalPrice);
                             $('row .totlink').text('Rs. ' + (response.totalPrice + 50));
 
                             // Apply styles only when the document is ready
@@ -464,7 +464,7 @@
                     data: { code: code, discount: discount },
                     success: function (response) {
                         $('#' + uniqueId).text(response.quantity + 2);
-                        $('#totpriceLink').text('Rs: ' + response.totalPrice);
+                      //  $('#totpriceLink').text('Rs: ' + response.totalPrice);
                         $('.row .totlink').text('Rs: ' + (response.totalPrice + 50));
 
                         if ($clickedElement.siblings('.badge-success').length === 0) {
