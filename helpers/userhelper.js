@@ -53,7 +53,8 @@ module.exports = {
         {
             $set: { couponcode:data.code,
                 discount: data.discount,
-                discountprice: discountPrice },
+                discountprice: discountPrice ,
+              isCoupon:true},
         },
         { new: true }
     );
@@ -100,7 +101,7 @@ module.exports = {
     const result = await cart.findOneAndUpdate(
         { user: userid },
         {
-             $unset: { couponcode: "", discount: "", discountprice: "" } ,
+             $unset: { couponcode: "", discount: "", discountprice: "" ,isCoupon:'' } ,
         },
         { new: true }
     );

@@ -39,6 +39,9 @@ const cartSchema = new mongoose.Schema({
     discountprice: {
         type: Number,
         default: null
+    },
+    isCoupon:{
+        type:Boolean,
     }
 })
 const Cart = mongoose.model('Cart', cartSchema)

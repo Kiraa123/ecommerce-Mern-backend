@@ -283,10 +283,11 @@ module.exports = {
     })
   },
   moredetails: async (req, res) => {
+    const isUser=req.session.user;
     const productid = req.params.id;
     var data = await product.finddata(productid);
     const otherdata = await product.allproducts(req)
-    res.render('users/moredetails', { data, otherdata })
+    res.render('users/moredetails', { data, otherdata,isUser})
   },
 
   logout: async (req, res) => {

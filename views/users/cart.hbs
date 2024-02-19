@@ -135,9 +135,7 @@
 
                                         <div class="d-flex justify-content-between mb-4">
                                             <h5 class="text-uppercase" id="cartCount">items {{count}}</h5>
-                                            <div id="totpriceLink" class="col text-right">Rs:{{#if
-                                                data.discountprice}}{{data.discountprice}}
-                                                {{else}}{{data.totalPrice}}{{/if}}</div>
+                                            <div id="totpriceLink" class="col text-right">Rs:{{data.totalPrice}}</div>
                                         </div>
 
 
@@ -159,7 +157,8 @@
                                                 <a href="/users/coupon/remove"> &#10005;</a>
                                             </div>
                                             {{else}}
-                                            <div class="col" id="count" style="padding-left:0;">AVAILABLE COUPEN</div>
+                                            <div class="col" id="count" style="padding-left:0;">AVAILABLE COUPON-(20k-80k)
+                                            </div>
                                             <form id="updateC">
                                                 {{#each coupon}}
                                                 <div class="mb-2">
@@ -183,14 +182,14 @@
                                                 style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
                                                 <div class="col">TOTAL PRICE</div>
                                                 {{#if data.discountprice}}
-                                                <div id="totlink" class="col text-right">Total Rs: {{data.totalPrice}}
+                                                <div id="" class="col text-right totlink">Total Rs: {{data.totalPrice}}
                                                 </div>
-                                                <div id="totlink" class="col text-right">Discount %: {{data.discount}}
+                                                <div id="totlink1" class="col text-right totlink">Discount %: {{data.discount}}
                                                 </div>
                                                 {{!-- <div id="totlink" class="col text-right">Discount Rs: {{total}}
                                                 </div> --}}
                                                 {{else}}
-                                                <div id="totlink" class="col text-right">Rs: {{total}}</div>
+                                                <div id="totlink1" class="col text-right totlink">Rs: {{total}}</div>
                                                 {{/if}}
 
                                             </div>
@@ -219,7 +218,6 @@
             if (appliedCoupon) {
                 $('.new').hide();
             }
-
             $('.new').click(function (e) {
                 e.preventDefault();
                 var codeWithDiscount = $(this).data('code');
@@ -234,7 +232,7 @@
                     data: { code: code, discount: discount },
                     success: function (response) {
                         $('#totpriceLink').text('Rs: ' + response.totalPrice);
-                        $('#totlink').text('Rs: ' + (response.totalPrice + 50));
+                        $('.row .totlink').text('Rs: ' + (response.totalPrice + 50));
 
                         if ($clickedElement.siblings('.badge-success').length === 0) {
                             var appliedButtonHtml = '<span class="badge badge-success">Applied</span>';
@@ -284,7 +282,7 @@
                             // Update other elements in the UI
                             $('#' + uniqueId).text(response.quantity);
                             $('#totpriceLink').text('Rs. ' + response.totalPrice);
-                            $('#totlink').text('Rs. ' + (response.totalPrice + 50));
+                            $('.row .totlink').text('Rs. ' + (response.totalPrice + 50));
 
                             // Apply styles only when the document is ready
                             if (document.readyState === 'complete') {
@@ -353,7 +351,7 @@
                     data: { code: code, discount: discount },
                     success: function (response) {
                         $('#totpriceLink').text('Rs: ' + response.totalPrice);
-                        $('#totlink').text('Rs: ' + (response.totalPrice + 50));
+                        $('.row .totlink').text('Rs: ' + (response.totalPrice + 50));
 
                         if ($clickedElement.siblings('.badge-success').length === 0) {
                             var appliedButtonHtml = '<span class="badge badge-success">Applied</span>';
@@ -397,7 +395,7 @@
                             // Update other elements in the UI
                             $('#' + uniqueId).text(response.quantity + 2);
                             $('#totpriceLink').text('Rs. ' + response.totalPrice);
-                            $('#totlink').text('Rs. ' + (response.totalPrice + 50));
+                            $('row .totlink').text('Rs. ' + (response.totalPrice + 50));
 
                             // Apply styles only when the document is ready
                             if (document.readyState === 'complete') {
@@ -467,7 +465,7 @@
                     success: function (response) {
                         $('#' + uniqueId).text(response.quantity + 2);
                         $('#totpriceLink').text('Rs: ' + response.totalPrice);
-                        $('#totlink').text('Rs: ' + (response.totalPrice + 50));
+                        $('.row .totlink').text('Rs: ' + (response.totalPrice + 50));
 
                         if ($clickedElement.siblings('.badge-success').length === 0) {
                             var appliedButtonHtml = '<span class="badge badge-success">Applied</span>';

@@ -16,9 +16,9 @@ module.exports = {
             console.log(address, 'aaa');
             console.log(address1, 'bbb');
 
-
+            newtotal=data.discountprice+50;
             total = data.totalPrice + 50
-            res.render('users/checkout', { data, total, count, address })
+            res.render('users/checkout', {data, newtotal, total, count, address ,coupon})
         } else {
             res.redirect('/')
         }
@@ -34,8 +34,18 @@ module.exports = {
 
             if (data) {
                 const allcoupon = await coupon.showcoupon(userId)
-                total = data.totalPrice + 50
-                res.render('users/cart', { data, total, count, coupon: allcoupon, isUser })
+                const appliedCoupon=await user.getitemscart(userId)
+                if(appliedCoupon.isCoupon==true)
+                {
+                    total=data.discountprice+50
+                    console.log(data.discountprice)
+                    res.render('users/cart', { data, total, count, coupon: allcoupon, isUser })
+
+                }else{
+                    total = data.totalPrice + 50
+                    res.render('users/cart', { data, total, count, coupon: allcoupon, isUser })
+                }
+               
             } else {
                 res.render('users/cart', { isUser })
             }
@@ -187,7 +197,7 @@ module.exports = {
 
 
         async function getAvailableCoupons(totalPrice, userid) {
-            if (totalPrice >= 20000 && totalPrice <= 80000) {
+            if (totalPrice >= 20000 && totalPrice <=80000) {
                 const allcoupon = await coupon.showcoupon(userid);
                 return allcoupon;
             } else {

@@ -6,6 +6,7 @@ module.exports = {
   placeorder: async (req, res) => {
     const userid = req.session.user._id;
     const email = req.session.user.email;
+    const coupon=await user.cartexist(userid)
     const result = await user.getitemscart(userid);
     const timestamp = Date.now();
     const randomNum = Math.floor(Math.random() * 1000);
@@ -18,6 +19,7 @@ module.exports = {
         name: req.body.name,
         address: req.body.address,
         city: req.body.city,
+        code:coupon.couponcode,
         state: req.body.state,
         pincode: req.body.pincode,
         phoneno: req.body.phoneno,
@@ -29,7 +31,7 @@ module.exports = {
       };
       if (req.body.paymentMethod === "cod") {
         orders.status = "Placed";
-        await user.orders(orders);
+        // await user.orders(orders);
         await user.deletecartoredered(userid);
         res.json({ success: true });
       } else if (req.body.paymentMethod === "razorpay") {

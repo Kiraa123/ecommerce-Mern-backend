@@ -66,6 +66,9 @@ const orderSchema = new mongoose.Schema({
     paymentID: {
         type: String,
         default: 'null'
+    },
+    code:{
+        type:String,
     }
 });
 

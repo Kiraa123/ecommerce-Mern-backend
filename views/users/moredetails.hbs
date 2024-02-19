@@ -20,7 +20,7 @@
         flex-direction: column;
     }
 
-    @media screen and (max-width: 996px) {
+    @media screen and (max-width: 99px) {
         .preview {
             margin-bottom: 20px;
         }
@@ -108,9 +108,7 @@
     .price,
     .sizes,
     .colors {
-        text-transform: UPPERCASE;
-        font-weight: bold;
-    }
+     }
 
     .checked,
     .price span {
@@ -224,9 +222,9 @@
         }
     }
 </style>
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+{{!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script> --}}
 <!------ Include the above in your HEAD tag ---------->
 
 <!DOCTYPE html>
@@ -240,13 +238,14 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.css" />
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.js"></script>
 
 
 </head>
+
 <body>
-            {{> userheader}}
+    {{> userheader}}
 
     <div class="container">
 
@@ -290,27 +289,134 @@
                         </div>
                         <p class="product-description">{{data.description}}.</p>
                         <h4 class="price">current price: <span>Rs:{{data.price}}</span></h4>
-                        {{!-- <p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong> --}}
+                        {{!-- <p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87
+                                votes)</strong> --}}
                         </p>
-                        <h5 class="sizes">sizes:    M
+                        <h5 class="sizes">sizes: M
                             {{!-- <span class="size" data-toggle="tooltip" title="small">M</span> --}}
                             {{!-- <span class="size" data-toggle="tooltip" title="medium">m</span>
                             <span class="size" data-toggle="tooltip" title="large">l</span>
                             <span class="size" data-toggle="tooltip" title="xtra large">xl</span> --}}
                         </h5>
-                       
+
                         <div class="action">
-                            <a href="/users/addcart/{{data._id}}"><button class="add-to-cart btn btn-primary"
+                            <a href="/users/addcart/{{data._id}}" class="option1"><button class=" btn btn-primary  "
                                     type="button">Add to cart</button></a>
 
-                            <a href="/"><button class="like btn btn-secondary" type="button">Back</button></a>
+                            {{!-- <a href="/"><button class="like btn btn-secondary" type="button">Back</button></a> --}}
+                            <a href="/users/addwishlist/{{data._id}}" class="option"> <button class="add-to-cart btn btn-primary"
+                                    type="button">Wishlist</button>
+
+                            </a>
+                            <style>
+                                .action a {
+                                    margin-right: 10px;
+                                }
+                            </style>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
+
     </div>
-    
+
 </body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.action .option').click(function (e) {
+            e.preventDefault();
+            var clickedElement = $(this);
+            var productId = clickedElement.attr('href').split('/').pop();
+            var isAdded = clickedElement.data('added') || false; // Retrieve the current state, default to false
+
+            $.ajax({
+                type: 'GET',
+                url: '/users/addwishlist/' + productId,
+                success: function (response) {
+                    if (response) {
+                        if (isAdded) {
+                            Swal.fire({
+                                icon: 'info',
+                                title: 'Removed from Wishlist!',
+                                text: 'Item removed from your wishlist.',
+                                width: '300px',
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Added to Wishlist!',
+                                text: 'Item successfully added to your wishlist.',
+                                width: '300px',
+                            });
+                        }
+
+                        // Toggle the added state for the next click
+                        clickedElement.data('added', !isAdded);
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Unable to add/remove item to/from wishlist.',
+                            width: '300px',
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'Unable to add/remove item to/from wishlist.',
+                        width: '300px',
+                    });
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('.action .option1').click(function (e) {
+            e.preventDefault();
+            var productId = $(this).attr('href').split('/').pop();
+            var productCount = $(this).closest('.box').find('.badge').text();
+            $.ajax({
+                type: 'GET',
+                url: '/users/addcart/' + productId,
+                success: function (response) {
+                    console.log(response)
+                    if (response === false) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Out of Stock!',
+                            text: 'Item will be added back.',
+                            width: '300px',
+                        });
+                    }
+                    else {
+                        if (typeof response === 'number') {
+                            console.log(response)
+                            var newCount = response;
+
+                            //$('.fa-shopping-cart + .badge').text(newCount);
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: 'Item successfully added to the cart.',
+                                width: '300px',
+                            });
+                        }
+                        else {
+                            location.href = "/users/login";
+                        }
+                    }
+                }
+            });
+        });
+    });
+</script>
 
 </html>
