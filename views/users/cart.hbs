@@ -181,15 +181,16 @@
                                             <div class="row"
                                                 style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
                                                 <div class="col">TOTAL PRICE</div>
-                                                {{#if data.discountprice}}
-                                                <div id="" class="col text-right totlink">Total Rs: {{data.discountprice}}
+                                                <div id="" class="col text-right totlink">Total Rs: {{total}}
                                                 </div>
+                                                {{#if data.discountprice}}
+                                                
                                                 <div id="totlink1" class="col text-right totlink">Discount %: {{data.discount}}
                                                 </div>
                                                 {{!-- <div id="totlink" class="col text-right">Discount Rs: {{total}}
                                                 </div> --}}
                                                 {{else}}
-                                                <div id="totlink1" class="col text-right totlink">Rs: {{total}}</div>
+                                                {{!-- <div id="totlink1" class="col text-right totlink">Rs: {{total}}</div> --}}
                                                 {{/if}}
 
                                             </div>
