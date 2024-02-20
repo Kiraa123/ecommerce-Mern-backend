@@ -9,6 +9,46 @@ const nodemailer = require("nodemailer");
 const wishlist = require("../models/wishlist");
 
 module.exports = {
+  // mergecart:async(user, guestCart)=>{
+  //   const userId = user._id;
+    
+  //   // Get the user's cart from the database
+  //   let userCart = await cart.findOne({ user: userId }).populate({
+  //     path: 'items.product',
+  //     model: 'Product',
+  //   }).exec();
+
+  //   if (!userCart) {
+  //     // If the user doesn't have a cart, create a new one
+  //     userCart = new cart({ user: userId, items: [] });
+  //   }
+    
+
+  //   // Merge guestCart items into userCart
+  //   guestCart.items.forEach(guestCartItem => {
+  //     const existingProduct = userCart.items.find(item => item.product._id.toString() === guestCartItem.product._id.toString());
+
+  //     if (existingProduct) {
+  //       // If the product already exists in the user's cart, update the quantity
+  //       existingProduct.quantity += guestCartItem.quantity;
+  //     } else {
+  //       // If the product doesn't exist in the user's cart, add it
+  //       userCart.items.push({
+  //         product: guestCartItem.product,
+  //         quantity: guestCartItem.quantity,
+  //       });
+  //     }
+  //   });
+
+  //   // Save the updated userCart to the database
+  //   const updatedUserCart = await userCart.save();
+  //   await Cart.findByIdAndDelete(guestCart._id);
+
+  //   console.log('User cart updated in the database:', updatedUserCart);
+  //   return updatedUserCart;
+
+  // },
+ 
   createUser: async (data) => {
     const newUser = await user.insertMany({
       name: data.name,
@@ -242,6 +282,19 @@ module.exports = {
     var totprice = data.quantity * price.price;
     await cart.findOneAndUpdate(
       { user: userid },
+      {
+        $push: { items: data },
+        $inc: { totalPrice: totprice },
+      },
+      { new: true }
+    );
+    // res.redirect('/users/cart')
+  },
+  guestpushitems: async ( user,data) => {
+    var price = await product.finddata(data.product);
+    var totprice = data.quantity * price.price;
+    await cart.findOneAndUpdate({guest:user},
+      
       {
         $push: { items: data },
         $inc: { totalPrice: totprice },

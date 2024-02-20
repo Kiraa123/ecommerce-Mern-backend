@@ -90,6 +90,12 @@ module.exports = {
         // Set session variables for the logged-in user
         req.session.user = savedUser;
         req.session.loggedIn = true;
+        const guestUserId = null;
+    const guestCart = await User.getitemscart(guestUserId);
+    if(guestCart){
+      await User.mergecart(user, guestCart);
+      }
+    
 
         res.json({ success: true })
         await User.gmail(result.email, result.name) //welcome mail
@@ -185,9 +191,11 @@ module.exports = {
     const isUser = req.session.loggedIn
     res.render('index', { data, isUser })
   },
+  
+
   home: async (req, res) => {
     const isUser = req.session.loggedIn
-    const data = module.exports.limdata()
+    const data = module.exports.limitdata()
 
     res.render('index', { isUser, data });
 

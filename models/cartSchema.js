@@ -42,6 +42,9 @@ const cartSchema = new mongoose.Schema({
     },
     isCoupon:{
         type:Boolean,
+    },
+    guest:{
+        type:String
     }
 })
 const Cart = mongoose.model('Cart', cartSchema)

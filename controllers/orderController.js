@@ -16,15 +16,17 @@ module.exports = {
             console.log(address, 'aaa');
             console.log(address1, 'bbb');
 
-            newtotal=data.discountprice+50;
+            newtotal = data.discountprice + 50;
             total = data.totalPrice + 50
-            res.render('users/checkout', {data, newtotal, total, count, address ,coupon})
+            res.render('users/checkout', { data, newtotal, total, count, address, coupon })
         } else {
             res.redirect('/')
         }
     },
+   
+    
     cart: async (req, res) => {
-        const currentuser = req.session.user.name;
+        // const currentuser = req.session.user.name;
         try {
             const userId = req.session.user._id;
             const data = await user.getitemscart(userId);
@@ -34,18 +36,17 @@ module.exports = {
 
             if (data) {
                 const allcoupon = await coupon.showcoupon(userId)
-                const appliedCoupon=await user.getitemscart(userId)
-                if(appliedCoupon.isCoupon==true)
-                {
-                    total=data.discountprice+50
+                const appliedCoupon = await user.getitemscart(userId)
+                if (appliedCoupon.isCoupon == true) {
+                    total = data.discountprice + 50
                     console.log(data.discountprice)
                     res.render('users/cart', { data, total, count, coupon: allcoupon, isUser })
 
-                }else{
+                } else {
                     total = data.totalPrice + 50
                     res.render('users/cart', { data, total, count, coupon: allcoupon, isUser })
                 }
-               
+
             } else {
                 res.render('users/cart', { isUser })
             }
@@ -109,134 +110,136 @@ module.exports = {
             return 1
         }
     },
+    
+    
 
-    success: async (req, res) => {
-        const orderid = req.params.orderid;
-        res.render('/users/success', { orderid })
-    },
+success: async (req, res) => {
+    const orderid = req.params.orderid;
+    res.render('/users/success', { orderid })
+},
     changepassword: async (req, res) => {
         res.render('users/changepasssword')
     },
-    quantityupdate: async (order) => {
-        const result = await order.updatequantity(order)
-    },
-    order: async (req, res) => {
-        const username = req.session.user.name;
-        const orders = await user.ordersfind(username)
-        res.render('users/order', { data: orders })
-    },
-    shop: async (req, res) => {
-        if (req.session.loggedIn) {
-            const currentuser = req.session.user.name;
-            const loggedInUser = await user.findexistuser(currentuser)
-            const count = await user.countitems(loggedInUser._id)
-            res.render('users/shop', { count })
-        } else {
+        quantityupdate: async (order) => {
+            const result = await order.updatequantity(order)
+        },
+            order: async (req, res) => {
+                const username = req.session.user.name;
+                const orders = await user.ordersfind(username)
+                res.render('users/order', { data: orders })
+            },
+                shop: async (req, res) => {
+                    if (req.session.loggedIn) {
+                        const currentuser = req.session.user.name;
+                        const loggedInUser = await user.findexistuser(currentuser)
+                        const count = await user.countitems(loggedInUser._id)
+                        res.render('users/shop', { count })
+                    } else {
 
-        }
-    },
-    qtyadd: async (req, res) => {
-        const productid = req.params.id;
-        const userid = req.session.user._id;
-        const quantity = await user.quantity(userid, productid)
-        const cart = await user.cartexist(userid)
-        if (cart.discountprice) {
-            const response = "coupon";
-            res.json(response)
-        } else {
-            const productexist = await user.productexist(productid, userid)
-            if (productexist) {
-                var foundItem = productexist.items.find(item => item.product.toString() === productid);
-                var cartqty = foundItem.quantity
-            }
-            const productqty = await product.finddata(productid)
-            if (productqty.quantity > cartqty) {
-                const cart = await user.qtyadd(userid, productid)
-                const response = {
-                    quantity: quantity,
-                    totalPrice: cart.totalPrice,
-                    availableCoupons: await getAvailableCoupons(cart.totalPrice, userid)
+                    }
+                },
+                    qtyadd: async (req, res) => {
+                        const productid = req.params.id;
+                        const userid = req.session.user._id;
+                        const quantity = await user.quantity(userid, productid)
+                        const cart = await user.cartexist(userid)
+                        if (cart.discountprice) {
+                            const response = "coupon";
+                            res.json(response)
+                        } else {
+                            const productexist = await user.productexist(productid, userid)
+                            if (productexist) {
+                                var foundItem = productexist.items.find(item => item.product.toString() === productid);
+                                var cartqty = foundItem.quantity
+                            }
+                            const productqty = await product.finddata(productid)
+                            if (productqty.quantity > cartqty) {
+                                const cart = await user.qtyadd(userid, productid)
+                                const response = {
+                                    quantity: quantity,
+                                    totalPrice: cart.totalPrice,
+                                    availableCoupons: await getAvailableCoupons(cart.totalPrice, userid)
 
-                };
-                res.json(response)
-            }
-            //  else {
-            //     const response = false;
-            //     res.json(response)
-            // }
-        }
-        async function getAvailableCoupons(totalPrice, userid) {
-            if (totalPrice >= 20000 && totalPrice <= 80000) {
-                const allcoupon = await coupon.showcoupon(userid);
-                return allcoupon;
-            } else {
-                return 1;
-            }
-        }
-    },
-    qtyminus: async (req, res) => {
-        const productid = req.params.id;
+                                };
+                                res.json(response)
+                            }
+                            //  else {
+                            //     const response = false;
+                            //     res.json(response)
+                            // }
+                        }
+                        async function getAvailableCoupons(totalPrice, userid) {
+                            if (totalPrice >= 20000 && totalPrice <= 80000) {
+                                const allcoupon = await coupon.showcoupon(userid);
+                                return allcoupon;
+                            } else {
+                                return 1;
+                            }
+                        }
+                    },
+                        qtyminus: async (req, res) => {
+                            const productid = req.params.id;
 
-        const currentuser = req.session.user.name;
-        const userid = req.session.user._id;
-        const quantity = await user.quantity(userid, productid);
-        const cart = await user.cartexist(userid);
+                            const currentuser = req.session.user.name;
+                            const userid = req.session.user._id;
+                            const quantity = await user.quantity(userid, productid);
+                            const cart = await user.cartexist(userid);
 
-        if (cart.discountprice) {
-            const response = "coupon";
-            res.json(response);
-        } else if (quantity > 0) {
-            const updatedCart = await user.qtyminus(userid, productid);
-            const response = {
-                quantity: quantity,
-                totalPrice: updatedCart.totalPrice,
-                availableCoupons: await getAvailableCoupons(cart.totalPrice, userid)
-            };
-            res.json(response);
-        }
+                            if (cart.discountprice) {
+                                const response = "coupon";
+                                res.json(response);
+                            } else if (quantity > 0) {
+                                const updatedCart = await user.qtyminus(userid, productid);
+                                const response = {
+                                    quantity: quantity,
+                                    totalPrice: updatedCart.totalPrice,
+                                    availableCoupons: await getAvailableCoupons(cart.totalPrice, userid)
+                                };
+                                res.json(response);
+                            }
 
 
-        async function getAvailableCoupons(totalPrice, userid) {
-            if (totalPrice >= 20000 && totalPrice <=80000) {
-                const allcoupon = await coupon.showcoupon(userid);
-                return allcoupon;
-            } else {
-                return 1;
-            }
-        }
-    },
+                            async function getAvailableCoupons(totalPrice, userid) {
+                                if (totalPrice >= 20000 && totalPrice <= 80000) {
+                                    const allcoupon = await coupon.showcoupon(userid);
+                                    return allcoupon;
+                                } else {
+                                    return 1;
+                                }
+                            }
+                        },
 
-    orders: async (req, res) => {
-        const orders = await order.orders()
-        res.render('admin/orders', { orders })
-    },
+                            orders: async (req, res) => {
+                                const orders = await order.orders()
+                                res.render('admin/orders', { orders })
+                            },
 
-    deletecart: async (req, res) => {
-        const productid = req.params.id
-        const userid = req.session.user._id;
-        await user.deletecart(userid, productid);
-        res.redirect('/users/cart')
-    },
-    confirm: async (req, res) => {
-        const id = req.params.id;
-        await order.updateStatus(id, 'Confirm');
-        res.redirect('/admin/order');
-    },
-    shipped: async (req, res) => {
-        const id = req.params.id;
-        await order.updateStatus(id, 'Shipped');
-        res.redirect('/admin/order');
-    },
-    cancelled: async (req, res) => {
-        const id = req.params.id;
-        await order.updateStatus(id, 'Cancelled');
-        res.redirect('/admin/order');
-    },
-    delivered: async (req, res) => {
-        const id = req.params.id;
-        await order.updateStatus(id, 'Delivered');
-        res.redirect('/admin/order');
-    },
+                                deletecart: async (req, res) => {
+                                    const productid = req.params.id
+                                    const userid = req.session.user._id;
+                                    await user.deletecart(userid, productid);
+                                    res.redirect('/users/cart')
+                                },
+                                    confirm: async (req, res) => {
+                                        const id = req.params.id;
+                                        await order.updateStatus(id, 'Confirm');
+                                        res.redirect('/admin/order');
+                                    },
+                                        shipped: async (req, res) => {
+                                            const id = req.params.id;
+                                            await order.updateStatus(id, 'Shipped');
+                                            res.redirect('/admin/order');
+                                        },
+                                            cancelled: async (req, res) => {
+                                                const id = req.params.id;
+                                                await order.updateStatus(id, 'Cancelled');
+                                                res.redirect('/admin/order');
+                                            },
+                                                delivered: async (req, res) => {
+                                                    const id = req.params.id;
+                                                    await order.updateStatus(id, 'Delivered');
+                                                    res.redirect('/admin/order');
+                                                },
 
 
 
