@@ -326,7 +326,8 @@ module.exports = {
     const deletedWishlist = await User.wishlistdelete(userid, proid);
     // res.redirect("/users/wishlist");
     res.render('users/wishlist',{deletedWishlist})
-  }
+  },
+ 
 }
 
 

@@ -5,7 +5,6 @@ var upload=require('../middleware/multer')
 const isAuth=require('../middleware/isAuth')
 const isAdmin=require('../middleware/isAdmin')
 const noCache=require('../middleware/noCache')
-
 const Product=require('../controllers/productController')
 
 const{orders,confirm,shipped,delivered,cancelled}=require('../controllers/orderController')

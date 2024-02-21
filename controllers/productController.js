@@ -4,7 +4,7 @@ const product=require('../helpers/producthelper')
 var path=require('path')
 
 module.exports={
-    addproductpage:async (req, res, next)=> {
+  addproductpage:async (req, res, next)=> {
     res.render('admin/addproduct');
   },
     addProduct:async(req,res)=>{
