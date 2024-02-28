@@ -572,37 +572,49 @@
                 type: 'GET',
                 url: '/users/addcart/' + productId,
                 success: function (response) {
-                    console.log(response)
-                    if (response === false) {
+                    console.log('AJAX Response:', response);
+
+                    if (response === false || response === 'false') {
                         Swal.fire({
                             icon: 'warning',
                             title: 'Out of Stock!',
                             text: 'Item will be added back.',
                             width: '300px',
                         });
+                    } else if (typeof response == 'number'||typeof response == 'object') {
+                        var newCount = response;
+                        $('.fa-shopping-cart + .badge').text(newCount);
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: 'Item successfully added to the cart.',
+                            width: '300px',
+                        });
+                    } else if (response.redirect) {
+                        // Handle redirection manually
+                        window.location.href = response.redirect;
+                    } else {
+                        // Handle other cases
+                        console.log('Unexpected response:', response);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Unexpected Response',
+                            text: 'There was an unexpected response from the server.',
+                            width: '300px',
+                        });
                     }
-                    else {
-                        if (typeof response === 'number') {
-                            console.log(response)
-                            var newCount = response;
-
-                            $('.fa-shopping-cart + .badge').text(newCount);
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Success!',
-                                text: 'Item successfully added to the cart.',
-                                width: '300px',
-                            });
-                        }
-                        else {
-                            location.href = "/users/login";
-                        }
-                    }
+                },
+                error: function (error) {
+                    // Handle AJAX errors
+                    console.error('AJAX error:', error);
                 }
             });
         });
     });
 </script>
+
+
+
 <script>
     $(document).ready(function () {
         $('.box .option').click(function (e) {

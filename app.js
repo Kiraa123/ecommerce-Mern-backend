@@ -30,14 +30,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/admin', express.static(path.join(__dirname, 'public')));
-// app.use('/admin/alluser', express.static(path.join(__dirname, 'public')));
 app.use('/users', express.static(path.join(__dirname, 'public')));
 
 app.use(session({
   secret:  process.env.SECRET_KEY,
   resave: false,
   saveUninitialized: true,
-  cookie: {maxAge:600000 }
+  cookie: {maxAge:1800000 }
   // store:new MongodbStore({mongooseConnection:connect})
 }))
 app.use (routerMiddleware());

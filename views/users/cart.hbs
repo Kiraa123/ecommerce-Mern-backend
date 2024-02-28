@@ -1,5 +1,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+{{!--
+<link rel="stylesheet" type="text/css" href="/users/css/bootstrap.css" /> --}}
+<link href="/users/css/responsive.css" rel="stylesheet" />
 
 
 <style>
@@ -61,7 +64,7 @@
                                     <div class="p-5">
                                         <div class="d-flex justify-content-between align-items-center mb-5">
                                             <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
-                                            <h6 class="mb-0 text-muted">{{count}} Items</h6>
+                                            <h6 class="mb-0 text-muted" id="count">{{count}} Items</h6>
 
                                         </div>
                                         {{#if data.items.length}}
@@ -72,11 +75,11 @@
                                         <div id="cartrow_{{this.product._id}}"
                                             class="row mb-4 d-flex justify-content-between align-items-center">
                                             <div class="col-md-2 col-lg-2 col-xl-2">
-                                                <img src="../uploads/{{this.product.image}}" class="img-fluid rounded-3"
-                                                    alt="product image">
+                                                <img src="../uploads/{{this.product.image}}{{this.image}}"
+                                                    class="img-fluid rounded-3" alt="product image">
                                             </div>
                                             <div class="col-md-3 col-lg-3 col-xl-3">
-                                                <h6 class="text-muted">{{this.product.productname}}</h6>
+                                                <h6 class="text-muted">{{this.product.productname}}{{this.name}}</h6>
                                             </div>
                                             <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
 
@@ -103,9 +106,9 @@
                                             </div>
                                             <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
                                                 <h6 class="mb-0" id="price_{{this.product._id}}">
-                                                    {{this.product.price}}</h6>
+                                                    {{this.product.price}}{{this.price}}</h6>
                                             </div>
-                                            <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                                            <div class="col-md-1 col-lg-1 col-xl-1 text-end delete ">
                                                 <a href="/users/cart/delete/{{this.product._id}}"
                                                     data-productid="{{this.product._id}}">
                                                     <i class="ti ti-trash"></i></a>
@@ -133,20 +136,22 @@
                                         <hr class="my-4">
 
 
-                                        <div class="d-flex justify-content-between mb-4">
-                                            <h5 class="text-uppercase" id="cartCount">items {{count}}</h5>
-                                            <div id="totpriceLink" class="col text-right">Rs:{{data.totalPrice}}</div>
+                                        <div class="d-flex justify-content-between mb-4 " id="count">
+                                            <h5 class="text-uppercase" id="cartCount">Items {{count}}</h5>
+                                            <div id="totpriceLink" class="col text-right">
+                                                Total Rs :{{data.totalPrice}}{{totalPrice}}</div>
                                         </div>
 
 
                                         <h5 class="text-uppercase mb-3">Shipping</h5>
 
-
+                                        {{#if isCart}}
                                         <div class="mb-4 pb-2">
                                             <select class="select">
                                                 <option value="1">Standard-Delivery- Rs:50</option>
                                             </select>
                                         </div>
+                                        {{/if}}
                                         <div class="row">
                                             {{#if data.couponcode}}
                                             <div class="col mb-2" id="count" style="padding-left:0;">APPLIED COUPON
@@ -157,7 +162,8 @@
                                                 <a href="/users/coupon/remove"> &#10005;</a>
                                             </div>
                                             {{else}}
-                                            <div class="col" id="count" style="padding-left:0;">AVAILABLE COUPON-(20k-80k)
+                                            <div class="col" id="count" style="padding-left:0;">AVAILABLE
+                                                COUPON-(20k-80k)
                                             </div>
                                             <form id="updateC">
                                                 {{#each coupon}}
@@ -171,26 +177,19 @@
                                                 {{/each}}
                                             </form>
                                             {{/if}}
-
-                                            {{!--
-                                            <hr class="my-4">
-                                            <div class="d-flex justify-content-between mb-5">
-                                                <h5 class="text-uppercase">Total price</h5>
-                                                <h5 id="totlink">Rs:{{total}}</h5>
-                                            </div> --}}
                                             <div class="row"
                                                 style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
                                                 <div class="col">TOTAL PRICE</div>
                                                 <div id="" class="col text-right totlink">Total Rs: {{total}}
                                                 </div>
                                                 {{#if data.discountprice}}
-                                                
-                                                <div id="totlink1" class="col text-right totlink">Discount %: {{data.discount}}
+
+                                                <div id="totlink1" class="col text-right totlink">Discount :
+                                                    {{data.discount}}%
                                                 </div>
-                                                {{!-- <div id="totlink" class="col text-right">Discount Rs: {{total}}
-                                                </div> --}}
                                                 {{else}}
-                                                {{!-- <div id="totlink1" class="col text-right totlink">Rs: {{total}}</div> --}}
+                                                {{!-- <div id="totlink" class="col text-right">Rs: {{total}}{{totalPrice}} --}}
+                                                </div>
                                                 {{/if}}
 
                                             </div>
@@ -232,7 +231,7 @@
                     url: '/users/cart/coupon',
                     data: { code: code, discount: discount },
                     success: function (response) {
-                      //  $('#totpriceLink').text('Rs: ' + response.totalPrice);
+                        $('#totpriceLink1').text('Rs: ' + response.totalPrice);
                         $('.row .totlink').text('Rs: ' + (response.totalPrice + 50));
 
                         if ($clickedElement.siblings('.badge-success').length === 0) {
@@ -252,6 +251,49 @@
         });
 
     </script>
+    <script>
+        $(document).ready(function () {
+            $('.delete a').click(function (e) {
+                e.preventDefault();
+
+                // Get the productId from the data-productid attribute
+                var productId = $(this).data('productid');
+                var currentElement = $(this).closest('.row');
+
+                if (productId) {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/users/cart/delete/' + productId,
+                        success: function (response) {
+                            if (response === 'coupon') {
+                                Swal.fire({
+                                    icon: 'warning',
+                                    title: 'First Remove Coupon!',
+                                    text: 'then deleted Quantity',
+                                    width: '300px',
+
+                                })
+                            }
+                            else {
+                                $('#totpriceLink').text('Rs: ' + response.totalPrice);
+                                $('#totlink').text('Rs: ' + (response.totalPrice + 50));
+                                $('#count').text(response.count + ' items');
+                                currentElement.remove();
+                            }
+                        },
+                        error: function (error) {
+                            console.error(error);
+                        }
+                    });
+                } else {
+                    console.error('data-productid attribute is undefined');
+                }
+            });
+        });
+    </script>
+
+
+
 
 
 
@@ -282,8 +324,8 @@
 
                             // Update other elements in the UI
                             $('#' + uniqueId).text(response.quantity);
-                          //  $('#totpriceLink').text('Rs. ' + response.totalPrice);
-                            $('.row .totlink').text('Rs. ' + (response.totalPrice + 50));
+                            $('#totpriceLink').text('Total Rs. ' + response.totalPrice);
+                            $('.row .totlink').text('Total Rs. ' + (response.totalPrice + 50));
 
                             // Apply styles only when the document is ready
                             if (document.readyState === 'complete') {
@@ -321,15 +363,7 @@
             function applyStyles() {
                 // Add or adjust these styles in your CSS file or style section
                 $('.new').css({
-                    // display: 'inline-block',
-                    // padding: '8px 16px',
-                    //backgroundColor: '#4CAF50', /* Green background color */
-                    // color: 'white',
-                    //  textAlign: 'center',
-                    // textDecoration: 'none',
-                    //fontSize: '14px',
-                    //  cursor: 'pointer',
-                    //borderRadius: '4px',
+                
                 });
 
                 $('.new:hover').css({
@@ -351,7 +385,7 @@
                     url: '/users/cart/coupon',
                     data: { code: code, discount: discount },
                     success: function (response) {
-                       // $('#totpriceLink').text('Rs: ' + response.totalPrice);
+                        $('#totpriceLink1').text('Rs: ' + response.totalPrice);
                         $('.row .totlink').text('Rs: ' + (response.totalPrice + 50));
 
                         if ($clickedElement.siblings('.badge-success').length === 0) {
@@ -370,6 +404,7 @@
             });
         });
     </script>
+
     <script>
         $(document).ready(function () {
             // Quantity Adjustment
@@ -388,15 +423,24 @@
                                 text: 'then Add Quantity',
                                 width: '300px',
                             });
-                        } else {
+                        }
+                        else if (response === false) {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Out of Stock!',
+                                text: 'It will be added back',
+                                width: '300px',
+                            });
+                        }
+                        else {
 
                             // Update the available coupons content in the updateC form
                             updateAvailableCoupons(response.availableCoupons);
 
                             // Update other elements in the UI
                             $('#' + uniqueId).text(response.quantity + 2);
-                           // $('#totpriceLink').text('Rs. ' + response.totalPrice);
-                            $('row .totlink').text('Rs. ' + (response.totalPrice + 50));
+                            $('#totpriceLink').text('Total Rs. ' + response.totalPrice);
+                            $('.row .totlink').text('Total Rs. ' + (response.totalPrice + 50));
 
                             // Apply styles only when the document is ready
                             if (document.readyState === 'complete') {
@@ -434,15 +478,7 @@
             function applyStyles() {
                 // Add or adjust these styles in your CSS file or style section
                 $('.new').css({
-                    // display: 'inline-block',
-                    // padding: '8px 16px',
-                    //backgroundColor: '#4CAF50', /* Green background color */
-                    // color: 'white',
-                    //  textAlign: 'center',
-                    // textDecoration: 'none',
-                    //fontSize: '14px',
-                    //  cursor: 'pointer',
-                    //borderRadius: '4px',
+                    
                 });
 
                 $('.new:hover').css({
@@ -465,7 +501,7 @@
                     data: { code: code, discount: discount },
                     success: function (response) {
                         $('#' + uniqueId).text(response.quantity + 2);
-                      //  $('#totpriceLink').text('Rs: ' + response.totalPrice);
+                        $('#totpriceLink1').text('Rs: ' + response.totalPrice);
                         $('.row .totlink').text('Rs: ' + (response.totalPrice + 50));
 
                         if ($clickedElement.siblings('.badge-success').length === 0) {
@@ -484,4 +520,3 @@
             });
         });
     </script>
-   

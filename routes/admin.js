@@ -8,7 +8,7 @@ const noCache=require('../middleware/noCache')
 const Product=require('../controllers/productController')
 
 const{orders,confirm,shipped,delivered,cancelled}=require('../controllers/orderController')
-const{admin,createAdmin,dashboard,alluser,deleteuser,edituserpost,coupon,addcoupon,postaddcoupon,editcoupon,addproduct,filterOrder,filterType,filterStatus,blockuser,unblockuser,edituser,deleteproduct,editproduct,edit_product,searchuser,adminlogout}=require('../controllers/adminController')
+const{admin,createAdmin,getbanner,banner,postbanner,dashboard,alluser,deleteuser,edituserpost,coupon,addcoupon,postaddcoupon,editcoupon,addproduct,filterOrder,filterType,filterStatus,blockuser,unblockuser,edituser,deleteproduct,editproduct,edit_product,searchuser,adminlogout}=require('../controllers/adminController')
 const{addProduct,allproducts,addproductpage}=require('../controllers/productController')
 
 router.post('/loggedin',admin)
@@ -17,6 +17,9 @@ router.get('/adminAddProduct',isAuth,addproduct)
 
 router.get('/dashboard',isAdmin,isAuth,dashboard)
 //PRODUCTS
+router.get('/banner',isAdmin,getbanner)
+router.get('/addbanners',isAdmin,banner)
+router.post('/addbanners',isAdmin,postbanner)
 router.get('/deleteuser/:id',isAdmin,isAuth,deleteuser);
 router.post('/updateuser/:id',isAdmin,isAuth,edituserpost)
 router.get('/edituser/:id',isAdmin,isAuth,edituser)

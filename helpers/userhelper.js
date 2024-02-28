@@ -9,6 +9,26 @@ const nodemailer = require("nodemailer");
 const wishlist = require("../models/wishlist");
 
 module.exports = {
+  updateCartItems: async (userId, updatedCart)=> {
+    try {
+        const user1 = await user.findById(userId);
+
+        if (user1) {
+            // Update the cart field in the user document
+            user.cart = updatedCart;
+
+
+            // Save the updated user document
+            await user1.save();
+
+            console.log(`User ${userId}'s cart updated successfully.`);
+        } else {
+            console.log(`User with ID ${userId} not found.`);
+        }
+    } catch (error) {
+        console.error(`Error updating user's cart: ${error.message}`);
+    }
+},
  
   createUser: async (data) => {
     const newUser = await user.insertMany({
@@ -308,7 +328,7 @@ module.exports = {
     );
     const quantity = currentCartItem.items[0].quantity;
     const totprice = quantity * productPrice.price;
-    await cart.findOneAndUpdate(
+    const updatecart=await cart.findOneAndUpdate(
       { user: userid },
       {
         $pull: { items: { product: data } },
@@ -320,6 +340,7 @@ module.exports = {
     if (result.items.length == 0) {
       await cart.findOneAndDelete({ user: userid });
     }
+    return updatecart;
   },
   updatepassword: async (user1, data) => {
     await user.findOneAndUpdate(

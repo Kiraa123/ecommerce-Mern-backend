@@ -100,13 +100,9 @@ module.exports = {
         for (const orderItem of orderItems) {
             const productId = orderItem.product._id;
             const orderedQuantity = orderItem.quantity;
-            await Product.findOneAndUpdate({ _id: productId },{$inc: { qty: -orderedQuantity }},{ new: true });
+            await Product.findOneAndUpdate({ _id: productId },{$inc: { quantity: -orderedQuantity }},{ new: true });
         }
     },
-    // invoice: async (orderid) => {
-    //     const details = await order.findOne({ orderID: orderid }).populate('items.product').lean();
-    //     return details
-    // },
     filterorder: async function(low, high){
         const orders = await order.find({totalamount: {$gt: low, $lt: high}}).populate('orderID').lean()
         return orders;

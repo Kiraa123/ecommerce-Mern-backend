@@ -1,13 +1,13 @@
 <style>
   h1 {
-  font-size: 20px;
-  margin-top: 24px;
-  margin-bottom: 24px;
-}
+    font-size: 20px;
+    margin-top: 24px;
+    margin-bottom: 24px;
+  }
 
-img {
-height: 60px;
-}
+  img {
+    height: 60px;
+  }
 </style>
 {{!-- {{> adminheader}} --}}
 
@@ -21,36 +21,32 @@ height: 60px;
     now</a> --}}
   {{!-- <h1>Getform.io HTML Form Example with File Upload</h1> --}}
   {{!-- enctype="multipart/form-data" --}}
-  <form action="/admin/addproduct" method="POST" enctype="multipart/form-data" >
+  <form action="/admin/addproduct" method="POST" enctype="multipart/form-data">
     <div class="form-group">
       <label for="exampleInputName">Product Name</label>
-      <input type="text" name="productname" class="form-control" 
-        placeholder="Enter Product Name" required>
+      <input type="text" name="productname" class="form-control" placeholder="Enter Product Name" required>
     </div>
     <div class="form-group">
       <label for="exampleInputEmail1" required>Category</label>
-      <input type="text" name="category" class="form-control"
-        placeholder="Enter category">
+      <input type="text" name="category" class="form-control" placeholder="Enter category">
     </div>
     <div class="form-group">
       <label for="exampleInputEmail1" required>Description</label>
-      <input type="text" name="description" class="form-control"  
-        placeholder="description">
+      <input type="text" name="description" class="form-control" placeholder="description">
     </div>
     <div class="form-group">
       <label for="exampleInputEmail1" required>Price</label>
-      <input type="number" name="price" class="form-control"  
-        placeholder="Price">
+      <input type="number" name="price" class="form-control" placeholder="Price">
     </div>
     <div class="form-group">
       <label for="exampleInputEmail1" required>Quantity</label>
-      <input type="number" name="quantity" class="form-control"  
-        placeholder="Quantity">
+      <input type="number" name="quantity" class="form-control" placeholder="Quantity">
     </div>
-    
+
     <hr>
     <div class="form-group mt-3">
- <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 5MB</p>      <label class="mr-2">Upload your Image:</label>
+      <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 5MB</p> <label class="mr-2">Upload your
+        Image:</label>
       <input type="file" name="image" required>
     </div>
     <hr>

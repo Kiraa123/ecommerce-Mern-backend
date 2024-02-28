@@ -5,6 +5,9 @@ const product = require('../helpers/producthelper')
 const fs = require('fs')
 const order=require('../helpers/orderhelper')
 const coupon=require('../helpers/couponhelper')
+const Banner = require('../models/banner');
+var upload=require('../middleware/multer')
+
 
 module.exports = {
 
@@ -201,6 +204,30 @@ module.exports = {
   editcoupon:async(req,res)=>{
     res.render('admin/coupon')
   },
+  postbanner : async (req, res) => {
+    upload.single('bannerImage')(req, res, async function (err) {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      const {  description ,title} = req.body;
+      const imagePath = `/uploads/${req.file.filename}`; // Path to the uploaded banner image
+      const newBanner = new Banner({
+        bannerImage: imagePath,
+        bannerTitle:title,
+        bannerDescription:description,
+      })
+      await newBanner.save();
+      return res.redirect('/admin/banner');
+    })
+  },
+  getbanner:async (req, res) => {
+    const data=await Banner.find({}).lean()
+    console.log('lo',data)
+    res.render('admin/allbanners',{data})
+  }, 
+  banner:(req,res)=>{
+    res.render('admin/addbanner')
+  }
 
 }
 

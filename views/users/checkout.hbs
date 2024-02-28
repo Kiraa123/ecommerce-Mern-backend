@@ -413,14 +413,18 @@
                 <div class="card-body">
                     <div class="p-3 bg-light mb-3">
                         <h5 class="font-size-16 mb-0">Order Summary <span class="float-end ms-2">{{count}} Items</span>
-                        </h5>
-                        <div class="col text-right"><h4>Rs:{{newtotal}}</h4> </div>
+                        </h5> {{#if data.discountprice}}
+
+                        <div class="col text-right">
+                            <h4>Rs:{{newtotal}}</h4>
+                        </div>
+                        <div id="totlink" class="col text-right">Discount : {{data.discount}}%</div>
+
                         {{!-- <div class="col">TOTAL PRICE</div> --}}
-                        {{#if data.discountprice}}
-                        <div id="totlink" class="row text-right">Total Rs: {{total}}</div><br>
-                        <div id="totlink" class="row text-right">Discount %: {{data.discount}}</div>
-                        {{!-- <div id="totlink" class="col text-right">Discount Rs: {{total}}</div> --}}
                         {{else}}
+                        {{!-- <div id="totlink" class="row text-right">Total Rs: {{total}}</div><br> --}}
+                        {{!-- <div id="totlink" class="row text-right">Discount : {{data.discount}}%</div> --}}
+                        {{!-- <div id="totlink" class="col text-right">Discount Rs: {{total}}</div> --}}
                         <div id="totlink" class="col text-right">Rs: {{total}}</div>
 
 
