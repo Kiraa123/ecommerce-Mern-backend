@@ -10,7 +10,7 @@ module.exports = {
     const result = await user.getitemscart(userid);
     const timestamp = Date.now();
     const randomNum = Math.floor(Math.random() * 1000);
-    orderID = `ORD-${timestamp}-${randomNum}`;
+   const orderID = `ORD-${timestamp}-${randomNum}`;
     if (result) {
       const orders = {
         orderID: orderID,
@@ -32,13 +32,19 @@ module.exports = {
       if (req.body.paymentMethod === "cod") {
         orders.status = "Placed";
         // await user.orders(orders);
+        await user.orders(orders);
+
+        await order.updatequantity(orderID);
+
         await user.deletecartoredered(userid);
         res.json({ success: true });
       } else if (req.body.paymentMethod === "razorpay") {
-        var order = await razorpay.payment(orderID, orders.totalamount);
+        const order = await razorpay.payment(orderID, orders.totalamount);
         res.json(order);
+        await user.orders(orders);
+
       }
-      await user.orders(orders);
+      // await user.orders(orders);
       const newAddress = {
         userID: userid,
         addresses: {

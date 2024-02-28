@@ -5,6 +5,7 @@ const User = require('../helpers/userhelper')
 const otp = require('../config/otp')
 const { success } = require('./orderController')
 const cart = require('../models/cartSchema')
+const Banner=require('../models/banner')
 
 module.exports = {
 
@@ -130,9 +131,10 @@ module.exports = {
 
   limitdata: async (req, res) => {
     const data = await product.allproducts1()
+    const banner=await Banner.find({}).lean()
     // return data
     const isUser = req.session.loggedIn
-    res.render('index', { data, isUser })
+    res.render('index', { data, isUser ,banner})
   },
 
 
@@ -216,7 +218,7 @@ module.exports = {
             res.redirect("/admin/dashboard");
           } else {
             // Redirect to the cart page or homepage based on your flow
-            res.redirect('/users/cart');  // Update with your cart route
+            res.redirect('/');  // Update with your cart route
           }
         } else {
           res.render("users/login", { invalid: "Invalid password" });

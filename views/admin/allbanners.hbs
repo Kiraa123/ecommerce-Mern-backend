@@ -41,8 +41,6 @@
                         <th>Image</th>
                         <th>Title</th>
                         <th>Description</th>
-                        <th>Price</th>
-                        <th>Category</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -52,12 +50,11 @@
                         {{!-- <th scope="row">{{this.productname}}</th> --}}
                         <td>
                             {{!-- <li> --}}
-                                <img src="uploads/{{this.image}}" style="width: 70px;height:60px;" />
+                                <img src="{{this.bannerImage}}" style="width: 70px;height:60px;" />
                             {{!-- </li> --}}
                         </td>
-                        <td>{{this.title}}</td>
-                        <td>{{this.description}}</td>
-                        <td>{{this.category}}</td>
+                        <td>{{this.bannerTitle}}</td>
+                        <td>{{this.bannerDescription}}</td>
                         <td>
                             <div class="dropdown">
                                 <button class="btn btn-outline-secondary dropdown-toggle" type="button"
