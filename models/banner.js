@@ -1,20 +1,20 @@
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-// const bannerSchema = new mongoose.Schema({
-//     bannerImage: {
-//         type: String,
-//         required: true
-//     },
+const bannerSchema = new mongoose.Schema({
+    bannerImage: {
+        type: String,
+        required: true
+    },
+    
+    bannerTitle: {
+        type: String
+    },
 
-//     bannerTitle: {
-//         type: String
-//     },
+    bannerDescription: {
+        type: String
+    }
+},{ autoCreate: true });
 
-//     bannerDescription: {
-//         type: String
-//     }
-// },{ autoCreate: true });
+const Banner = mongoose.model('Banner', bannerSchema);
 
-// const Banner = mongoose.model('Banner', bannerSchema);
-
-// module.exports = Banner;
+module.exports = Banner;
