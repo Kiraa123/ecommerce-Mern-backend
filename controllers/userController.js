@@ -57,17 +57,16 @@ module.exports = {
         delete req.session.tempUser;
 
         // Set session variables for the logged-in user
+
+
         req.session.user = savedUser;
         req.session.loggedIn = true;
-        const guestUserId = null;
-        const guestCart = await User.getitemscart(guestUserId);
-        if (guestCart) {
-          await User.mergecart(user, guestCart);
-        }
+
+    
 
 
         res.json({ success: true })
-        await User.gmail(result.email, result.name) //welcome mail
+        // await User.gmail(result.email, result.name) //welcome mail
         res.render('users/login')
       } else {
         // Incorrect OTP

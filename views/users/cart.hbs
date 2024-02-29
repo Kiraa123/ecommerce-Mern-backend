@@ -274,9 +274,10 @@
                             }
                             else {
                                 $('#totpriceLink').text('Rs: ' + response.totalPrice);
-                                $('#totlink').text('Rs: ' + (response.totalPrice + 50));
+                                $('.row .totlink').text('Total Rs: ' + (response.totalPrice + 50));
                                 $('#count').text(response.count + ' items');
                                 currentElement.remove();
+                                window.location.reload()
                             }
                         },
                         error: function (error) {
