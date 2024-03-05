@@ -32,15 +32,12 @@ module.exports = {
                 data = await user.getitemscart(userId);
                 const count = await user.count(userId);
                 const isCart = req.session.loggedIn || false;
-
-                console.log(data);
                 if (data) {
                     const allcoupon = await coupon.showcoupon(userId)
                     const appliedCoupon = await user.getitemscart(userId)
                     if (appliedCoupon.isCoupon == true) {
                         total = data.discountprice + 50
 
-                        console.log(data.discountprice)
                         res.render('users/cart', { data, total, count, coupon: allcoupon, isCart })
 
                     } else {
@@ -143,15 +140,7 @@ module.exports = {
                 }
                 product.totalPrice = product.quantity * product.price;
                 req.session.guest.push(product);
-                // req.session.guest.push({
-                //     product: productid,
-                //     quantity: quantity,
-                //     size: size,
-                //     image: Product.image,
-                //     name: Product.productname,
-                //     price:Product.price
-                // });
-                // console.log(req.session.guest);
+            
             }
             req.session.totalPrice = req.session.guest.reduce((total, item) => total + item.totalPrice, 0);
             const count = req.session.guest.reduce((total, item) => total + item.quantity, 0);

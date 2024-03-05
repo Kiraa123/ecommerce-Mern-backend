@@ -34,7 +34,6 @@ module.exports = {
 
       res.render('users/otp');
     } catch (error) {
-      console.log(error);
       res.render("users/login", { invalid: "invalid" });
     }
   },
@@ -74,7 +73,6 @@ module.exports = {
         res.render('users/otp', { error: 'Incorrect OTP. Please try again' });
       }
     } catch (error) {
-      console.log(error);
       res.render("users/login", { invalid: "invalid" });
     }
   },
@@ -170,7 +168,6 @@ module.exports = {
     const isUser = req.session.loggedIn
     const username = req.session.user.email
     const orders = await User.ordersfind(username);
-    console.log(orders);
     res.render('users/orders', { data: orders, isUser })
   },
 
@@ -209,7 +206,6 @@ module.exports = {
 
             // Update user's cart with the merged cart
             await User.updateCartItems(userId, mergedCart);
-            console.log('User Cart Updated Successfully.');
           }
 
           // Redirect based on user role
@@ -224,7 +220,6 @@ module.exports = {
         }
       }
     } catch (error) {
-      console.error(error);
       res.render("users/login", { invalid: "User not exists" });
     }
 
@@ -265,11 +260,9 @@ module.exports = {
 
         // Save the updated cart
         await userCart.save();
-        console.log('Guest Cart Merged Successfully.');
 
         return userCart;
       } catch (error) {
-        console.error(`Error merging guest cart: ${error.message}`);
         throw error; // Propagate the error up for handling in the calling function
       }
     }

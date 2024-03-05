@@ -71,7 +71,6 @@ module.exports = {
   edituser: async (req, res) => {
     const productid = req.params.id
     const data = await user.findedituserbyid(productid)
-    console.log(data);
 
     res.render('admin/edituser', { data: data })
   },
@@ -133,7 +132,6 @@ module.exports = {
   editproduct: async (req, res) => {
     const productid = req.params.id
     const data = await product.finddata(productid)
-    console.log(data);
     res.render('admin/editproduct', { data })
 
   },
@@ -184,8 +182,6 @@ module.exports = {
   }, 
   filterStatus:async(req, res) => {
     const status = req.params.status;
-    console.log(status);
-
     const filteredOrderStatus = await order.filterOrderStatus(status)
     res.render("admin/orders", {orders: filteredOrderStatus})
   },
@@ -222,12 +218,30 @@ module.exports = {
   },
   getbanner:async (req, res) => {
     const data=await Banner.find({}).lean()
-    console.log('lo',data)
     res.render('admin/allbanners',{data})
   }, 
   banner:(req,res)=>{
     res.render('admin/addbanner')
-  }
+  },
+  edit_banner:async(req,res)=>{
+    let id=req.params.id
+    const data=await order.findbanner(id)
+    var image = data.bannerImage
+    const imagePath = './public/uploads/' + bannerImage;
+    fs.unlink(imagePath, (err) => {
+      if (err && err.code !== 'ENOENT') {
+        console.error('Error deleting existing image:', unlinkErr);
+      }
+    });
+    const datas = {
+      bannerTitle: req.body.bannerTitle,
+      bannerImage: req.file.filename,
+      bannerDescription: req.body.bannerDescription,
+    }
+    await order.editbanner(data,id)
+    res.redirect('/admin/allbanners')
+
+  } 
 
 }
 

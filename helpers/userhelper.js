@@ -21,12 +21,8 @@ module.exports = {
             // Save the updated user document
             await user1.save();
 
-            console.log(`User ${userId}'s cart updated successfully.`);
-        } else {
-            console.log(`User with ID ${userId} not found.`);
-        }
+        } 
     } catch (error) {
-        console.error(`Error updating user's cart: ${error.message}`);
     }
 },
  
@@ -225,20 +221,17 @@ module.exports = {
 
   quantity: async (userid, data) => {
     const result = await Product.findOne({ _id: data });
-    console.log("result:", result);
 
     const currentCartItem = await cart.findOne(
       { user: userid, "items.product": data },
       { items: { $elemMatch: { product: data } } }
     );
-    // console.log('result:', currentCartItem);
 
     const quantity = currentCartItem.items[0].quantity - 1;
     return quantity;
   },
   updatecart: async (userid, data) => {
     const productPrice = await product.finddata(data.product);
-    console.log("price:", productPrice);
 
     const newTotalPrice = 1 * productPrice.price;
     const updatedCart = await cart.findOneAndUpdate(
@@ -365,7 +358,6 @@ module.exports = {
   },
   addresstake: async (id) => {
     const result = await address.find({userID:id }).lean();
-    console.log(result,'asd');
     return result;
   },
 };

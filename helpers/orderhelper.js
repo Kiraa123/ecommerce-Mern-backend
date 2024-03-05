@@ -1,6 +1,7 @@
 const Product = require('../models/productSchema')
 const order = require('../models/orderSchema')
 const product=require('../helpers/producthelper')
+const Banner=require('../models/banner')
 
 module.exports = {
     orders: async (req, res) => {
@@ -12,7 +13,6 @@ module.exports = {
             const result = await order.find({ _id: data }).populate('items.product')
             return result
         } catch (error) {
-            console.log("Error in finding Order ID", error);
 
         }
     },
@@ -35,21 +35,17 @@ module.exports = {
         const currentOrder = await order.findById(data);
     
         if (!currentOrder) {
-            console.error(`Order with id ${data} not found`);
             return;
         }
     
         const validTransitions = allowedTransitions[currentOrder.status];
-        console.log(validTransitions,'kaana');
     
         if (!validTransitions || !validTransitions.includes(newStatus)) {
-            console.error(`Invalid status transition from ${currentOrder.status} to ${newStatus}`);
             return;
         }
     
         // Additional check to prevent transitioning from Placed to Shipped directly
         if (currentOrder.status === 'Placed' && newStatus === 'Shipped') {
-            console.error(`Invalid status transition from ${currentOrder.status} to Shipped`);
             return;
         }
     
@@ -60,8 +56,6 @@ module.exports = {
             { new: true }
         );
     
-        // Log after status update for debugging
-        console.log(`After status update: ${newStatus}`);
     },
     
     
@@ -96,7 +90,6 @@ module.exports = {
     },
     updatequantity: async (orderid) => {
         const details = await order.findOne({ orderID: orderid }).populate('items.product').lean();
-        console.log('lkl',details);
         const orderItems = details.items; // Assuming 'items' is an array of { product: productId, quantity }
         for (const orderItem of orderItems) {
             const productId = orderItem.product._id;
@@ -116,5 +109,21 @@ module.exports = {
       filterOrderStatus: async function(status1){
         const orders = await order.find({status: status1}).populate('orderID').lean()
           return orders;
-      }
+      },
+      findbanner: async(bannerid)=>{
+        const result=await Banner.find({bannerid}).lean();
+        return result;
+      },
+      editbanner:async(data,proid)=>{
+        await Banner.updateOne({_id:proid},{
+            $set:
+            {
+                bannerTitle: data.bannerTitle,
+                bannerImage: data.bannerImage,
+                bannerDescription: data.bannerDescription,
+            }
+        },{new:true});
+    },
+      
+    
 }

@@ -8,7 +8,6 @@ module.exports={
     res.render('admin/addproduct');
   },
     addProduct:async(req,res)=>{
-        console.log(req.body);
         const image=req.body.image
         const Image=req.body.image=path.basename(req.file.filename)
         const data={
