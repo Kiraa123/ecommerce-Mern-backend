@@ -1,7 +1,7 @@
 const Product = require('../models/productSchema')
 const order = require('../models/orderSchema')
-const product=require('../helpers/producthelper')
-const Banner=require('../models/banner')
+const product = require('../helpers/producthelper')
+const Banner = require('../models/banner')
 
 module.exports = {
     orders: async (req, res) => {
@@ -16,72 +16,74 @@ module.exports = {
 
         }
     },
-    placed: async (data,payment) => {
+    placed: async (data, payment) => {
         await order.findOneAndUpdate(
-            {orderID:data},
-            {$set:{status:'Placed',paymentID:payment}}
-            ,{new:true} )
+            { orderID: data },
+            { $set: { status: 'Placed', paymentID: payment } }
+            , { new: true })
 
     },
     updateStatus: async (data, newStatus) => {
         const allowedTransitions = {
-            Placed: ['Confirm', 'Cancelled','Shipped','Delivered'],
-            Confirm: ['Shipped', 'Cancelled','Delivered'],
+            Placed: ['Confirm', 'Cancelled', 'Shipped', 'Delivered'],
+            Confirm: ['Shipped', 'Cancelled', 'Delivered'],
             Shipped: ['Delivered', 'Cancelled'],
             Delivered: [],
             Cancelled: [],
         };
-    
+
         const currentOrder = await order.findById(data);
-    
+
         if (!currentOrder) {
             return;
         }
-    
+
         const validTransitions = allowedTransitions[currentOrder.status];
-    
+
         if (!validTransitions || !validTransitions.includes(newStatus)) {
             return;
         }
-    
+
         // Additional check to prevent transitioning from Placed to Shipped directly
         if (currentOrder.status === 'Placed' && newStatus === 'Shipped') {
             return;
         }
-    
+
         // Perform the status update
         await order.findByIdAndUpdate(
             data,
             { $set: { status: newStatus } },
             { new: true }
         );
-    
+
     },
-    
-    
-    
-    totalorderedcount:async()=>{
-        const result=await order.aggregate([{
-            $match:{
-                status:{$ne:['Pending','Cancelled']}
+
+
+
+    totalorderedcount: async () => {
+        const result = await order.aggregate([{
+            $match: {
+                status: { $ne: ['Pending', 'Cancelled'] }
             }
 
         },
-        {$group:{
-            _id:null,
-            totalOrderedQty:{$sum:'$items.quantity'},
-            totalAvgQty:{$avg:'$items.quantity'},
-            totalamount:{$sum:'$total'},
-            totalamountAvg:{$avg:'$total'}
-        }}
-    ])
-    return result;
+        {
+            $group: {
+                _id: null,
+                totalOrderedQty: { $sum: '$items.quantity' },
+                totalAvgQty: { $avg: '$items.quantity' },
+                totalamount: { $sum: '$total' },
+                totalamountAvg: { $avg: '$total' }
+            }
+        }
+        ])
+        return result;
     },
-    currentorder:async ()=>{
-        const result=await Product.aggregate([{
-            $group:{
-                _id:null,
-                totalqty:{$sum:'$quantity'}
+    currentorder: async () => {
+        const result = await Product.aggregate([{
+            $group: {
+                _id: null,
+                totalqty: { $sum: '$quantity' }
             }
 
         }])
@@ -94,36 +96,41 @@ module.exports = {
         for (const orderItem of orderItems) {
             const productId = orderItem.product._id;
             const orderedQuantity = orderItem.quantity;
-            await Product.findOneAndUpdate({ _id: productId },{$inc: { quantity: -orderedQuantity }},{ new: true });
+            await Product.findOneAndUpdate({ _id: productId }, { $inc: { quantity: -orderedQuantity } }, { new: true });
         }
     },
-    filterorder: async function(low, high){
-        const orders = await order.find({totalamount: {$gt: low, $lt: high}}).populate('orderID').lean()
+    filterorder: async function (low, high) {
+        const orders = await order.find({ totalamount: { $gt: low, $lt: high } }).populate('orderID').lean()
         return orders;
-      },
-    
-      filterOrderType: async function(payType){
-        const orders = await order.find({paymentID: payType}).populate('orderID').lean()
-          return orders;
-      },
-      filterOrderStatus: async function(status1){
-        const orders = await order.find({status: status1}).populate('orderID').lean()
-          return orders;
-      },
-      findbanner: async(bannerid)=>{
-        const result=await Banner.find({bannerid}).lean();
+    },
+
+    filterOrderType: async function (payType) {
+        const orders = await order.find({ paymentID: payType }).populate('orderID').lean()
+        return orders;
+    },
+    filterOrderStatus: async function (status1) {
+        const orders = await order.find({ status: status1 }).populate('orderID').lean()
+        return orders;
+    },
+    findbanner: async (bannerid) => {
+        const result = await Banner.findOne({ _id: bannerid }).lean()
         return result;
-      },
-      editbanner:async(data,proid)=>{
-        await Banner.updateOne({_id:proid},{
+    },
+    editbanner: async (data, proid) => {
+        const result = await Banner.updateOne({ _id: proid }, {
             $set:
             {
                 bannerTitle: data.bannerTitle,
                 bannerImage: data.bannerImage,
                 bannerDescription: data.bannerDescription,
             }
-        },{new:true});
+        }, { new: true });
+        console.log('result',result);
+        return result;
     },
-      
-    
+    deletebanner: async (data) => {
+        await Banner.deleteOne({ _id: data })
+    },
+
+
 }

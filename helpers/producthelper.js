@@ -53,5 +53,6 @@ module.exports={
                 quantity: data.quantity,
             }
         },{new:true});
+        return result;
     },
 }

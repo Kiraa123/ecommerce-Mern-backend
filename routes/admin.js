@@ -8,8 +8,8 @@ const noCache=require('../middleware/noCache')
 const Product=require('../controllers/productController')
 
 const{orders,confirm,shipped,delivered,cancelled}=require('../controllers/orderController')
-const{admin,createAdmin,getbanner,banner,postbanner,dashboard,alluser,deleteuser,edituserpost,coupon,addcoupon,postaddcoupon,editcoupon,addproduct,filterOrder,filterType,filterStatus,blockuser,unblockuser,edituser,deleteproduct,editproduct,edit_product,searchuser,adminlogout}=require('../controllers/adminController')
-const{addProduct,allproducts,addproductpage}=require('../controllers/productController')
+const{admin,createAdmin,getbanner,banner,postbanner,edit_banner,editbanners,deletebanner,dashboard,alluser,deleteuser,edituserpost,coupon,addcoupon,postaddcoupon,editcoupon,addproduct,filterOrder,filterType,filterStatus,blockuser,unblockuser,edituser,deleteproduct,editproduct,edit_product,searchuser,adminlogout}=require('../controllers/adminController')
+const{addProduct,allproducts}=require('../controllers/productController')
 
 router.post('/loggedin',admin)
 router.post('/addproduct',upload.single('image'),addProduct);
@@ -20,6 +20,9 @@ router.get('/dashboard',isAdmin,isAuth,dashboard)
 router.get('/banner',isAdmin,getbanner)
 router.get('/addbanners',isAdmin,banner)
 router.post('/addbanners',isAdmin,postbanner)
+router.get('/edit_banner/:id',isAdmin,editbanners)
+router.post('/edit_banner/:id',isAdmin,upload.single('bannerImage'),edit_banner)
+router.get('/delete_banner/:id',isAdmin,deletebanner)
 router.get('/deleteuser/:id',isAdmin,isAuth,deleteuser);
 router.post('/updateuser/:id',isAdmin,isAuth,edituserpost)
 router.get('/edituser/:id',isAdmin,isAuth,edituser)
