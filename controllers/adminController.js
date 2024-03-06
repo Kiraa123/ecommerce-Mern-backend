@@ -156,8 +156,9 @@ module.exports = {
     req.session.destroy();
     res.redirect("/");
   },
-  dashboard: (req, res) => {
-    res.render("admin/charts");
+  dashboard: async(req, res) => {
+    const orders = await order.orders1()
+    res.render("admin/orderSummary",{orders});
   },
   filterOrder: async (req, res) => {
     const lowvalue = req.query.l;

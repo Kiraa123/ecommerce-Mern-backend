@@ -210,7 +210,7 @@ module.exports = {
 
           // Redirect based on user role
           if (confirm.role == 'admin') {
-            res.redirect("/admin/dashboard");
+            res.redirect("/admin/orderSummary");
           } else {
             // Redirect to the cart page or homepage based on your flow
             res.redirect('/');  // Update with your cart route

@@ -5,7 +5,11 @@ const Banner = require('../models/banner')
 
 module.exports = {
     orders: async (req, res) => {
-        const result = await order.find({ name: { $ne: null } }).sort({ createdAt: -1 }).lean()
+        const result = await order.find({ name: { $ne: null } }).sort({ orderdate: -1 }).lean()
+        return result;
+    },
+    orders1: async (req, res) => {
+        const result = await order.find({ name: { $ne: null } }).sort({ orderdate: -1 }).limit (10).lean()
         return result;
     },
     findorderid: async (data) => {

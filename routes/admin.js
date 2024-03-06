@@ -8,14 +8,14 @@ const noCache=require('../middleware/noCache')
 const Product=require('../controllers/productController')
 
 const{orders,confirm,shipped,delivered,cancelled}=require('../controllers/orderController')
-const{admin,createAdmin,getbanner,banner,postbanner,edit_banner,editbanners,deletebanner,dashboard,alluser,deleteuser,edituserpost,coupon,addcoupon,postaddcoupon,editcoupon,addproduct,filterOrder,filterType,filterStatus,blockuser,unblockuser,edituser,deleteproduct,editproduct,edit_product,searchuser,adminlogout}=require('../controllers/adminController')
+const{admin,createAdmin,getbanner,banner,dashboard,postbanner,edit_banner,editbanners,deletebanner,alluser,deleteuser,edituserpost,coupon,addcoupon,postaddcoupon,editcoupon,addproduct,filterOrder,filterType,filterStatus,blockuser,unblockuser,edituser,deleteproduct,editproduct,edit_product,searchuser,adminlogout}=require('../controllers/adminController')
 const{addProduct,allproducts}=require('../controllers/productController')
 
 router.post('/loggedin',admin)
 router.post('/addproduct',upload.single('image'),addProduct);
 router.get('/adminAddProduct',isAuth,addproduct)
 
-router.get('/dashboard',isAdmin,isAuth,dashboard)
+router.get('/orderSummary',isAdmin,isAuth,dashboard)
 //PRODUCTS
 router.get('/banner',isAdmin,getbanner)
 router.get('/addbanners',isAdmin,banner)
