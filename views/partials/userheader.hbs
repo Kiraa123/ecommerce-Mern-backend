@@ -13,6 +13,23 @@
 <!-- responsive style -->
 <link href="/users/css/responsive.css" rel="stylesheet" />
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<style>
+    .cart-icon-container {
+    position: relative;
+    display: inline-block;
+}
+
+.cart-badge {
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 0px 5px;
+    font-size: 11px;
+}
+
+</style>
  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.19.0/font/bootstrap-icons.css" rel="stylesheet"><header class="header_section">
     <div class="container">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
@@ -32,10 +49,13 @@
                     </li>
                    
                     <li class="nav-item">
-                        <a class="nav-link" href="/users/cart">
+                        <a class="nav-link" id="count" href="/users/cart">
+                        <span  id="cart-badge" class="cart-badge">{{count}}</span>
+                         {{!-- <span class="badge" id="cart-badge">{{count}}</span> --}}
                             <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029"
-                                style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve" >
+                                
                                 <g>
                                     <g>
                                         <path
@@ -93,11 +113,13 @@
                     </li>
 
                     <form class="form-inline" action="/users/search" method="post">
+                    <div class="d-flex align-items-center w-100">
                         <input class="form-control mr-sm-2 mb-2 mb-sm-0" type="text" placeholder="Search" name="search"
                             aria-label="Search">
                         <button class="btn my-2 my-sm-0 nav_search-btn" type="submit"><i class="fa fa-search"
                                 aria-hidden="true"></i>
                         </button>
+                        </div>
                     </form>
 
 

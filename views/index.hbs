@@ -8,12 +8,12 @@
         <div class="slider_bg_box">
             <img src="images/slider-bg.jpg" alt="">
         </div>
-        
+
         <div id="customCarousel1" class="carousel slide" data-ride="carousel" data-interval="3000">
             <div class="carousel-inner">
-                
+
                 {{#each banner}}
-                <div class="carousel-item {{#if @first}}active{{/if}}"  data-interval="3000" >
+                <div class="carousel-item {{#if @first}}active{{/if}}" data-interval="3000">
                     <div class="container ">
                         <div class="row">
                             <div class="col-md-7 col-lg-6 ">
@@ -23,12 +23,12 @@
                                             {{this.bannerTitle}}
                                         </span>
                                         <br>
-                                        On Everything                                       
+                                        On Everything
 
                                     </h1>
                                     <p>
                                         {{this.bannerDescription}}
-                                        
+
                                     </p>
                                     <div class="btn-box">
                                         <a href="/users/allproducts1" class="btn1">
@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 {{/each}}
-               
+
             </div>
             <div class="container">
                 <ol class="carousel-indicators">
@@ -366,10 +366,13 @@
                                 View Details
                             </a>
                             <a href="/users/addwishlist/{{this._id}}" class="option">
-                                
-<svg class="wishlist-icon" xmlns="http://www.w3.org/2000/svg" width="34" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M20 6C20 10.42 12 18 12 18S4 10.42 4 6C4 3.48 6.48 1.5 9 1.5C10.69 1.5 12 2.79 12 4.5C12 2.57 14.64 1 18 1C21.31 1 24 3.57 24 6" />
-</svg>                            </a>
+
+                                <svg class="wishlist-icon" xmlns="http://www.w3.org/2000/svg" width="34" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path
+                                        d="M20 6C20 10.42 12 18 12 18S4 10.42 4 6C4 3.48 6.48 1.5 9 1.5C10.69 1.5 12 2.79 12 4.5C12 2.57 14.64 1 18 1C21.31 1 24 3.57 24 6" />
+                                </svg> </a>
                         </div>
                     </div>
                     <div class="img-box">
@@ -526,15 +529,15 @@
                     console.log('AJAX Response:', response);
 
                     if (response === false || response === 'false') {
-                        Swal.fire({
+                        Swal.fire({ 
                             icon: 'warning',
                             title: 'Out of Stock!',
                             text: 'Item will be added back.',
                             width: '300px',
                         });
-                    } else if (typeof response == 'number'||typeof response == 'object') {
-                        var newCount = response;
-                        $('.fa-shopping-cart + .badge').text(newCount);
+                    } else if (typeof response == 'number' || typeof response == 'object') {
+                        var newCount = response.count || response;
+                        updateCartBadge(newCount);
                         Swal.fire({
                             icon: 'success',
                             title: 'Success!',
@@ -561,6 +564,15 @@
                 }
             });
         });
+        // Function to update the cart badge
+        function updateCartBadge(count) {
+            $('#cart-badge').text(count);
+            if (count > 0) {
+                $('#cart-badge').show();
+            } else {
+                $('#cart-badge').hide();
+            }
+        }
     });
 </script>
 
@@ -618,5 +630,3 @@
         });
     });
 </script>
-
-

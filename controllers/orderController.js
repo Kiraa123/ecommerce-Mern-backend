@@ -99,7 +99,7 @@ module.exports = {
                     quantity: quantity,
                     size: size,
                 };
-                count = await user.countitems(userId)
+                count = await user.count(userId)
                 if (cart) {
                     if (productexist) {
                         await user.updatecart(userId, cartItem)
@@ -143,7 +143,7 @@ module.exports = {
             
             }
             req.session.totalPrice = req.session.guest.reduce((total, item) => total + item.totalPrice, 0);
-            const count = req.session.guest.reduce((total, item) => total + item.quantity, 0);
+            const count = req.session.guest.length;
             res.json({
                 count,
                 totalPrice: req.session.totalPrice
@@ -152,9 +152,6 @@ module.exports = {
 
 
     },
-
-
-
     success: async (req, res) => {
         const orderid = req.params.orderid;
         res.render('/users/success', { orderid })
