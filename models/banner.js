@@ -9,7 +9,9 @@ const bannerSchema = new mongoose.Schema({
     bannerTitle: {
         type: String
     },
-
+    onProducts:{
+        type:String
+    },
     bannerDescription: {
         type: String
     }

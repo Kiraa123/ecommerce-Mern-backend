@@ -128,10 +128,7 @@ module.exports = {
       count = await User.count(userId);
     } else {
       const guestCart = req.session.guest || 0;
-      console.log(guestCart, 'guest')
       count = guestCart.length;
-      console.log('count', count)
-      // res.render('users/allproducts', { data, isUser, count })
     }
     res.render('users/allproducts', { data, isUser, count })
 
@@ -155,9 +152,7 @@ module.exports = {
           count = await User.count(userId);
         } else {
           const guestCart = req.session.guest || 0;
-          console.log(guestCart, 'guest')
           count = guestCart.length;
-          console.log('count', count)
         }
 
 
@@ -316,7 +311,6 @@ module.exports = {
           const userId = req.session.user;
           let count = 0
           count = await User.count(userId);
-          console.log(count, 'count')
 
           res.render('users/products', { count })
 

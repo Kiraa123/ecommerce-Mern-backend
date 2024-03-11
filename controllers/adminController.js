@@ -168,7 +168,6 @@ module.exports = {
   },
   filterType: async (req, res) => {
     const payType = req.params.paymentMethod;
-    console.log(payType);
     const filteredOrderType = await order.filterOrderType(payType);
     res.render("admin/orders", { orders: filteredOrderType });
   },
@@ -185,7 +184,6 @@ module.exports = {
     res.render("admin/addcoupon");
   },
   postaddcoupon: async (req, res) => {
-    console.log(req.body);
     const result = await coupon.addcoupon(req.body);
     res.redirect("/admin/coupon");
   },
@@ -234,8 +232,8 @@ module.exports = {
       bannerTitle: req.body.title,
       bannerImage: imagePath,
       bannerDescription: req.body.description,
+      onProducts:req.body.onProducts,
     };
-    console.log(req.file, req.body);
     await order.editbanner(datas, id);
     res.redirect("/admin/banner");
   },

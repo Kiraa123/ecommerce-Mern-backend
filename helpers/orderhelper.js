@@ -127,9 +127,9 @@ module.exports = {
                 bannerTitle: data.bannerTitle,
                 bannerImage: data.bannerImage,
                 bannerDescription: data.bannerDescription,
+                onProducts:data.onProducts
             }
         }, { new: true });
-        console.log('result',result);
         return result;
     },
     deletebanner: async (data) => {
