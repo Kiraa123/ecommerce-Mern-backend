@@ -158,7 +158,9 @@ module.exports = {
   },
   dashboard: async(req, res) => {
     const orders = await order.orders1()
-    res.render("admin/orderSummary",{orders});
+    const sum=await order.totalamount()
+    const totalAmount=sum[0].totalAmount
+    res.render("admin/orderSummary",{orders,totalAmount});
   },
   filterOrder: async (req, res) => {
     const lowvalue = req.query.l;

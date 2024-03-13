@@ -9,7 +9,7 @@ module.exports = {
         return result;
     },
     orders1: async (req, res) => {
-        const result = await order.find({ name: { $ne: null } }).sort({ orderdate: -1 }).limit (10).lean()
+        const result = await order.find({ name: { $ne: null } }).sort({ orderdate: -1 }).limit(10).lean()
         return result;
     },
     findorderid: async (data) => {
@@ -19,6 +19,17 @@ module.exports = {
         } catch (error) {
 
         }
+    },
+    totalamount: async (req, res) => {
+        var sum = await order.aggregate([
+            {
+                $group: {
+                    _id: null, // Grouping by username
+                    totalAmount: { $sum: "$totalamount" } // Calculating the sum of totalamount for each username
+                }
+            }
+        ])
+        return sum
     },
     placed: async (data, payment) => {
         await order.findOneAndUpdate(
@@ -127,7 +138,7 @@ module.exports = {
                 bannerTitle: data.bannerTitle,
                 bannerImage: data.bannerImage,
                 bannerDescription: data.bannerDescription,
-                onProducts:data.onProducts
+                onProducts: data.onProducts
             }
         }, { new: true });
         return result;
