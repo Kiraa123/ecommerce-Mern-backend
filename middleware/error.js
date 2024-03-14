@@ -8,7 +8,7 @@ const error = function(req, res, next){
 
 const errorHandling = function(err, req, res, next){
     res.status(err.status || 500);
-    res.render("error", {
+    res.render("users/error", {
         message: err.message,
         error: app.get("env") === "development"? err: {}
     })
