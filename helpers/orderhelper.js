@@ -101,36 +101,36 @@ module.exports = {
       const sum = result.length > 0 ? result[0].totalSum : 0;
       return sum;
       },
-    //   totalOD:async ()=>{
-    //     const result = await order.aggregate([
-    //       {
-    //           $group: {
-    //               _id: null,
-    //               totalOrders: { $sum: 1 }
-    //           }
-    //       }
-    //   ]);
-    //   const totalOrders = result.length > 0 ? result[0].totalOrders : 0;
-    //   return totalOrders;
-    //   },
-    //   deliveredOD:async ()=>{
-    //     const result =await order.aggregate([
-    //       {
-    //         $match:{
-    //           status: "Delivered"
-    //         }
-    //       },
-    //       {
-    //         $group:{
-    //           _id:null,
-    //           count:{$sum: 1 }
-    //         }
-    //       }
+      totalOD:async ()=>{
+        const result = await order.aggregate([
+          {
+              $group: {
+                  _id: null,
+                  totalOrders: { $sum: 1 }
+              }
+          }
+      ]);
+      const totalOrders = result.length > 0 ? result[0].totalOrders : 0;
+      return totalOrders;
+      },
+      deliveredOD:async ()=>{
+        const result =await order.aggregate([
+          {
+            $match:{
+              status: "Delivered"
+            }
+          },
+          {
+            $group:{
+              _id:null,
+              count:{$sum: 1 }
+            }
+          }
           
-    //     ]);
-    //     const deliveredOD = result.length > 0 ? result[0].count : 0;
-    //     return deliveredOD;
-    //   },
+        ]);
+        const deliveredOD = result.length > 0 ? result[0].count : 0;
+        return deliveredOD;
+      },
     //   placedOD:async ()=>{
     //     const result =await order.aggregate([
     //       {
