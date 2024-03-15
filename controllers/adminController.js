@@ -156,11 +156,26 @@ module.exports = {
     req.session.destroy();
     res.redirect("/");
   },
-  dashboard: async(req, res) => {
-    const orders = await order.orders1()
+  dashboard:async(req,res)=>{
+    const totalsum = await order.totalsum();
     const sum=await order.totalamount()
     const totalAmount=sum[0].totalAmount
-    res.render("admin/orderSummary",{orders,totalAmount});
+    //monthlysum for admin panel
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    const monthlysum = await order.monthlysum(thirtyDaysAgo);
+    // success orders
+    const totalOD = await order.totalOD();
+    const deliveredOD = await order.deliveredOD();
+    const placedOD = await order.placedOD();
+    const cancelledOD = await order.cancelledOD();
+    const percentDelivered = Math.floor((deliveredOD * 100) / totalOD);
+    const percentPlaced = Math.floor((placedOD * 100) / totalOD);
+    const percentCancelled = Math.floor((cancelledOD * 100) / totalOD);
+    const monthtotal=await order.monthtotal();
+    const totalPrices = monthtotal.map((month) => month.totalMonthlyPrice);
+    const jsontotal= JSON.stringify(totalPrices)
+    res.render("admin/dashboard", {totalsum,monthlysum,percentDelivered,percentPlaced,percentCancelled,jsontotal,totalAmount});
   },
   filterOrder: async (req, res) => {
     const lowvalue = req.query.l;
@@ -250,5 +265,15 @@ module.exports = {
     });
     await order.deletebanner(proid);
     res.redirect("/admin/banner");
+  },
+  totalordercount: async (req, res) => {
+    const result = await order.totalorderedcount()
+    const resultmonth = await order.monthordercount()
+    const TotalProductCount = await order.totalproductcount()
+    const monthamount = await order.monthorderamount()
+    const [totalQuantity, todayorder] = await order.todayorderdetails()
+    const ordercount = result[0].totalOrderedQuantity
+    const totalamount = result[0].totalamount
+    res.render('admin/admin', { ordercount, totalamount, monthamount, TotalProductCount, resultmonth, totalQuantity, todayorder });
   },
 };

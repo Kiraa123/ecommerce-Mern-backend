@@ -15,7 +15,7 @@ router.post('/loggedin',admin)
 router.post('/addproduct',upload.single('image'),addProduct);
 router.get('/adminAddProduct',isAuth,addproduct)
 
-router.get('/orderSummary',isAdmin,isAuth,dashboard)
+router.get('/dashboard',isAdmin,isAuth,dashboard)
 //PRODUCTS
 router.get('/banner',isAdmin,getbanner)
 router.get('/addbanners',isAdmin,banner)
