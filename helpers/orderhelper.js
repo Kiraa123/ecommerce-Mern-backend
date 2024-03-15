@@ -149,24 +149,24 @@ module.exports = {
         const placedOD = result.length > 0 ? result[0].count : 0;
         return placedOD
       },
-    //   cancelledOD:async()=>{
-    //     const result = await order.aggregate([
-    //       {
-    //         $match:{
-    //           status:"Cancelled"
-    //         }
-    //       },
-    //       {
-    //         $group:{
-    //           _id:null,
-    //           count:{$sum:1}
-    //         }
-    //       }
-    //     ])
-    //     const cancelledOD = result.length > 0 ? result[0].count : 0;
-    //     return cancelledOD;
+      cancelledOD:async()=>{
+        const result = await order.aggregate([
+          {
+            $match:{
+              status:"Cancelled"
+            }
+          },
+          {
+            $group:{
+              _id:null,
+              count:{$sum:1}
+            }
+          }
+        ])
+        const cancelledOD = result.length > 0 ? result[0].count : 0;
+        return cancelledOD;
       
-    //   },
+      },
     // monthtotal: async () => {
     //     try {
     //         const result = await order.aggregate([
