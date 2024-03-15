@@ -131,24 +131,24 @@ module.exports = {
         const deliveredOD = result.length > 0 ? result[0].count : 0;
         return deliveredOD;
       },
-    //   placedOD:async ()=>{
-    //     const result =await order.aggregate([
-    //       {
-    //         $match:{
-    //           status:"Placed"
-    //         }
-    //       },
-    //         {
-    //           $group:{
-    //             _id:null,
-    //             count:{$sum:1}
-    //           }
-    //         }
+      placedOD:async ()=>{
+        const result =await order.aggregate([
+          {
+            $match:{
+              status:"Placed"
+            }
+          },
+            {
+              $group:{
+                _id:null,
+                count:{$sum:1}
+              }
+            }
           
-    //     ])
-    //     const placedOD = result.length > 0 ? result[0].count : 0;
-    //     return placedOD
-    //   },
+        ])
+        const placedOD = result.length > 0 ? result[0].count : 0;
+        return placedOD
+      },
     //   cancelledOD:async()=>{
     //     const result = await order.aggregate([
     //       {
