@@ -101,116 +101,116 @@ module.exports = {
       const sum = result.length > 0 ? result[0].totalSum : 0;
       return sum;
       },
-      totalOD:async ()=>{
-        const result = await order.aggregate([
-          {
-              $group: {
-                  _id: null,
-                  totalOrders: { $sum: 1 }
-              }
-          }
-      ]);
-      const totalOrders = result.length > 0 ? result[0].totalOrders : 0;
-      return totalOrders;
-      },
-      deliveredOD:async ()=>{
-        const result =await order.aggregate([
-          {
-            $match:{
-              status: "Delivered"
-            }
-          },
-          {
-            $group:{
-              _id:null,
-              count:{$sum: 1 }
-            }
-          }
+    //   totalOD:async ()=>{
+    //     const result = await order.aggregate([
+    //       {
+    //           $group: {
+    //               _id: null,
+    //               totalOrders: { $sum: 1 }
+    //           }
+    //       }
+    //   ]);
+    //   const totalOrders = result.length > 0 ? result[0].totalOrders : 0;
+    //   return totalOrders;
+    //   },
+    //   deliveredOD:async ()=>{
+    //     const result =await order.aggregate([
+    //       {
+    //         $match:{
+    //           status: "Delivered"
+    //         }
+    //       },
+    //       {
+    //         $group:{
+    //           _id:null,
+    //           count:{$sum: 1 }
+    //         }
+    //       }
           
-        ]);
-        const deliveredOD = result.length > 0 ? result[0].count : 0;
-        return deliveredOD;
-      },
-      placedOD:async ()=>{
-        const result =await order.aggregate([
-          {
-            $match:{
-              status:"Placed"
-            }
-          },
-            {
-              $group:{
-                _id:null,
-                count:{$sum:1}
-              }
-            }
+    //     ]);
+    //     const deliveredOD = result.length > 0 ? result[0].count : 0;
+    //     return deliveredOD;
+    //   },
+    //   placedOD:async ()=>{
+    //     const result =await order.aggregate([
+    //       {
+    //         $match:{
+    //           status:"Placed"
+    //         }
+    //       },
+    //         {
+    //           $group:{
+    //             _id:null,
+    //             count:{$sum:1}
+    //           }
+    //         }
           
-        ])
-        const placedOD = result.length > 0 ? result[0].count : 0;
-        return placedOD
-      },
-      cancelledOD:async()=>{
-        const result = await order.aggregate([
-          {
-            $match:{
-              status:"Cancelled"
-            }
-          },
-          {
-            $group:{
-              _id:null,
-              count:{$sum:1}
-            }
-          }
-        ])
-        const cancelledOD = result.length > 0 ? result[0].count : 0;
-        return cancelledOD;
+    //     ])
+    //     const placedOD = result.length > 0 ? result[0].count : 0;
+    //     return placedOD
+    //   },
+    //   cancelledOD:async()=>{
+    //     const result = await order.aggregate([
+    //       {
+    //         $match:{
+    //           status:"Cancelled"
+    //         }
+    //       },
+    //       {
+    //         $group:{
+    //           _id:null,
+    //           count:{$sum:1}
+    //         }
+    //       }
+    //     ])
+    //     const cancelledOD = result.length > 0 ? result[0].count : 0;
+    //     return cancelledOD;
       
-      },
-    monthtotal: async () => {
-        try {
-            const result = await order.aggregate([
-                {
-                    $group: {
-                        _id: {
-                            year: { $year: "$orderdate" },
-                            month: { $month: "$orderdate" }
-                        },
-                        totalMonthlyPrice: { $sum: "$totalamount" }
-                    }
-                },
-                {
-                    $project: {
-                        _id: 0,
-                        year: "$_id.year",
-                        month: "$_id.month",
-                        totalMonthlyPrice: 1
-                    }
-                },
-                {
-                    $sort: {
-                        year: 1,
-                        month: 1
-                    }
-                }
-            ]);
+    //   },
+    // monthtotal: async () => {
+    //     try {
+    //         const result = await order.aggregate([
+    //             {
+    //                 $group: {
+    //                     _id: {
+    //                         year: { $year: "$orderdate" },
+    //                         month: { $month: "$orderdate" }
+    //                     },
+    //                     totalMonthlyPrice: { $sum: "$totalamount" }
+    //                 }
+    //             },
+    //             {
+    //                 $project: {
+    //                     _id: 0,
+    //                     year: "$_id.year",
+    //                     month: "$_id.month",
+    //                     totalMonthlyPrice: 1
+    //                 }
+    //             },
+    //             {
+    //                 $sort: {
+    //                     year: 1,
+    //                     month: 1
+    //                 }
+    //             }
+    //         ]);
 
 
-            // Create an array of all months (1-12)
-            const allMonths = [...Array(12).keys()].map(month => month + 1);
+    //         // Create an array of all months (1-12)
+    //         const allMonths = [...Array(12).keys()].map(month => month + 1);
 
-            // Create an array to hold the final result
-            const finalResult = allMonths.map(month => {
-                const monthData = result.find(item => item.month === month);
-                return monthData ? monthData : { month, totalMonthlyPrice: 0 };
-            });
+    //         // Create an array to hold the final result
+    //         const finalResult = allMonths.map(month => {
+    //             const monthData = result.find(item => item.month === month);
+    //             return monthData ? monthData : { month, totalMonthlyPrice: 0 };
+    //         });
 
-            return finalResult;
-        } catch (error) {
-            console.error("Error occurred while fetching month totals:", error);
-            throw error;
-        }
-    },
+    //         return finalResult;
+    //     } catch (error) {
+    //         console.error("Error occurred while fetching month totals:", error);
+    //         throw error;
+    //     }
+    // },
 
 
 
