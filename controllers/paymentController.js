@@ -25,7 +25,7 @@ module.exports = {
         phoneno: req.body.phoneno,
         items: result.items,
         total: result.totalPrice,
-        totalamount: result.discountprice + 50 || result.totalPrice+50,
+        totalamount:  result.discountprice+50 || result.totalPrice+50 ,
         status: "Pending",
         paymentId: "null",
       };
